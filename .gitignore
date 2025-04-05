@@ -1,0 +1,29 @@
+# Ignorar archivos de Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignorar binarios y obj
+bin/
+obj/
+
+# Archivos temporales
+*.log
+*.tmp
+*.cache
+
+# Configuraciones locales
+*.local.json
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de Git
+*.orig
+
+# Otros (si usás Node o front)
+node_modules/
+dist/
