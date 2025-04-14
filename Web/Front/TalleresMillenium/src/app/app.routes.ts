@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { LandingPageComponent } from './landing-page/landing-page.component';
+import { HomeComponent } from './pages/home/home.component';
 import { InicioSesionComponent } from './inicio-sesion/inicio-sesion.component';
 import { SobreNosotrosComponent } from './sobre-nosotros/sobre-nosotros.component';
 
 export const routes: Routes = [
-    {path:'',component:LandingPageComponent},
+    {path:'',component:HomeComponent},
     {path:'inicio-sesion',component:InicioSesionComponent},
     {path:'sobre-nosotros',component:SobreNosotrosComponent}
 ];
