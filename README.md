@@ -14,6 +14,10 @@ El taller contará con una lista de espera de clientes para poder contactarlos a
 
 Realizar una web y una aplicación móvil que sean realistas y funcionales para poder proporcionárselas a talleres de vehículos. Además, se debe garantizar una usabilidad y accesibilidad sencillas para personas que no están acostumbradas al uso de tecnologías.
 
+# Idiomas
+-Español
+-Ingles
+
 # Tecnologias utilizadas
 
 ## Front pagina web:
