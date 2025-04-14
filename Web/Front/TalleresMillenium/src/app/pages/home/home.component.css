@@ -1,0 +1,26 @@
+.principal-cabecera{
+    background-image: url(/assets/imagenfondo.webp);
+    min-height: 250px;
+    height: 100%;
+    text-align: center;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8%;
+}
+.principal-fotos{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.imagen-taller{
+    max-height: 300px;
+    max-width: 300px;
+    height: 100%;
+    width: 100%;
+}
+.principal-horario{
+    text-align: center;
+}
