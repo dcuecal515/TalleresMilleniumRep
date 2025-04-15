@@ -14,5 +14,4 @@ export class InicioSesionComponent {
   }
   tieneCuenta:boolean = true
 
-
 }
