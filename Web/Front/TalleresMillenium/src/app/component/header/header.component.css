@@ -30,6 +30,7 @@
     width: 100%;
     max-width: 75px;
     max-height: 75px;
+    cursor: pointer;
 }
 #person-icon{
     color: white;
