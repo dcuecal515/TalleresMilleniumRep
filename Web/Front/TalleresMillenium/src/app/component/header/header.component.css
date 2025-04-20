@@ -3,7 +3,18 @@
     height: 75px;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
+}
+.logo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50%;
+    align-items: center;
+}
+.logo-opciones{
+    color: white;
+    cursor: pointer;
 }
 .acceder{
     height: 100%;
@@ -14,11 +25,11 @@
     justify-content: center;
     cursor: pointer;
 }
-.imagen{
+.logo-imagen{
     height: 100%;
     width: 100%;
-    min-width: 75px;
-    min-height: 75px;
+    max-width: 75px;
+    max-height: 75px;
 }
 #person-icon{
     color: white;
