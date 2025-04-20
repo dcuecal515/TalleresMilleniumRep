@@ -1,4 +1,6 @@
 
+using Microsoft.Extensions.Options;
+
 namespace TalleresMillenium
 {
     public class Program
@@ -8,11 +10,13 @@ namespace TalleresMillenium
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
+            builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<Settings>>().Value);
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<TalleresMilleniumContext>();
 
             var app = builder.Build();
 
