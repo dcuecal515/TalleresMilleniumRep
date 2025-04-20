@@ -1,0 +1,6 @@
+@TalleresMillenium_HostAddress = http://localhost:5151
+
+GET {{TalleresMillenium_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
