@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Hermeneus+One&display=swap');
+.fondo-principal{
+    background-image: url(/assets/fondoIS.webp);
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.contenido{
+    width: 50%;
+    padding: 3%;
+    background-color: #4A4A4A80;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+}
+.titulo{
+    font-family: 'Hermeneus One';
+    font-size: 40px;
+    text-align: center;
+}
+.subtitulo{
+    font-family: 'Hermeneus One';
+    font-size: 35px;
+    text-align: center;
+}
+.titulo-seccion{
+
+}
+.inputs{
+
+}
+.recuerdame-div{
+
+}
+.recuerdame-txt{
+
+}
+.recuerdame-CB{
+
+}
+.ir-a-IS{
+
+}
+.botones{
+
+}
+.boton-A{
+
+}
+.boton-C{
+
+}
