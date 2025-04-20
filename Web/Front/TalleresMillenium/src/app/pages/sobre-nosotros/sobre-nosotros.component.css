@@ -1,8 +1,64 @@
-/*<!--El problema es que no hace bien el div-->*/
-.primeraIMG{
-    height: 25%;
+.principal{
+    gap: 70px;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    background-image: url(/assets/primera_sobrenosotros.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
+}
+
+.imagen-difuminada {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.primeraIMG {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.imagen-difuminada::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%; 
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, white 100%);
+    pointer-events: none;
+}
+.conjunto-textos{
+    width: 100%;
+    text-align: center;
+    justify-items: center;
+}
+.titulo-seccion{
+    font-weight: normal;
+    text-align: center;
+}
+.texto-seccion{
+    width: 70%;
+}
+
+.grupo-imagenes{
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+}
+
+.imagenes-pequenas{
+    height: 250px;
+    width: 20%;
+}
+
+.rapioilDiv{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.rapioil{
+    width: 40%;
+    height: 100px;
 }
