@@ -5,6 +5,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    font-family: sans-serif;
 }
 .contenido{
     width: 50%;
@@ -15,16 +16,15 @@
     align-self: center;
     justify-self: center;
     gap: 0%;
+    border-radius: 40px;
 }
 .titulo{
-    font-family: sans-serif;
     font-size: 35px;
     text-align: center;
     margin: 0;
     color: white;
 }
 .subtitulo{
-    font-family: sans-serif;
     font-size: 25px;
     text-align: center;
     margin-top: 0;
@@ -39,26 +39,59 @@
     margin-top: 0;
 }
 .inputs{
-
+    width: 50%;
+    display: flex;
+    align-self: center;
+    font-size: 15px;
+    padding: 0.5%;
+    margin-bottom: 1%;
 }
 .recuerdame-div{
-
+    display: flex;
+    flex-direction: row;
+    padding-left: 25%;
+    margin-bottom: 0;
 }
 .recuerdame-txt{
-
+    color: white;
 }
 .recuerdame-CB{
-
+    align-self: center;
+    justify-self: center;
 }
 .ir-a-IS{
-
+    margin-top: 0%;
+    margin-bottom: 10%;
+    text-decoration: underline;
+    color: white;
+    padding-left: 25%;
 }
 .botones{
-
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15%;
 }
 .boton-A{
-
+    padding: 1%;
+    padding-left: 7%;
+    padding-right: 7%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-color: transparent;
+    font-family: sans-serif;
+    font-size: 15px;
 }
 .boton-C{
-
+    padding: 1%;
+    padding-left: 6%;
+    padding-right: 6%;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-color: transparent;
+    color: white;
+    background-color: #C62828;
+    font-family: sans-serif;
+    font-size: 15px;
 }
