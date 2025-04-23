@@ -11,9 +11,9 @@ namespace TalleresMillenium.Models
 
         public string Password { get; set; }
 
-        public string imagen { get; set; }
+        public string Imagen { get; set; }
 
-        public string rol { get; set; }
+        public string Rol { get; set; }
 
         public ICollection<Coche> Coches { get; set; } = new List<Coche>();
 

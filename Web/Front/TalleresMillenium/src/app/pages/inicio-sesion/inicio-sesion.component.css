@@ -65,6 +65,7 @@
     text-decoration: underline;
     color: white;
     padding-left: 25%;
+    cursor: pointer;
 }
 .botones{
     display: flex;
@@ -94,4 +95,33 @@
     background-color: #C62828;
     font-family: sans-serif;
     font-size: 15px;
+}
+.formulario-login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.boton-registro{
+    padding: 1%;
+    padding-left: 6%;
+    padding-right: 6%;
+    border-radius: 5px;
+    border-color: transparent;
+    color: white;
+    background-color: #C62828;
+    font-family: sans-serif;
+    font-size: 15px;
+}
+.botones-login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15%;
+}
+.recuerdame-div-login{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0;
 }

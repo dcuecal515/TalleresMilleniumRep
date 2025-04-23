@@ -1,8 +1,23 @@
 <div class="fondo-principal">
     @if(tieneCuenta){
-
-
-        <button (click)="tieneCuenta=false">ir a registro</button>
+        <div class="contenido">
+            <p class="titulo">Bienvenido a Talleresmilemiun</p>
+            <p class="subtitulo">El taller donde reparamos cualquier problema</p>
+            <p class="titulo-seccion">Inicio sesion</p>
+            <form class="formulario-login">
+            <input type="text" placeholder="Correo electrónico" class="inputs">
+            <input type="text" placeholder="Contraseña" class="inputs">
+            <div class="recuerdame-div-login">
+                <p class="recuerdame-txt">Recuérdame</p>
+                <input type="checkbox" class="recuerdame-CB">
+            </div>
+            <div class="botones-login">
+                <button class="boton-registro">Iniciar Sesion</button>
+                <p (click)="tieneCuenta=false" class="ir-a-IS">¿No tienes cuenta? create una aqui</p>
+            </div>
+            </form>
+        </div>
+        
     }@else {
         <div class="contenido">
             <p class="titulo">¡Gracias por elegirnos!</p>
