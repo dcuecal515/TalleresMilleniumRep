@@ -8,10 +8,15 @@ import { Component } from '@angular/core';
   styleUrl: './inicio-sesion.component.css'
 })
 export class InicioSesionComponent {
-
   constructor(){
 
   }
+
+  
+
   tieneCuenta:boolean = true
+  continuarRellenando(){
+
+  }
 
 }
