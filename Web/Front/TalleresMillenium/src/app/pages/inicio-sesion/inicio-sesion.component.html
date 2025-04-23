@@ -8,11 +8,15 @@
             <p class="titulo">¡Gracias por elegirnos!</p>
             <p class="subtitulo">Por favor rellene los campos sobre ti y sobre tu coche para continuar</p>
             <p class="titulo-seccion">Sobre ti</p>
-            <input type="text" placeholder="Nombre y apellidos" class="inputs">
-            <input type="text" placeholder="Dirección de correo electrónico" class="inputs">
-            <input type="file" accept="image/png, image/jpeg, image/jpg" class="inputs">
-            <input type="text" placeholder="Nueva contraseña" class="inputs">
-            <input type="text" placeholder="Repetir la contraseña" class="inputs">
+            <input type="text" placeholder="Nombre y apellidos" class="inputs" id="nomYape">
+            <input type="text" placeholder="Dirección de correo electrónico" class="inputs" id="correo">
+            <div class="contenedor-subida-archivo inputs">
+                <label>Imagen de perfil</label>
+                <input type="file" id="imagenPerfil" accept="image/png, image/jpeg, image/jpg" (change)="alSeleccionarArchivo($event)" hidden>
+                <button type="button" (click)="abrirSelectorArchivo()">Seleccionar una imagen</button>
+            </div>
+            <input type="text" placeholder="Nueva contraseña" class="inputs" id="contrasena">
+            <input type="text" placeholder="Repetir la contraseña" class="inputs" id="contrasena2">
             <div class="recuerdame-div">
                 <p class="recuerdame-txt">Recuérdame</p>
                 <input type="checkbox" class="recuerdame-CB">
@@ -23,5 +27,6 @@
                 <button class="boton-C" (click)="continuarRellenando()">Continuar</button>
             </div>
         </div>
+        <img src="/assets/logo-Taller.webp" class="logo-Taller">
     }
 </div>
