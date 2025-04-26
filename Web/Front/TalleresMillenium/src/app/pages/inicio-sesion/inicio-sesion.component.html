@@ -4,29 +4,62 @@
 
         <button (click)="tieneCuenta=false">ir a registro</button>
     }@else {
-        <div class="contenido">
-            <p class="titulo">¡Gracias por elegirnos!</p>
-            <p class="subtitulo">Por favor rellene los campos sobre ti y sobre tu coche para continuar</p>
-            <p class="titulo-seccion">Sobre ti</p>
-            <input type="text" placeholder="Nombre y apellidos" class="inputs" id="nomYape">
-            <input type="text" placeholder="Dirección de correo electrónico" class="inputs" id="correo">
-            <div class="contenedor-subida-archivo inputs">
-                <label>Imagen de perfil</label>
-                <input type="file" id="imagenPerfil" accept="image/png, image/jpeg, image/jpg" (change)="alSeleccionarArchivo($event)" hidden>
-                <button type="button" (click)="abrirSelectorArchivo()">Seleccionar una imagen</button>
+        @if(!primerRellenoCorrecto){
+            <div class="contenido">
+                <p class="titulo">¡Gracias por elegirnos!</p>
+                <p class="subtitulo">Por favor rellene los campos sobre ti y sobre tu coche para continuar</p>
+                <p class="titulo-seccion">Sobre ti</p>
+                <input type="text" placeholder="Nombre y apellidos" class="inputs" id="nomYape" [(ngModel)]="nYApellido">
+                <input type="text" placeholder="Dirección de correo electrónico" class="inputs" id="correo" [(ngModel)]="correo">
+                <div class="contenedor-subida-archivo inputs">
+                    <label>Imagen de perfil</label>
+                    <input type="file" id="imagenPerfil" accept="image/png, image/jpeg, image/jpg" (change)="alSeleccionarArchivo($event)" hidden>
+                    <button type="button" (click)="abrirSelectorArchivo()">Seleccionar una imagen</button>
+                </div>
+                <input type="password" placeholder="Nueva contraseña" class="inputs" id="contrasena" [(ngModel)]="contrasena">
+                <input type="password" placeholder="Repetir la contraseña" class="inputs" id="contrasena2" [(ngModel)]="contrasena2">
+                <div class="recuerdame-div">
+                    <p class="recuerdame-txt">Recuérdame</p>
+                    <input type="checkbox" class="recuerdame-CB">
+                </div>
+                <p (click)="tieneCuenta=true" class="ir-a-IS">Ya tienes cuenta inicia sesión ahora</p>
+                <div class="botones">
+                    <button class="boton-A" disabled>Atras</button>
+                    <button class="boton-C" (click)="continuarRellenando()">Continuar</button>
+                </div>
             </div>
-            <input type="text" placeholder="Nueva contraseña" class="inputs" id="contrasena">
-            <input type="text" placeholder="Repetir la contraseña" class="inputs" id="contrasena2">
-            <div class="recuerdame-div">
-                <p class="recuerdame-txt">Recuérdame</p>
-                <input type="checkbox" class="recuerdame-CB">
+            <img src="/assets/logo-Taller.webp" class="logo-Taller">
+        }
+        @else {
+            <div class="contenido">
+                <p class="titulo">¡Gracias por elegirnos!</p>
+                <p class="subtitulo">Por favor rellene los campos sobre ti y sobre tu coche para continuar</p>
+                <p class="titulo-seccion">Sobre tu coche</p>
+                <input type="text" placeholder="Matricula" class="inputs" id="matricula">
+                <div class="tipo-div">
+                    <button class="btn-I">Coche</button>
+                    <button class="btn-C">Camión</button>
+                    <button class="btn-D">Autobus</button>
+                </div>
+                <div class="contenedor-subida-archivo inputs">
+                    <label>Fotografia de ficha tecnica</label>
+                    <input type="file" id="imagenFT" accept="image/png, image/jpeg, image/jpg" (change)="alSeleccionarArchivo($event)" hidden>
+                    <button type="button" (click)="abrirSelectorArchivo()">Seleccionar una imagen</button>
+                </div>
+                <input type="date" placeholder="Fecha ITV" class="inputs" id="fecha-ITV">
+                <div class="tipo-div">
+                    <button class="btn-I">Gasolina</button>
+                    <button class="btn-C">Diesel</button>
+                    <button class="btn-D">Eléctrico</button>
+                </div>
+                <p (click)="tieneCuenta=true" class="ir-a-IS">Ya tienes cuenta inicia sesión ahora</p>
+                <div class="botones">
+                    <button class="boton-A" (click)="btn_atras()">Atras</button>
+                    <button class="boton-C" (click)="registrarse()">Registrarse</button>
+                </div>
             </div>
-            <p (click)="tieneCuenta=true" class="ir-a-IS">Ya tienes cuenta inicia sesión ahora</p>
-            <div class="botones">
-                <button class="boton-A" disabled>Atras</button>
-                <button class="boton-C" (click)="continuarRellenando()">Continuar</button>
-            </div>
-        </div>
-        <img src="/assets/logo-Taller.webp" class="logo-Taller">
+            <img src="/assets/logo-Taller.webp" class="logo-Taller">
+        }
+        
     }
 </div>
