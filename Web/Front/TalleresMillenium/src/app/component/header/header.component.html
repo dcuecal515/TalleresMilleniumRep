@@ -7,6 +7,11 @@
         <h3 class="logo-opciones">Idioma</h3>
     </div>
     <div class="acceder" (click)="goToRoute('inicio-sesion')">
-        <i id="person-icon" class="fa-solid fa-user"></i>
+        @if(decoded!=null){
+            <p>Bienvenido {{decoded.name}}</p>
+        }@else {
+            <i id="person-icon" class="fa-solid fa-user"></i>
+        }
+        
     </div>
 </div>

@@ -1,8 +1,23 @@
 <div class="fondo-principal">
     @if(tieneCuenta){
-
-
-        <button (click)="tieneCuenta=false">ir a registro</button>
+        <div class="contenido">
+            <p class="titulo">Bienvenido a Talleresmilemiun</p>
+            <p class="subtitulo">El taller donde reparamos cualquier problema</p>
+            <p class="titulo-seccion">Inicio sesion</p>
+            <form class="formulario-login" [formGroup]="loginForm">
+            <input type="text" placeholder="Correo electrónico" class="inputs" [(ngModel)]="email" formControlName="email">
+            <input type="password" placeholder="Contraseña" class="inputs" [(ngModel)]="password" formControlName="password">
+            <div class="recuerdame-div-login">
+                <p class="recuerdame-txt">Recuérdame</p>
+                <input type="checkbox" class="recuerdame-CB" (click)="rememberUser = !rememberUser">
+            </div>
+            <div class="botones-login">
+                <button class="boton-registro" (click)="loginUser()">Iniciar Sesion</button>
+                <p (click)="tieneCuenta=false" class="ir-a-RE">¿No tienes cuenta? create una aqui</p>
+            </div>
+            </form>
+        </div>
+        
     }@else {
         @if(!primerRellenoCorrecto){
             <div class="contenido">
