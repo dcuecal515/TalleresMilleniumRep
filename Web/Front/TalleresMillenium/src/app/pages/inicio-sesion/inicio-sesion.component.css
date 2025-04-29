@@ -17,6 +17,7 @@
     justify-self: center;
     gap: 0%;
     border-radius: 40px;
+    z-index: 1;
 }
 .titulo{
     font-size: 35px;
@@ -45,6 +46,32 @@
     font-size: 15px;
     padding: 0.5%;
     margin-bottom: 1%;
+}
+.contenedor-subida-archivo {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    gap: 10px;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+.contenedor-subida-archivo label {
+    flex: 1;
+    color: grey;
+}
+
+.contenedor-subida-archivo button {
+    background-color: #4a4a4a;
+    color: white;
+    border: none;
+    padding: 3px 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.contenedor-subida-archivo button:hover {
+    background-color: #333;
 }
 .recuerdame-div{
     display: flex;
@@ -90,6 +117,11 @@
     border-color: transparent;
     font-family: sans-serif;
     font-size: 15px;
+    cursor: pointer;
+    background-color: white;
+}
+.boton-A:hover{
+    background-color: rgb(202, 202, 202);
 }
 .boton-C{
     padding: 1%;
@@ -102,6 +134,8 @@
     background-color: #C62828;
     font-family: sans-serif;
     font-size: 15px;
+
+   cursor: pointer;
 }
 .formulario-login{
     display: flex;
@@ -131,4 +165,62 @@
     display: flex;
     flex-direction: row;
     margin-bottom: 0;
+    cursor: pointer;
+}
+.boton-C:hover{
+    background-color: #a32323;
+}
+.logo-Taller{
+    position: absolute;
+    width: 25%;
+    top: 53%;
+    left: 37%;
+}
+.tipo-div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2%;
+    margin-bottom: 1%;
+}
+.btn-I{
+    padding: 0.5%;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-color: transparent;
+    font-family: sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+    background-color: #4A4A4A;
+    color: white;
+}
+.btn-C{
+    padding: 0.5%;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-color: transparent;
+    font-family: sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+    background-color: #4A4A4A;
+    color: white;
+}
+.btn-D{
+    padding: 0.5%;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-color: transparent;
+    color: white;
+    background-color: #4A4A4A;
+    font-family: sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+}
+.btn-I:hover, .btn-C:hover, .btn-D:hover{
+    background-color: #303030;
 }
