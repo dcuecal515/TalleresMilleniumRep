@@ -4,16 +4,16 @@
             <p class="titulo">Bienvenido a Talleresmilemiun</p>
             <p class="subtitulo">El taller donde reparamos cualquier problema</p>
             <p class="titulo-seccion">Inicio sesion</p>
-            <form class="formulario-login">
-            <input type="text" placeholder="Correo electrónico" class="inputs">
-            <input type="text" placeholder="Contraseña" class="inputs">
+            <form class="formulario-login" [formGroup]="loginForm">
+            <input type="text" placeholder="Correo electrónico" class="inputs" [(ngModel)]="email" formControlName="email">
+            <input type="password" placeholder="Contraseña" class="inputs" [(ngModel)]="password" formControlName="password">
             <div class="recuerdame-div-login">
                 <p class="recuerdame-txt">Recuérdame</p>
-                <input type="checkbox" class="recuerdame-CB">
+                <input type="checkbox" class="recuerdame-CB" (click)="rememberUser = !rememberUser">
             </div>
             <div class="botones-login">
-                <button class="boton-registro">Iniciar Sesion</button>
-                <p (click)="tieneCuenta=false" class="ir-a-IS">¿No tienes cuenta? create una aqui</p>
+                <button class="boton-registro" (click)="loginUser()">Iniciar Sesion</button>
+                <p (click)="tieneCuenta=false" class="ir-a-RE">¿No tienes cuenta? create una aqui</p>
             </div>
             </form>
         </div>

@@ -1,4 +1,6 @@
-﻿namespace TalleresMillenium
+﻿using TalleresMillenium.Repositories;
+
+namespace TalleresMillenium
 {
     public class UnitOfWork
     {
@@ -9,6 +11,10 @@
             _context = context;
         }
         public TalleresMilleniumContext Context => _context;
+
+        private UserRepository _userRepository;
+
+        public UserRepository UserRepository => _userRepository ??= new UserRepository(_context);
 
         public async Task<bool> SaveAsync()
         {
