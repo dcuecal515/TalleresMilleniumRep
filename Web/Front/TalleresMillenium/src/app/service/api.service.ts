@@ -37,7 +37,6 @@ export class ApiService {
       responseType: responseType,
       observe: 'response',
     });
-
     return this.sendRequest<T>(request$);
   }
 
