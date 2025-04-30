@@ -40,3 +40,6 @@ Realizar una web y una aplicación móvil que sean realistas y funcionales para 
 
 # Figma
 https://www.figma.com/design/mTFExJCn6NjFzF9NwDLIZV/Untitled?node-id=0-1&t=w3YqPoKl8HtcZTwb-1
+
+# Video de Resumen de Punto de Control
+https://drive.google.com/file/d/1w_uf3H3mT0pK61x4p5AY0ap7_-ELO2bY/view?usp=sharing
