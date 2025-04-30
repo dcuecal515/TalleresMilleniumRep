@@ -17,7 +17,7 @@ namespace TalleresMillenium.Models
 
         public string Combustible { get; set; }
 
-        public int Kilometraje { get; set; }
+        public int ?Kilometraje { get; set; }
 
         public Usuario Usuario { get; set; }
 

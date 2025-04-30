@@ -16,6 +16,10 @@ namespace TalleresMillenium
 
         public UserRepository UserRepository => _userRepository ??= new UserRepository(_context);
 
+        private CocheRepository _cocheRepository;
+
+        public CocheRepository CocheRepository => _cocheRepository ??= new CocheRepository(_context);
+
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() > 0;
