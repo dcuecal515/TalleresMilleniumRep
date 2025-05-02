@@ -1,0 +1,31 @@
+<div>
+    <app-header></app-header>
+</div>
+<div class="principal">
+    <div class="titulo">
+    @if(tipo=="servicios"){
+        <h1>{{'service' | translate }}</h1>
+    }@else if (tipo=="productos") {
+        <h1>{{'product' | translate }}</h1>
+    }@else{
+        <h1>pendejo</h1>
+    }
+    <div class="buscador">
+        <form (ngSubmit)="search()">
+            <input type="text" placeholder="Buscar" size="40">
+            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
+    <div class="lista">
+        <div class="lista-carta">
+            <img class="lista-image" src="assets/paisaje2.webp" alt="">
+            <h2>servicio 1</h2>
+            <h3>tipo</h3>
+            <button class="lista-boton">Ver mas</button>
+        </div>
+    </div>
+    </div>
+    <div>
+        <app-footer></app-footer>
+    </div>    
+</div>

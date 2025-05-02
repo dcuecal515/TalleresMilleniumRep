@@ -19,10 +19,6 @@ export class HeaderComponent {
       this.decoded=jwtDecode(localStorage.getItem("token"));
     }else if(sessionStorage.getItem("token")){
       this.decoded=jwtDecode(sessionStorage.getItem("token"));
-    }else{
-      router.navigateByUrl("")
-      this.decoded=null
-      
     }
   }
   decoded:User
