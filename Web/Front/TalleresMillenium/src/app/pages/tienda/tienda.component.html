@@ -20,8 +20,11 @@
         <div class="lista-carta">
             <img class="lista-image" src="assets/paisaje2.webp" alt="">
             <h2>servicio 1</h2>
-            <h3>tipo</h3>
-            <button class="lista-boton">Ver mas</button>
+            <h3>tipo</h3>@if(tipo=="servicios"){
+                <button class="lista-boton" (click)="goToContent(id)">Ver mas</button>
+            }@else if (tipo=="productos") {
+                <button class="lista-boton" (click)="goToContent(id)"> Ver mas</button>
+            }
         </div>
     </div>
     </div>
