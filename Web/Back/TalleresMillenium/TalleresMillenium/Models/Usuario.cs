@@ -19,5 +19,6 @@ namespace TalleresMillenium.Models
 
         public ICollection<Coche> Coches { get; set; } = new List<Coche>();
 
+        public ICollection<Chat> Chats { get; set; } = new List<Chat>();
     }
 }
