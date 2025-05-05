@@ -1,5 +1,7 @@
 ﻿using System.Net.WebSockets;
+using System.Text.Json;
 using TalleresMillenium.Models;
+using TalleresMillenium.DTOs;
 
 namespace TalleresMillenium.Services
 {
@@ -49,7 +51,44 @@ namespace TalleresMillenium.Services
 
             Console.WriteLine(message);
 
+            message = message.Substring(1, message.Length - 2);
+            message = message.Replace("\\", "");
 
+            MensajeRecividoDto mensajeRecivido = JsonSerializer.Deserialize<MensajeRecividoDto>(message);
+
+            if(mensajeRecivido.TypeMessage.Equals("mensaje a admin"))
+            {
+
+            }
+
+            if (mensajeRecivido.TypeMessage.Equals("mensaje a otro"))
+            {
+                string nombre_cliente = mensajeRecivido.Identifier;
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    var _wsHelper = scope.ServiceProvider.GetRequiredService<WSHelper>();
+                    Usuario user = await _wsHelper.GetUserById(userHandler.Id);
+                    Usuario user2 = await _wsHelper.GetUserByNombre(nombre_cliente);
+                    if (user2 != null)
+                    {
+                        foreach (WebSocketHandler handler in handlers)
+                        {
+                            if (handler.Id == user2.Id)
+                            {
+                                WebsocketMessageDto outMessage = new WebsocketMessageDto
+                                {
+                                    Message = "Te llego un mensaje",
+                                    Texto = mensajeRecivido.Identifier2
+                                };
+                                string messageToSend = JsonSerializer.Serialize(outMessage, JsonSerializerOptions.Web);
+                                tasks.Add(handler.SendAsync(messageToSend));
+                            }
+                        }
+                    }
+                }
+            }
+
+            await Task.WhenAll(tasks);
         }
     }
 }

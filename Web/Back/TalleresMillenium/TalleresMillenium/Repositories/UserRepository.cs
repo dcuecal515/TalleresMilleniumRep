@@ -12,5 +12,10 @@ namespace TalleresMillenium.Repositories
         {
             return await GetQueryable().FirstOrDefaultAsync(user => user.Email.Equals(email));
         }
+
+        public async Task<Usuario> GetByNombreAsync(string nombre)
+        {
+            return await GetQueryable().FirstOrDefaultAsync(user => user.Name.Equals(nombre));
+        }
     }
 }

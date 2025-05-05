@@ -25,7 +25,7 @@
         <p class="suyo">mensaje suyo</p>
     </div>
     <div class="barrita">
-        <input type="text" class="text-input"><i class="fa-solid fa-square-caret-right icon"></i>
+        <input type="text" class="text-input" [(ngModel)]="texto"><i class="fa-solid fa-square-caret-right icon" (click)="enviar()"></i>
     </div>
 </div>
 
