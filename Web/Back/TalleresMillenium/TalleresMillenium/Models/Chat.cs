@@ -6,6 +6,6 @@
 
         public int UserId { get; set; }
 
-        IEnumerable<Mensaje> Mensajes { get; set; } = new List<Mensaje>();
+        public IEnumerable<Mensaje> Mensajes { get; set; } = new List<Mensaje>();
     }
 }

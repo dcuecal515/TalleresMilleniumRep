@@ -1,4 +1,5 @@
-﻿using TalleresMillenium.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using TalleresMillenium.Models;
 using TalleresMillenium.Repositories.Base;
 
 namespace TalleresMillenium.Repositories
@@ -7,6 +8,11 @@ namespace TalleresMillenium.Repositories
     {
         public ChatRepository(TalleresMilleniumContext context) : base(context) { }
 
-
+        public async Task<Chat> GetChatByUserIdAsync(int userId)
+        {
+            return await GetQueryable()
+                .Include(x => x.Mensajes)
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+        }
     }
 }

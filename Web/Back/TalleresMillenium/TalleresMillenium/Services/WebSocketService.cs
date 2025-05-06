@@ -58,7 +58,55 @@ namespace TalleresMillenium.Services
 
             if(mensajeRecivido.TypeMessage.Equals("mensaje a admin"))
             {
-
+                string nombre_admin = "Pepe";
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    var _wsHelper = scope.ServiceProvider.GetRequiredService<WSHelper>();
+                    Usuario user = await _wsHelper.GetUserById(userHandler.Id);
+                    Usuario user2 = await _wsHelper.GetUserByNombre(nombre_admin);
+                    if (user2 != null)
+                    {
+                        foreach (WebSocketHandler handler in handlers)
+                        {
+                            if (handler.Id == user2.Id)
+                            {
+                                WebsocketMessageDto outMessage = new WebsocketMessageDto
+                                {
+                                    Message = "Te llego un mensaje",
+                                    Texto = mensajeRecivido.Identifier,
+                                    UserName = user.Name
+                                };
+                                string messageToSend = JsonSerializer.Serialize(outMessage, JsonSerializerOptions.Web);
+                                tasks.Add(handler.SendAsync(messageToSend));
+                            }
+                        }
+                        if (user.Chats.Count < 0) { 
+                            Chat chat = new Chat
+                            {
+                                UserId = user.Id
+                            };
+                            Mensaje mensaje = new Mensaje
+                            {
+                                UserId = user.Id,
+                                Texto = mensajeRecivido.Identifier
+                            };
+                            chat.Mensajes.Append(mensaje);
+                            await _wsHelper.InsertChatAsync(chat);
+                            await _wsHelper.InsertMensajeAsync(mensaje);
+                        } else
+                        {
+                            Chat chat = await _wsHelper.GetChatByUserId(user.Id);
+                            Mensaje mensaje = new Mensaje
+                            {
+                                UserId = user.Id,
+                                Texto = mensajeRecivido.Identifier
+                            };
+                            chat.Mensajes.Append(mensaje);
+                            await _wsHelper.UpdateChatAsync(chat);
+                            await _wsHelper.InsertMensajeAsync(mensaje);
+                        }
+                    }
+                }
             }
 
             if (mensajeRecivido.TypeMessage.Equals("mensaje a otro"))
@@ -77,13 +125,22 @@ namespace TalleresMillenium.Services
                             {
                                 WebsocketMessageDto outMessage = new WebsocketMessageDto
                                 {
-                                    Message = "Te llego un mensaje",
+                                    Message = "Te llego un mensaje de admin",
                                     Texto = mensajeRecivido.Identifier2
                                 };
                                 string messageToSend = JsonSerializer.Serialize(outMessage, JsonSerializerOptions.Web);
                                 tasks.Add(handler.SendAsync(messageToSend));
                             }
                         }
+                        Chat chat = await _wsHelper.GetChatByUserId(user2.Id);
+                        Mensaje mensaje = new Mensaje
+                        {
+                            UserId = user2.Id,
+                            Texto = mensajeRecivido.Identifier2
+                        };
+                        chat.Mensajes.Append(mensaje);
+                        await _wsHelper.UpdateChatAsync(chat);
+                        await _wsHelper.InsertMensajeAsync(mensaje);
                     }
                 }
             }
