@@ -19,5 +19,7 @@ namespace TalleresMillenium.Models
 
         public ICollection<Coche> Coches { get; set; } = new List<Coche>();
 
+        public Valoracion Valoracion { get; set; }
+
     }
 }
