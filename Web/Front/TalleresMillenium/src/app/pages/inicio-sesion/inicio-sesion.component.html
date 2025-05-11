@@ -28,7 +28,11 @@
                     <input type="text" placeholder="Nombre y apellidos" class="inputs" id="nomYape" [(ngModel)]="nYApellido" formControlName="nYApellido">
                     <input type="text" placeholder="Dirección de correo electrónico" class="inputs" id="correo" [(ngModel)]="correo" formControlName="correo">
                     <div class="contenedor-subida-archivo inputs">
-                        <label>Imagen de perfil</label>
+                        @if(imagenPerfil==null){
+                            <label>Imagen de perfil</label>
+                        }@else if(imagenPerfil!=null){
+                            <label>{{imagenPerfil_nombre}}</label>
+                        }
                         <input type="file" id="imagenPerfil" accept="image/png, image/jpeg, image/jpg" (change)="alSeleccionarArchivoPerfil($event)" hidden>
                         <button type="button" (click)="abrirSelectorArchivoPerfil()">Seleccionar una imagen</button>
                     </div>
@@ -37,7 +41,7 @@
                 </form>
                 <div class="recuerdame-div">
                     <p class="recuerdame-txt">Recuérdame</p>
-                    <input type="checkbox" class="recuerdame-CB">
+                    <input type="checkbox" class="recuerdame-CB" (click)="rememberUser = !rememberUser">
                 </div>
                 <p (click)="tieneCuenta=true" class="ir-a-IS">Ya tienes cuenta inicia sesión ahora</p>
                 <div class="botones">
@@ -61,7 +65,11 @@
                         <button class="btn-D" (click)="tipo_vehiculo='Autobus'">Autobús</button>
                     </div>
                     <div class="contenedor-subida-archivo inputs">
-                        <label>Fotografia de ficha tecnica</label>
+                        @if(imagenFT==null){
+                            <label>Fotografia de ficha tecnica</label>
+                        }@else if(imagenFT!=null){
+                            <label>{{imagenFT_nombre}}</label>
+                        }
                         <input type="file" id="imagenFT" accept="image/png, image/jpeg, image/jpg" (change)="alSeleccionarArchivoFT($event)" hidden>
                         <button type="button" (click)="abrirSelectorArchivoFT()">Seleccionar una imagen</button>
                     </div>

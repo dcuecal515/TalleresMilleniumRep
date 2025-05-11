@@ -15,6 +15,8 @@ namespace TalleresMillenium
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            Directory.SetCurrentDirectory(AppContext.BaseDirectory);
+
             // Add services to the container.
             builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
             builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<Settings>>().Value);
@@ -63,6 +65,11 @@ namespace TalleresMillenium
                 app.UseSwaggerUI();
             }
 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))
+            });
+
             app.UseHttpsRedirection();
 
             app.UseCors();
@@ -70,11 +77,6 @@ namespace TalleresMillenium
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))
-            });
 
             app.MapControllers();
 
