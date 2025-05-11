@@ -1,9 +1,11 @@
 
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TalleresMillenium.Models;
 using TalleresMillenium.Services;
+using TalleresMillenium.Mappers;
 
 namespace TalleresMillenium
 {
@@ -35,6 +37,10 @@ namespace TalleresMillenium
             builder.Services.AddScoped<TalleresMilleniumContext>();
             builder.Services.AddScoped<UnitOfWork>();
             builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<ImageService>();
+            builder.Services.AddScoped<UserMapper>();
+            builder.Services.AddScoped<CocheMapper>();
+            builder.Services.AddSingleton<WebSocketService>();
 
             builder.Services.AddCors(
                 options =>
@@ -65,6 +71,10 @@ namespace TalleresMillenium
 
             app.UseAuthorization();
 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))
+            });
 
             app.MapControllers();
 

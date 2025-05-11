@@ -26,5 +26,29 @@ namespace TalleresMillenium.Controllers
             }
                 return Unauthorized();
         }
+
+        [HttpPost("signup")]
+        public async Task<LoginResultDto> RegisterUser([FromForm] SignUpDto signUpDto)
+        {
+            string token = await _userService.RegisterUser(signUpDto);
+            if (token == null)
+            {
+                return null;
+            }
+            LoginResultDto loginResultDto = new LoginResultDto { accessToken = token };
+            return loginResultDto;
+        }
+
+        [HttpGet("emailExists")]
+        public async Task<IActionResult> GetIfEmailExists([FromQuery] string correo)
+        {
+            Boolean returnResult = await _userService.GetIfEmailExists(correo);
+            if (returnResult) {
+                return Unauthorized();
+            } else
+            {
+                return Ok();
+            }
+        }
     }
 }
