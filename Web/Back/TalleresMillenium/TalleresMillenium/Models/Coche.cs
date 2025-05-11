@@ -21,6 +21,8 @@ namespace TalleresMillenium.Models
 
         public Usuario Usuario { get; set; }
 
+        public ICollection<Coche_Servicio> coche_Servicios { get; set; }=new List<Coche_Servicio>();
+
 
     }
 }
