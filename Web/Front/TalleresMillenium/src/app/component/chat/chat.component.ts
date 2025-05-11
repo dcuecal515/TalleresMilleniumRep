@@ -42,12 +42,13 @@ export class ChatComponent {
       }
     });
     this.disconnected$ = this.webSocketService.disconnected.subscribe(() => this.isConnected = false);
+    console.log("Rol: ",this.decoded.role)
   }
 
   enviar(){
     console.log("Mensaje: ",this.texto)
     if(this.texto!=""){
-      if(this.decoded.rol == "Admin"){
+      if(this.decoded.role == "Admin"){
         if(this.chatName != ""){
           const mensaje:WebsocketMensaje={TypeMessage:"mensaje a otro" ,Identifier: "nombre",Identifier2:this.texto}
           // Convertir el objeto a JSON
