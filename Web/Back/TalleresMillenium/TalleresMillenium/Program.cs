@@ -105,9 +105,28 @@ namespace TalleresMillenium
                         new Servicio{ Nombre="Servicio de inyectores y limpieza del sistema de combustible",Descripcion="Restaura el rendimiento y reduce el consumo limpiando los inyectores de tu motor. ¡Más potencia, menos gasto!", Imagen="/images/servicioinyectores.jpg"},
                         new Servicio{ Nombre="Revisión técnica pre-compra",Descripcion="Asegúrate de hacer una buena compra. Inspeccionamos el vehículo usado antes de que lo adquieras.", Imagen="/images/revisionpreventa.jpg"}
                     };
+                    var productos = new List<Producto>
+                    {
+                        new Producto{Nombre="Aceites de motor",Descripcion="Manten tu motor lubricado y protegido con aceites de alta calidad. Variedad para cada tipo de vehiculo.",Imagen="/images/aceitemotor.jpg"},
+                        new Producto{Nombre="Filtros de aceite, aire y gasolina",Descripcion="Mejora el rendimiento del motor filtrando impurezas. Cambiar filtros es esencial para el cuidado del auto.",Imagen="/images/filtros.jpg"},
+                        new Producto{Nombre="Pastillas y discos de freno",Descripcion="Frenado seguro con piezas de alta durabilidad. Tenemos repuestos para multiples marcas y modelos.",Imagen="/images/discofrena.jpg"},
+                        new Producto{Nombre="Amortiguadores",Descripcion="Viaja comodo y estable. Contamos con amortiguadores de marcas reconocidas y garantía de fabrica.",Imagen="/images/amortiguadores.webp"},
+                        new Producto{Nombre="Baterias para auto",Descripcion="Energia confiable para tu vehiculo. Venta e instalacion de baterías con prueba incluida.",Imagen="/images/bateriacoche.png"},
+                        new Producto{Nombre="Limpiaparabrisas",Descripcion="Visibilidad clara en lluvia o polvo. Escobillas de alto rendimiento para cada temporada.",Imagen="/images/limpiaparabrisas.jpg"},
+                        new Producto{Nombre="Refrigerante / Anticongelante",Descripcion="Protege tu motor del sobrecalentamiento con nuestros refrigerantes premium.",Imagen="/images/refrigerante.jpg"},
+                        new Producto{Nombre="Aditivos para motor y combustible",Descripcion="Mejora el rendimiento, reduce el desgaste y limpia tu sistema. ¡Una pequeña inversion que hace la diferencia!",Imagen="/images/aditivos.webp"},
+                        new Producto{Nombre="Bombillas y faros",Descripcion="Luz potente y segura. Cambia tus faros fundidos con nuestras bombillas homologadas.",Imagen="/images/bombillas.jpg"},
+                        new Producto{Nombre="Correas de distribucion y accesorios",Descripcion="Evita daños graves al motor reemplazando las correas a tiempo. Tenemos las adecuadas para tu auto.",Imagen="/images/correaservicio.webp"},
+                        new Producto{Nombre="Sensores (oxigeno, temperatura, etc.)",Descripcion="Repuestos originales para un funcionamiento óptimo del motor. Diagnostico e instalacion.",Imagen="/images/sensor.jpg"},
+                        new Producto{Nombre="Llantas / neumaticos",Descripcion="Mejora el agarre y la seguridad con neumaticos nuevos. Contamos con marcas reconocidas a buen precio.",Imagen="/images/llantas.jpg"},
+                        new Producto{Nombre="Cables de bujias y bobinas",Descripcion="Garantiza una chispa fuerte y estable. Mejora el encendido y rendimiento del motor.",Imagen="/images/cablesbujias.jpg"},
+                        new Producto{Nombre="Liquido de frenos",Descripcion="Elemento esencial para un frenado eficaz. Lo tenemos en stock y te lo cambiamos al instante.",Imagen="/images/liquidofrenos.jpg"},
+                        new Producto{Nombre="Kit de herramientas basicas para el auto",Descripcion="Ideal para emergencias. Incluye llaves, gato, maneral y mas. ¡Todo conductor debería tener uno!",Imagen="/images/kit.jpg"}
+                    };
                     var user1 = new Usuario { Email = "example@gmail.com",Name="Pepe", Password = passwordService.Hash("123456"), Rol = "Admin" };
                     dbContext.Usuarios.Add(user1);
                     dbContext.Servicios.AddRange(servicios);
+                    dbContext.Productos.AddRange(productos);
                     dbContext.SaveChanges();
                 }
                 dbContext.SaveChanges();
