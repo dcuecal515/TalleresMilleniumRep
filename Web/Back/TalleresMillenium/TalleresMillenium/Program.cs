@@ -43,6 +43,7 @@ namespace TalleresMillenium
             builder.Services.AddScoped<UserMapper>();
             builder.Services.AddScoped<CocheMapper>();
             builder.Services.AddSingleton<WebSocketService>();
+            builder.Services.AddScoped<ServiceService>();
 
             builder.Services.AddCors(
                 options =>

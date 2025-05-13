@@ -17,15 +17,17 @@
         </form>
     </div>
     <div class="lista">
+        @for (item of listaservicios; track $index) {
         <div class="lista-carta">
-            <img class="lista-image" src="assets/paisaje2.webp" alt="">
-            <h2>servicio 1</h2>
-            <h3>tipo</h3>@if(tipo=="servicios"){
-                <button class="lista-boton" (click)="goToContent(id)">Ver mas</button>
+            <img class="lista-image" [src]="item.imagen" alt="">
+            <h2>{{item.nombre}}</h2>
+            <h3>valoracion</h3>@if(tipo=="servicios"){
+                <button class="lista-boton" (click)="goToContent(item.id)">Ver mas</button>
             }@else if (tipo=="productos") {
-                <button class="lista-boton" (click)="goToContent(id)"> Ver mas</button>
+                <button class="lista-boton" (click)="goToContent(item.id)"> Ver mas</button>
             }
         </div>
+    }
     </div>
     </div>
     <div>
