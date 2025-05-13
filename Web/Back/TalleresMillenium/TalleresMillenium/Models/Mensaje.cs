@@ -6,6 +6,8 @@
 
         public int UserId { get; set; }
 
+        public int ChatId { get; set; }
+
         public string Texto { get; set; }
     }
 }

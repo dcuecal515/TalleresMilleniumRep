@@ -80,17 +80,21 @@ namespace TalleresMillenium.Services
                                 tasks.Add(handler.SendAsync(messageToSend));
                             }
                         }
-                        if (user.Chats.Count < 0) { 
+                        if (user.Chats.Count == 0) { 
+                            IEnumerable<Usuario> usuarios = new List<Usuario>();
+                            usuarios.Append(user);
+                            usuarios.Append(user2);
                             Chat chat = new Chat
                             {
-                                UserId = user.Id
+                                Usuarios = usuarios
                             };
                             Mensaje mensaje = new Mensaje
                             {
                                 UserId = user.Id,
+                                ChatId= chat.Id,
                                 Texto = mensajeRecivido.Identifier
                             };
-                            chat.Mensajes.Append(mensaje);
+                            
                             await _wsHelper.InsertChatAsync(chat);
                             await _wsHelper.InsertMensajeAsync(mensaje);
                         } else
@@ -99,9 +103,9 @@ namespace TalleresMillenium.Services
                             Mensaje mensaje = new Mensaje
                             {
                                 UserId = user.Id,
+                                ChatId = chat.Id,
                                 Texto = mensajeRecivido.Identifier
                             };
-                            chat.Mensajes.Append(mensaje);
                             await _wsHelper.UpdateChatAsync(chat);
                             await _wsHelper.InsertMensajeAsync(mensaje);
                         }
@@ -136,9 +140,9 @@ namespace TalleresMillenium.Services
                         Mensaje mensaje = new Mensaje
                         {
                             UserId = user2.Id,
+                            ChatId = chat.Id,
                             Texto = mensajeRecivido.Identifier2
                         };
-                        chat.Mensajes.Append(mensaje);
                         await _wsHelper.UpdateChatAsync(chat);
                         await _wsHelper.InsertMensajeAsync(mensaje);
                     }
