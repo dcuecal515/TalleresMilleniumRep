@@ -40,6 +40,9 @@ namespace TalleresMillenium
             builder.Services.AddScoped<ImageService>();
             builder.Services.AddScoped<UserMapper>();
             builder.Services.AddScoped<CocheMapper>();
+            builder.Services.AddSingleton<WebSocketService>();
+            builder.Services.AddScoped<WSHelper>();
+            builder.Services.AddScoped<ChatService>();
 
             builder.Services.AddCors(
                 options =>
@@ -62,7 +65,13 @@ namespace TalleresMillenium
                 app.UseSwaggerUI();
             }
 
+            app.UseWebSockets();
+
+            app.UseMiddleware<WebSocketMiddleware>();
+
             app.UseHttpsRedirection();
+
+            app.UseRouting();
 
             app.UseCors();
 

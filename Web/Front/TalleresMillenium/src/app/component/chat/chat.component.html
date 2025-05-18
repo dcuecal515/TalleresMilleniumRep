@@ -1,0 +1,55 @@
+@if(decoded){
+    @if(decoded.role == "Admin"){
+        @if(chats.length > 0){
+            <div class="container">
+                @for(chat of chats; track chat.UserName){
+                    <p class="chats" (click)="chatName = chat.UserName">{{chat.UserName}}</p>
+                    @if(chatName == chat.UserName){
+                        <h2 class="nombre">{{chat.UserName}}</h2>
+                        @for(mensaje of chat.Mensajes; track mensaje.Texto){
+                            <div class="mensajes">
+                                @if(decoded.name == mensaje.UserName){
+                                    <p class="mio">{{mensaje.Texto}}</p>
+                                }@else {
+                                    <p class="suyo">{{mensaje.Texto}}</p>
+                                }
+                            </div>
+                        }
+                        <div class="barrita">
+                            <input type="text" class="text-input" [(ngModel)]="texto"><i class="fa-solid fa-square-caret-right icon" (click)="enviar()"></i>
+                        </div>
+                    }
+                }
+                @if(chatName == ""){
+                    <div class="relleno">
+                        <p class="contenido">Elige algún chat</p>
+                    </div>
+                }
+            </div>
+        }
+
+        
+    }@else{
+        <div class="container">
+            <h2 class="nombre">Talleres Milenium Info</h2>
+            @if(chats.length > 0){
+                @for(mensaje of chats[0].Mensajes; track mensaje.Texto){
+                    <div class="mensajes">
+                        @if(decoded.name == mensaje.UserName){
+                            <p class="mio">{{mensaje.Texto}}</p>
+                        }@else {
+                            <p class="suyo">{{mensaje.Texto}}</p>
+                        }
+                    </div>
+                }
+            }@else {
+                <p class="contenido">No tienes chats</p>
+            }
+            <div class="barrita">
+                <input type="text" class="text-input" [(ngModel)]="texto"><i class="fa-solid fa-square-caret-right icon" (click)="enviar()"></i>
+            </div>
+            
+        </div>
+    }
+    <!--<button class="contactBTN">Contactanos</button>-->
+}

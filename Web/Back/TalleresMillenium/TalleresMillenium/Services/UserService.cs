@@ -111,5 +111,10 @@ namespace TalleresMillenium.Services
             await _unitOfWork.SaveAsync();
             return newUser;
         }
+
+        public async Task<Usuario> GetUserFromDbByStringId(string stringId)
+        {
+            return await _unitOfWork.UserRepository.GetByIdAsync(Int32.Parse(stringId));
+        }
     }
 }

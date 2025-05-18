@@ -7,6 +7,7 @@ import { AuthService } from '../../service/auth.service';
 import { Result } from '../../models/result';
 import { SignupCar } from '../../models/signupCar';
 import { SignupUser } from '../../models/signupUser';
+import { WebsocketService } from '../../service/websocket.service';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -17,7 +18,7 @@ import { SignupUser } from '../../models/signupUser';
   styleUrl: './inicio-sesion.component.css'
 })
 export class InicioSesionComponent {
-  constructor(private formBuilder: FormBuilder,private authservice:AuthService,private apiService:ApiService,private router:Router){
+  constructor(private formBuilder: FormBuilder,private authservice:AuthService,private apiService:ApiService,private router:Router, private webSocketService:WebsocketService){
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required,Validators.email]],
       password: ['', [Validators.required]]
@@ -37,9 +38,9 @@ export class InicioSesionComponent {
   }
 
   loginForm: FormGroup;
-  email=""
-  password=""
-  rememberUser=false
+  email="";
+  password="";
+  rememberUser=false;
   tieneCuenta:boolean = true;
   primerRellenoCorrecto:boolean = false;
   signupForm1: FormGroup;
@@ -54,6 +55,7 @@ export class InicioSesionComponent {
   imagenFT:File | null = null;
   fecha_ITV:Date | null = null;
   tipo_combustible:string = "";
+  type:'rxjs';
 
 
   abrirSelectorArchivoPerfil(): void {
@@ -174,7 +176,12 @@ export class InicioSesionComponent {
       sessionStorage.setItem("token", this.apiService.jwt)
       console.log(sessionStorage.getItem("token"))
     }
+    this.connectRxjs()
     this.router.navigateByUrl("");
   }
 
+  connectRxjs() {
+    this.type = 'rxjs';
+    this.webSocketService.connectRxjs();
+  }
 }

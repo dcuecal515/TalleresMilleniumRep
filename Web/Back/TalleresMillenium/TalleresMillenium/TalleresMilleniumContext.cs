@@ -16,6 +16,8 @@ namespace TalleresMillenium
 
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Coche> Coches { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<Mensaje> Mensajes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
