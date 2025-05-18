@@ -44,6 +44,9 @@ namespace TalleresMillenium
             builder.Services.AddScoped<CocheMapper>();
             builder.Services.AddSingleton<WebSocketService>();
             builder.Services.AddScoped<ServiceService>();
+            builder.Services.AddScoped<WSHelper>();
+            builder.Services.AddScoped<ChatService>();
+
 
             builder.Services.AddCors(
                 options =>
@@ -70,8 +73,13 @@ namespace TalleresMillenium
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))
             });
+            app.UseWebSockets();
 
+            app.UseMiddleware<WebSocketMiddleware>();
+          
             app.UseHttpsRedirection();
+
+            app.UseRouting();
 
             app.UseCors();
 
@@ -90,39 +98,39 @@ namespace TalleresMillenium
                 {
                     var servicios = new List<Servicio>
                     {
-                        new Servicio{ Nombre="Cambio de aceite y filtro", Descripcion="Protege tu motor y mejora el rendimiento con un cambio de aceite profesional y filtro nuevo. ¡Tu auto te lo agradecera!", Imagen="/images/cambioaceite.jpg"},
+                        new Servicio{ Nombre="Cambio de aceite y filtro", Descripcion="Protege tu motor y mejora el rendimiento con un cambio de aceite profesional y filtro nuevo. ï¿½Tu auto te lo agradecera!", Imagen="/images/cambioaceite.jpg"},
                         new Servicio{ Nombre="Revision y cambio de frenos",Descripcion="Conduce seguro: revisamos y reemplazamos pastillas y discos de freno para maxima seguridad en el camino.", Imagen="/images/cambiofrenos.jpg"},
-                        new Servicio{ Nombre="Alineación y balanceo",Descripcion="Evita el desgaste irregular de llantas y mejora la estabilidad de tu auto. ¡Viaja más cómodo y seguro!", Imagen="/images/alineacionbalanceo.webp"},
-                        new Servicio{ Nombre="Diagnóstico computarizado del motor",Descripcion="Detectamos fallas con precisión gracias a escáneres avanzados. ¡Ahórrate problemas y dinero!", Imagen="/images/diagnostico.webp"},
-                        new Servicio{ Nombre="Mantenimiento preventivo",Descripcion="Anticípate a fallas mayores con revisiones periódicas. Más vida útil para tu auto y menos gastos imprevistos.", Imagen="/images/mantenimientopreventivo.jpg"},
-                        new Servicio{ Nombre="Reparación de suspensión y dirección",Descripcion="Soluciona ruidos, vibraciones y pérdida de control. Tu auto volverá a sentirse como nuevo.", Imagen="/images/reparacionsuspension.jpg"},
-                        new Servicio{ Nombre="Cambio de amortiguadores",Descripcion="Mejora la estabilidad, reduce rebotes y aumenta la comodidad de manejo. ¡Amortiguadores nuevos, viaje más suave!", Imagen="/images/cambioamortiguadores.webp"},
-                        new Servicio{ Nombre="Servicio de aire acondicionado",Descripcion="Recupera el aire frío en tu vehículo con nuestro servicio completo de A/C. Ideal para días calurosos.", Imagen="/images/servicioaire.jpg"},
-                        new Servicio{ Nombre="Revisión y reparación del sistema eléctrico",Descripcion="Solucionamos problemas con luces, arranque, tablero y más. ¡Todo conectado y funcionando como debe!", Imagen="/images/revisionsistemaelectrico.png"},
-                        new Servicio{ Nombre="Reparación de transmisión",Descripcion="¿Tu auto hace ruidos o no cambia bien? Reparamos transmisiones automáticas y manuales con garantía.", Imagen="/images/reparaciontransmision.jpg"},
-                        new Servicio{ Nombre="Servicio de escaneo OBDII",Descripcion="Identificamos códigos de falla y problemas ocultos en minutos. Precisión sin adivinanzas.", Imagen="/images/servicioobd.jpg"},
-                        new Servicio{ Nombre="Lavado de motor",Descripcion="Limpieza profunda para un motor impecable. Mejora la detección de fugas y la estética del vehículo.", Imagen="/images/ellavadodelmotor.jpg"},
-                        new Servicio{ Nombre="Revisión y cambio de batería",Descripcion="Evita quedarte varado. Verificamos el estado de tu batería y la reemplazamos si es necesario.", Imagen="/images/revisionbateria.jpg"},
-                        new Servicio{ Nombre="Servicio de inyectores y limpieza del sistema de combustible",Descripcion="Restaura el rendimiento y reduce el consumo limpiando los inyectores de tu motor. ¡Más potencia, menos gasto!", Imagen="/images/servicioinyectores.jpg"},
-                        new Servicio{ Nombre="Revisión técnica pre-compra",Descripcion="Asegúrate de hacer una buena compra. Inspeccionamos el vehículo usado antes de que lo adquieras.", Imagen="/images/revisionpreventa.jpg"}
+                        new Servicio{ Nombre="Alineaciï¿½n y balanceo",Descripcion="Evita el desgaste irregular de llantas y mejora la estabilidad de tu auto. ï¿½Viaja mï¿½s cï¿½modo y seguro!", Imagen="/images/alineacionbalanceo.webp"},
+                        new Servicio{ Nombre="Diagnï¿½stico computarizado del motor",Descripcion="Detectamos fallas con precisiï¿½n gracias a escï¿½neres avanzados. ï¿½Ahï¿½rrate problemas y dinero!", Imagen="/images/diagnostico.webp"},
+                        new Servicio{ Nombre="Mantenimiento preventivo",Descripcion="Anticï¿½pate a fallas mayores con revisiones periï¿½dicas. Mï¿½s vida ï¿½til para tu auto y menos gastos imprevistos.", Imagen="/images/mantenimientopreventivo.jpg"},
+                        new Servicio{ Nombre="Reparaciï¿½n de suspensiï¿½n y direcciï¿½n",Descripcion="Soluciona ruidos, vibraciones y pï¿½rdida de control. Tu auto volverï¿½ a sentirse como nuevo.", Imagen="/images/reparacionsuspension.jpg"},
+                        new Servicio{ Nombre="Cambio de amortiguadores",Descripcion="Mejora la estabilidad, reduce rebotes y aumenta la comodidad de manejo. ï¿½Amortiguadores nuevos, viaje mï¿½s suave!", Imagen="/images/cambioamortiguadores.webp"},
+                        new Servicio{ Nombre="Servicio de aire acondicionado",Descripcion="Recupera el aire frï¿½o en tu vehï¿½culo con nuestro servicio completo de A/C. Ideal para dï¿½as calurosos.", Imagen="/images/servicioaire.jpg"},
+                        new Servicio{ Nombre="Revisiï¿½n y reparaciï¿½n del sistema elï¿½ctrico",Descripcion="Solucionamos problemas con luces, arranque, tablero y mï¿½s. ï¿½Todo conectado y funcionando como debe!", Imagen="/images/revisionsistemaelectrico.png"},
+                        new Servicio{ Nombre="Reparaciï¿½n de transmisiï¿½n",Descripcion="ï¿½Tu auto hace ruidos o no cambia bien? Reparamos transmisiones automï¿½ticas y manuales con garantï¿½a.", Imagen="/images/reparaciontransmision.jpg"},
+                        new Servicio{ Nombre="Servicio de escaneo OBDII",Descripcion="Identificamos cï¿½digos de falla y problemas ocultos en minutos. Precisiï¿½n sin adivinanzas.", Imagen="/images/servicioobd.jpg"},
+                        new Servicio{ Nombre="Lavado de motor",Descripcion="Limpieza profunda para un motor impecable. Mejora la detecciï¿½n de fugas y la estï¿½tica del vehï¿½culo.", Imagen="/images/ellavadodelmotor.jpg"},
+                        new Servicio{ Nombre="Revisiï¿½n y cambio de baterï¿½a",Descripcion="Evita quedarte varado. Verificamos el estado de tu baterï¿½a y la reemplazamos si es necesario.", Imagen="/images/revisionbateria.jpg"},
+                        new Servicio{ Nombre="Servicio de inyectores y limpieza del sistema de combustible",Descripcion="Restaura el rendimiento y reduce el consumo limpiando los inyectores de tu motor. ï¿½Mï¿½s potencia, menos gasto!", Imagen="/images/servicioinyectores.jpg"},
+                        new Servicio{ Nombre="Revisiï¿½n tï¿½cnica pre-compra",Descripcion="Asegï¿½rate de hacer una buena compra. Inspeccionamos el vehï¿½culo usado antes de que lo adquieras.", Imagen="/images/revisionpreventa.jpg"}
                     };
                     var productos = new List<Producto>
                     {
                         new Producto{Nombre="Aceites de motor",Descripcion="Manten tu motor lubricado y protegido con aceites de alta calidad. Variedad para cada tipo de vehiculo.",Imagen="/images/aceitemotor.jpg"},
                         new Producto{Nombre="Filtros de aceite, aire y gasolina",Descripcion="Mejora el rendimiento del motor filtrando impurezas. Cambiar filtros es esencial para el cuidado del auto.",Imagen="/images/filtros.jpg"},
                         new Producto{Nombre="Pastillas y discos de freno",Descripcion="Frenado seguro con piezas de alta durabilidad. Tenemos repuestos para multiples marcas y modelos.",Imagen="/images/discofrena.jpg"},
-                        new Producto{Nombre="Amortiguadores",Descripcion="Viaja comodo y estable. Contamos con amortiguadores de marcas reconocidas y garantía de fabrica.",Imagen="/images/amortiguadores.webp"},
-                        new Producto{Nombre="Baterias para auto",Descripcion="Energia confiable para tu vehiculo. Venta e instalacion de baterías con prueba incluida.",Imagen="/images/bateriacoche.png"},
+                        new Producto{Nombre="Amortiguadores",Descripcion="Viaja comodo y estable. Contamos con amortiguadores de marcas reconocidas y garantï¿½a de fabrica.",Imagen="/images/amortiguadores.webp"},
+                        new Producto{Nombre="Baterias para auto",Descripcion="Energia confiable para tu vehiculo. Venta e instalacion de baterï¿½as con prueba incluida.",Imagen="/images/bateriacoche.png"},
                         new Producto{Nombre="Limpiaparabrisas",Descripcion="Visibilidad clara en lluvia o polvo. Escobillas de alto rendimiento para cada temporada.",Imagen="/images/limpiaparabrisas.jpg"},
                         new Producto{Nombre="Refrigerante / Anticongelante",Descripcion="Protege tu motor del sobrecalentamiento con nuestros refrigerantes premium.",Imagen="/images/refrigerante.jpg"},
-                        new Producto{Nombre="Aditivos para motor y combustible",Descripcion="Mejora el rendimiento, reduce el desgaste y limpia tu sistema. ¡Una pequeña inversion que hace la diferencia!",Imagen="/images/aditivos.webp"},
+                        new Producto{Nombre="Aditivos para motor y combustible",Descripcion="Mejora el rendimiento, reduce el desgaste y limpia tu sistema. ï¿½Una pequeï¿½a inversion que hace la diferencia!",Imagen="/images/aditivos.webp"},
                         new Producto{Nombre="Bombillas y faros",Descripcion="Luz potente y segura. Cambia tus faros fundidos con nuestras bombillas homologadas.",Imagen="/images/bombillas.jpg"},
-                        new Producto{Nombre="Correas de distribucion y accesorios",Descripcion="Evita daños graves al motor reemplazando las correas a tiempo. Tenemos las adecuadas para tu auto.",Imagen="/images/correaservicio.webp"},
-                        new Producto{Nombre="Sensores (oxigeno, temperatura, etc.)",Descripcion="Repuestos originales para un funcionamiento óptimo del motor. Diagnostico e instalacion.",Imagen="/images/sensor.jpg"},
+                        new Producto{Nombre="Correas de distribucion y accesorios",Descripcion="Evita daï¿½os graves al motor reemplazando las correas a tiempo. Tenemos las adecuadas para tu auto.",Imagen="/images/correaservicio.webp"},
+                        new Producto{Nombre="Sensores (oxigeno, temperatura, etc.)",Descripcion="Repuestos originales para un funcionamiento ï¿½ptimo del motor. Diagnostico e instalacion.",Imagen="/images/sensor.jpg"},
                         new Producto{Nombre="Llantas / neumaticos",Descripcion="Mejora el agarre y la seguridad con neumaticos nuevos. Contamos con marcas reconocidas a buen precio.",Imagen="/images/llantas.jpg"},
                         new Producto{Nombre="Cables de bujias y bobinas",Descripcion="Garantiza una chispa fuerte y estable. Mejora el encendido y rendimiento del motor.",Imagen="/images/cablesbujias.jpg"},
                         new Producto{Nombre="Liquido de frenos",Descripcion="Elemento esencial para un frenado eficaz. Lo tenemos en stock y te lo cambiamos al instante.",Imagen="/images/liquidofrenos.jpg"},
-                        new Producto{Nombre="Kit de herramientas basicas para el auto",Descripcion="Ideal para emergencias. Incluye llaves, gato, maneral y mas. ¡Todo conductor debería tener uno!",Imagen="/images/kit.jpg"}
+                        new Producto{Nombre="Kit de herramientas basicas para el auto",Descripcion="Ideal para emergencias. Incluye llaves, gato, maneral y mas. ï¿½Todo conductor deberï¿½a tener uno!",Imagen="/images/kit.jpg"}
                     };
                     var user1 = new Usuario { Email = "example@gmail.com",Name="Pepe", Password = passwordService.Hash("123456"), Rol = "Admin" };
                     dbContext.Usuarios.Add(user1);

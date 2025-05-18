@@ -7,6 +7,7 @@ import { WebsocketService } from '../../service/websocket.service';
 import { WebsocketMensaje } from '../../models/WebsocketMensaje';
 import { Chat } from '../../models/Chat';
 import { Mensaje } from '../../models/Mensaje';
+import { ChatService } from '../../service/chat.service';
 
 @Component({
   selector: 'app-chat',
@@ -16,12 +17,13 @@ import { Mensaje } from '../../models/Mensaje';
   styleUrl: './chat.component.css'
 })
 export class ChatComponent {
-  constructor(private webSocketService:WebsocketService){
+  constructor(private webSocketService:WebsocketService, private chatService:ChatService){
     if(localStorage.getItem("token")){
       this.decoded=jwtDecode(localStorage.getItem("token"));
     }else if(sessionStorage.getItem("token")){
       this.decoded=jwtDecode(sessionStorage.getItem("token"));
     }
+    this.obtenerChats();
   }
   messageReceived$:Subscription;
   disconnected$: Subscription;
@@ -42,12 +44,20 @@ export class ChatComponent {
       }
     });
     this.disconnected$ = this.webSocketService.disconnected.subscribe(() => this.isConnected = false);
+    console.log("Rol: ",this.decoded.role)
+  }
+
+  async obtenerChats(){
+    if(this.decoded){
+      const result = await this.chatService.getChats(this.decoded.role == "Admin")
+      this.chats =  result.data
+    }
   }
 
   enviar(){
     console.log("Mensaje: ",this.texto)
     if(this.texto!=""){
-      if(this.decoded.rol == "Admin"){
+      if(this.decoded.role == "Admin"){
         if(this.chatName != ""){
           const mensaje:WebsocketMensaje={TypeMessage:"mensaje a otro" ,Identifier: "nombre",Identifier2:this.texto}
           // Convertir el objeto a JSON
