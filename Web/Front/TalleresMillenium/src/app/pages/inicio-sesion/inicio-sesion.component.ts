@@ -55,6 +55,8 @@ export class InicioSesionComponent {
   imagenFT:File | null = null;
   fecha_ITV:Date | null = null;
   tipo_combustible:string = "";
+  imagenPerfil_nombre:string
+  imagenFT_nombre:string
   type:'rxjs';
 
 
@@ -72,6 +74,7 @@ export class InicioSesionComponent {
     const archivo = input.files?.[0];
     if (archivo) {
       console.log('Archivo seleccionado:', archivo.name);  
+      this.imagenPerfil_nombre=archivo.name
       this.imagenPerfil = archivo
     }
   }
@@ -79,7 +82,8 @@ export class InicioSesionComponent {
     const input = evento.target as HTMLInputElement;
     const archivo = input.files?.[0];
     if (archivo) {
-      console.log('Archivo seleccionado:', archivo.name);  
+      console.log('Archivo seleccionado:', archivo.name);
+      this.imagenFT_nombre=archivo.name
       this.imagenFT = archivo
     }
   }
