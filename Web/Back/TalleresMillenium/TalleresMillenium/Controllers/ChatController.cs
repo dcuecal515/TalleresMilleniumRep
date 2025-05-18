@@ -5,6 +5,8 @@ using TalleresMillenium.Services;
 
 namespace TalleresMillenium.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class ChatController : Controller
     {
         private readonly ChatService _chatService;
@@ -17,7 +19,7 @@ namespace TalleresMillenium.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ChatDto[]> GetAllChats([FromBody] Boolean isAdmin)
+        public async Task<ChatDto[]> GetAllChats([FromQuery] Boolean isAdmin)
         {
             if (isAdmin) {
                 return await _chatService.GetAllChatsAdmin();

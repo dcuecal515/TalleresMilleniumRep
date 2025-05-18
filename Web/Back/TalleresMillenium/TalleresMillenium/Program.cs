@@ -42,6 +42,7 @@ namespace TalleresMillenium
             builder.Services.AddScoped<CocheMapper>();
             builder.Services.AddSingleton<WebSocketService>();
             builder.Services.AddScoped<WSHelper>();
+            builder.Services.AddScoped<ChatService>();
 
             builder.Services.AddCors(
                 options =>
