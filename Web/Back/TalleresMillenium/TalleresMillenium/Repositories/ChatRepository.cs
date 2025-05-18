@@ -11,8 +11,15 @@ namespace TalleresMillenium.Repositories
         public async Task<Chat> GetChatByUserIdAsync(int userId)
         {
             return await GetQueryable()
-                .Include(x => x.Mensajes)
-                .FirstOrDefaultAsync(x => x.UserId == userId);
+                .Include(x => x.Usuarios)
+                .FirstOrDefaultAsync(x => x.Usuarios.Any(u => u.Id == userId));
+        }
+
+        public async Task<ICollection<Chat>> GetAllChatsAsync()
+        {
+            return await GetQueryable()
+                .Include(x => x.Usuarios)
+                .ToListAsync();
         }
     }
 }
