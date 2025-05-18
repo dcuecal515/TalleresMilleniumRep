@@ -28,6 +28,10 @@ namespace TalleresMillenium
 
         public MensajeRepository MensajeRepository => _mensajeRepository ??= new MensajeRepository(_context);
 
+        private ServiceRepository _serviceRepository;
+
+        public ServiceRepository ServiceRepository => _serviceRepository ??= new ServiceRepository(_context);
+
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() > 0;
