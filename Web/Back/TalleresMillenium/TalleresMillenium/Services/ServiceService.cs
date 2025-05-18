@@ -28,5 +28,10 @@ namespace TalleresMillenium.Services
             }
             return servicedto;
         }
+        public async Task<Servicio> GetServiceById(int id)
+        {
+            Servicio servicio=await _unitOfWork.ServiceRepository.GetServiceById(id);
+            return servicio;
+        }
     }
 }
