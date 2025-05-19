@@ -10,9 +10,9 @@
         public int UsuarioId { get; set; }
         public Servicio Servicio { get; set; }
 
-        public int ServicioId { get; set; }
+        public int? ServicioId { get; set; }
         public Producto Producto { get; set; }
 
-        public int ProductoId { get; set; }
+        public int? ProductoId { get; set; }
     }
 }

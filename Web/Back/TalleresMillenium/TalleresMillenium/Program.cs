@@ -6,6 +6,7 @@ using System.Text;
 using TalleresMillenium.Models;
 using TalleresMillenium.Services;
 using TalleresMillenium.Mappers;
+using System.Text.Json.Serialization;
 
 namespace TalleresMillenium
 {
@@ -20,7 +21,10 @@ namespace TalleresMillenium
             // Add services to the container.
             builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
             builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<Settings>>().Value);
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -46,6 +50,8 @@ namespace TalleresMillenium
             builder.Services.AddScoped<ServiceService>();
             builder.Services.AddScoped<WSHelper>();
             builder.Services.AddScoped<ChatService>();
+            builder.Services.AddScoped<ReviewMapper>();
+            builder.Services.AddScoped<ReviewService>();
 
 
             builder.Services.AddCors(
