@@ -11,17 +11,23 @@ namespace TalleresMillenium.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ChatDto[]> GetAllChatsAdmin()
+        public async Task<List<ChatDto>> GetAllChatsAdmin()
         {
             ICollection<Chat> chats = await _unitOfWork.ChatRepository.GetAllChatsAsync();
-            ChatDto[] chatsDtos = new ChatDto[chats.Count];
+
+            if(chats.Count == 0)
+            {
+                return null;
+            }
+
+            List<ChatDto> chatsDtos = new List<ChatDto>();
             
             
             foreach (var chat in chats)
             {
                 Usuario user = chat.Usuarios.FirstOrDefault(u => u.Rol != "Admin");
                 ICollection<Mensaje> mensajes = await _unitOfWork.MensajeRepository.GetAllMensajesByChatId(chat.Id);
-                MensajeDto[] mensajeDtos = new MensajeDto[mensajes.Count];
+                List<MensajeDto> mensajeDtos = new List<MensajeDto>();
 
                 foreach (var mensaje in mensajes)
                 {
@@ -33,7 +39,7 @@ namespace TalleresMillenium.Services
                         Texto = mensaje.Texto
                     };
 
-                    mensajeDtos.Append(mensajeDto);
+                    mensajeDtos.Add(mensajeDto);
                 }
 
                 ChatDto chatDto = new ChatDto
@@ -42,22 +48,27 @@ namespace TalleresMillenium.Services
                     Mensajes = mensajeDtos
                 };
 
-                chatsDtos.Append(chatDto);
+                chatsDtos.Add(chatDto);
             }
 
 
             return chatsDtos;
         }
 
-        public async Task<ChatDto[]> GetAllChatsUser(int userId)
+        public async Task<List<ChatDto>> GetAllChatsUser(int userId)
         {
             Chat chat = await _unitOfWork.ChatRepository.GetChatByUserIdAsync(userId);
 
-            ChatDto[] chatsDtos = [];
+            if(chat == null)
+            {
+                return null;
+            }
+
+            List<ChatDto> chatsDtos = new List<ChatDto>();
 
             Usuario user = chat.Usuarios.FirstOrDefault(u => u.Rol != "Admin");
             ICollection<Mensaje> mensajes = await _unitOfWork.MensajeRepository.GetAllMensajesByChatId(chat.Id);
-            MensajeDto [] mensajeDtos = new MensajeDto [mensajes.Count];
+            List<MensajeDto> mensajeDtos = new List<MensajeDto>();
 
             foreach (var mensaje in mensajes)
             {
@@ -69,7 +80,7 @@ namespace TalleresMillenium.Services
                     Texto = mensaje.Texto
                 };
 
-                mensajeDtos.Append(mensajeDto);
+                mensajeDtos.Add(mensajeDto);
             }
 
             ChatDto chatDto = new ChatDto
@@ -78,7 +89,7 @@ namespace TalleresMillenium.Services
                 Mensajes = mensajeDtos
             };
 
-            chatsDtos.Append(chatDto);
+            chatsDtos.Add(chatDto);
 
             return chatsDtos;
         }

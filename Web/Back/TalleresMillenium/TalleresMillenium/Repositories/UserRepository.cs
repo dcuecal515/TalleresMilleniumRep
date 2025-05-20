@@ -10,12 +10,18 @@ namespace TalleresMillenium.Repositories
 
         public async Task<Usuario> GetByEmailAsync(string email)
         {
-            return await GetQueryable().FirstOrDefaultAsync(user => user.Email.Equals(email));
+            return await GetQueryable()
+                .Include(user => user.Chats)
+                .Include(user => user.Coches)
+                .FirstOrDefaultAsync(user => user.Email.Equals(email));
         }
 
         public async Task<Usuario> GetByNombreAsync(string nombre)
         {
-            return await GetQueryable().FirstOrDefaultAsync(user => user.Name.Equals(nombre));
+            return await GetQueryable()
+                .Include(user => user.Chats)
+                .Include(user => user.Coches)
+                .FirstOrDefaultAsync(user => user.Name.Equals(nombre));
         }
 
         public async Task<Usuario> GetByIdAllAsync(int id)
@@ -25,6 +31,22 @@ namespace TalleresMillenium.Repositories
                 .Include(user => user.Coches)
                 .FirstOrDefaultAsync(user => user.Id == id);
                 
+        }
+        public async Task<Usuario> GetByUserId(int id)
+        {
+            return await GetQueryable()
+                .Include(user => user.Chats)
+                .Include(user => user.Coches)
+                .FirstOrDefaultAsync(user => user.Id == id);
+        }
+
+        public async Task<Usuario> GetFullUserById(int id)
+        {
+            return await GetQueryable()
+                .Include(user => user.Coches)
+                    .ThenInclude(coche => coche.coche_Servicios)
+                        .ThenInclude(coche_servicio => coche_servicio.servicio)
+                .FirstOrDefaultAsync(user => user.Id == id);
         }
     }
 }

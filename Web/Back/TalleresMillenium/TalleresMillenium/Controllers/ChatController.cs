@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TalleresMillenium.DTOs;
 using TalleresMillenium.Models;
 using TalleresMillenium.Services;
@@ -18,10 +19,12 @@ namespace TalleresMillenium.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [HttpGet("all")]
-        public async Task<ChatDto[]> GetAllChats([FromQuery] Boolean isAdmin)
+        public async Task<List<ChatDto>> GetAllChats([FromQuery] bool isAdmin)
         {
-            if (isAdmin) {
+            if (isAdmin) 
+            {
                 return await _chatService.GetAllChatsAdmin();
             } else
             {

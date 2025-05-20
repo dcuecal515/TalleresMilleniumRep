@@ -5,6 +5,7 @@ import { Result } from '../models/result';
 import { Token } from '../models/token';
 import { SignupCar } from '../models/signupCar';
 import { SignupUser } from '../models/signupUser';
+import { FullUser } from '../models/FullUser';
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +31,15 @@ export class AuthService {
     }else{
       alert("Hubo un problema")
     }
+    return result 
+  }
+
+  async getFullUser(id:number){
+    console.log("Id: "+id)
+    const result = await this.api.get<FullUser>("User/full",{id: id})
+
+    console.log("Resultados ",result,result.data)
     return result
-    
-    
   }
 
   createForm(user:SignupUser,car:SignupCar,imagenPerfil:File,imagenFT:File) : FormData{
