@@ -1,5 +1,6 @@
 ﻿using TalleresMillenium.DTOs;
 using TalleresMillenium.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TalleresMillenium.Services
 {
@@ -10,14 +11,15 @@ namespace TalleresMillenium.Services
         public ServiceService(UnitOfWork unitOfWork) {
             _unitOfWork = unitOfWork;
         }
-        public async Task<ICollection<ServiceDto>> GetallService()
+        public async Task<ServicioFullDto> GetallService( QueryDto queryDto)
         {
             IEnumerable<Servicio> servicios= await _unitOfWork.ServiceRepository.GetAllService();
-
             var servicedto = new List<ServiceDto>();
+            var totalservicios = servicios.Count();
 
-            foreach (var servicio in servicios) {
-                var dto=new ServiceDto()
+            foreach (var servicio in servicios)
+            {
+                var dto = new ServiceDto()
                 {
                     Id = servicio.Id,
                     Nombre = servicio.Nombre,
@@ -26,7 +28,10 @@ namespace TalleresMillenium.Services
                 };
                 servicedto.Add(dto);
             }
-            return servicedto;
+            ServicioFullDto servicioFullDto = new ServicioFullDto { serviceDtos = servicedto, totalservice = totalservicios };
+
+            servicioFullDto.serviceDtos = servicioFullDto.serviceDtos.Skip((queryDto.ActualPage - 1) * queryDto.ServicePageSize).Take(queryDto.ServicePageSize).ToList();
+            return servicioFullDto;
         }
         public async Task<Servicio> GetServiceById(int id)
         {

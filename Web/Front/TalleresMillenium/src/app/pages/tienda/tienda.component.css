@@ -40,3 +40,24 @@
 .lista-boton:hover{
     background-color: #bbbbbb;
 }
+.games-history-btns {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px; 
+}
+
+.games-history-btns button {
+    padding: 10px;
+    border: none;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.games-history-btns button:disabled {
+    background-color: #777;
+    cursor: not-allowed;
+}

@@ -3,4 +3,5 @@ export interface Productlist{
     nombre:string
     imagen:string
     valoraciones:number[]
+    valoracion:number
 }

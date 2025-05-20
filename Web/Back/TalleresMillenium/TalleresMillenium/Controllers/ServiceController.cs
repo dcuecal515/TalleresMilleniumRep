@@ -14,8 +14,8 @@ namespace TalleresMillenium.Controllers
             _serviceService = serviceService;
         }
         [HttpGet]
-        public async Task<IEnumerable<ServiceDto>> GetAllService() {
-            IEnumerable<ServiceDto> servicios=await _serviceService.GetallService();
+        public async Task<ServicioFullDto> GetAllService([FromQuery] QueryDto queryDto) {
+            ServicioFullDto servicios =await _serviceService.GetallService(queryDto);
             return servicios;
         }
         [HttpGet("{id}")]

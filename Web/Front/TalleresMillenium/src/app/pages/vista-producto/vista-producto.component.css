@@ -1,5 +1,6 @@
 .principal{
-    margin-top: 10px;
+    min-height: 100vh;
+    height: 100%;
 }
 .principal-datos{
     display: flex;

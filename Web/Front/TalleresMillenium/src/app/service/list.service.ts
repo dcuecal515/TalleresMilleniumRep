@@ -3,6 +3,8 @@ import { ApiService } from './api.service';
 import { Productlist } from '../models/productlist';
 import { Servicio } from '../models/servicio';
 import { environment } from '../../environments/environment.development';
+import { querypage } from '../models/querypage';
+import { Productlistreal } from '../models/productlistreal';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +13,8 @@ export class ListService {
 
   constructor(private api:ApiService) { }
 
-  async getallservice(){
-    const result=await this.api.get<Productlist[]>("Service",{},'json')
+  async getallservice(Query:querypage){
+    const result=await this.api.get<Productlistreal>("Service",Query,'json')
     if(result.data){
       return result
     }
