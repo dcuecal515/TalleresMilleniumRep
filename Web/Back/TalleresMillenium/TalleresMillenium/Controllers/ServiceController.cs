@@ -19,10 +19,10 @@ namespace TalleresMillenium.Controllers
             return servicios;
         }
         [HttpGet("{id}")]
-        public async Task<Servicio> GetServiceById(int id)
+        public async Task<ServicioDto> GetServiceById(int id)
         {
-            Servicio servicio=await _serviceService.GetServiceById(id);
-            return servicio;
+            ServicioDto servicioDto=await _serviceService.GetServiceById(id);
+            return servicioDto;
         }
 
     }

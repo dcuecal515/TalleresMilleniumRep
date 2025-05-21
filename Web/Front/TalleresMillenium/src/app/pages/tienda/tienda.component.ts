@@ -8,11 +8,12 @@ import { ListService } from '../../service/list.service';
 import { environment } from '../../../environments/environment.development';
 import { querypage } from '../../models/querypage';
 import { Productlistreal } from '../../models/productlistreal';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tienda',
   standalone: true,
-  imports: [HeaderComponent,TranslateModule,FooterComponent],
+  imports: [HeaderComponent,TranslateModule,FooterComponent,FormsModule],
   templateUrl: './tienda.component.html',
   styleUrl: './tienda.component.css'
 })
@@ -27,18 +28,23 @@ listaserviciosultima:Productlist[]
 maximumPage:number;
 pageSize:number = 5
 actualPage:number = 1
+busqueda:string=""
 ngOnInit(){
   this.route.paramMap.subscribe(params => {
     this.tipo=params.get('tipo')
-  });
-  if(this.tipo=="servicios"){
-    this.getallservice({ActualPage:this.actualPage,ServicePageSize:this.pageSize})
+    if(this.tipo=="servicios"){
+    if(sessionStorage.getItem("busqueda")!=null){
+      this.busqueda=sessionStorage.getItem("busqueda")
+    }
+    this.getallservice({busqueda:this.busqueda,ActualPage:this.actualPage,ServicePageSize:this.pageSize})
   }else if(this.tipo=="productos"){
 
   }
+  });
 }
 search(){
-
+  sessionStorage.setItem("busqueda",this.busqueda);
+  this.getallservice({busqueda:this.busqueda,ActualPage:this.actualPage,ServicePageSize:this.pageSize})
 }
 goToContent(id: number) {
   if(this.tipo=="servicios"){
@@ -78,7 +84,7 @@ async changeNumberOfGames(){
       this.pageSize = parseInt(pagesSelect.value)
       this.actualPage = 1
 
-      await this.getallservice({ActualPage:this.actualPage,ServicePageSize:this.pageSize})
+      await this.getallservice({busqueda:this.busqueda,ActualPage:this.actualPage,ServicePageSize:this.pageSize})
 
         this.maximumPage = Math.ceil(this.listaservicios.totalservice / this.pageSize);
         console.log("Hola"+this.maximumPage)
@@ -112,7 +118,7 @@ async firstPage(){
         nextBtn.disabled = false
         lastBtn.disabled = false
       }
-      await this.getallservice({ActualPage:this.actualPage,ServicePageSize:this.pageSize})
+      await this.getallservice({busqueda:this.busqueda,ActualPage:this.actualPage,ServicePageSize:this.pageSize})
     }
   }
 
@@ -133,7 +139,7 @@ async firstPage(){
         nextBtn.disabled = false
         lastBtn.disabled = false
       }
-      await this.getallservice({ActualPage:this.actualPage,ServicePageSize:this.pageSize})
+      await this.getallservice({busqueda:this.busqueda,ActualPage:this.actualPage,ServicePageSize:this.pageSize})
     }
   }
 
@@ -152,7 +158,7 @@ async firstPage(){
         nextBtn.disabled = true
         lastBtn.disabled = true
       }
-      await this.getallservice({ActualPage:this.actualPage,ServicePageSize:this.pageSize})
+      await this.getallservice({busqueda:this.busqueda,ActualPage:this.actualPage,ServicePageSize:this.pageSize})
     }
   }
 
@@ -169,7 +175,7 @@ async firstPage(){
       const lastBtn = document.getElementById("lastBtn") as HTMLButtonElement
       nextBtn.disabled = true
       lastBtn.disabled = true
-      await this.getallservice({ActualPage:this.actualPage,ServicePageSize:this.pageSize})
+      await this.getallservice({busqueda:this.busqueda,ActualPage:this.actualPage,ServicePageSize:this.pageSize})
     }
   }
 }

@@ -12,12 +12,13 @@
     }
     <div class="buscador">
         <form (ngSubmit)="search()">
-            <input type="text" placeholder="Buscar" size="40">
+            <input type="text" name="busqueda" [(ngModel)]="busqueda" placeholder="Buscar" size="40">
             <button><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
-    </div>
+    </div>@if(listaservicios!=null){
     <div class="lista">
-        @for (item of listaserviciosultima; track $index) {
+        
+            @for (item of listaserviciosultima; track $index) {
         <div class="lista-carta">
             <img class="lista-image" [src]="item.imagen" alt="">
             <h2>{{item.nombre}}</h2>
@@ -29,6 +30,9 @@
         </div>
     }
     </div>
+    }@else {
+            <h2>Ha habido un problema al cargar los servicios</h2>
+        }
     <div class="games-history-btns">
                 <button disabled (click)="firstPage()" id="firstBtn"><i class="fa-solid fa-angles-left"></i></button>
                 <button disabled (click)="prevPage()" id="prevBtn"><i class="fa-solid fa-angle-left"></i></button>

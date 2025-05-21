@@ -52,8 +52,10 @@ export class VistaProductoComponent {
     const result= await this.list.getservicioproducto(id,tipo);
     if(result!=null){
       this.servicio=result
-      for(let i=0; i<this.servicio.valoraciones.length; i++){
-        media+=this.servicio.valoraciones[i].puntuacion
+      console.log(this.servicio)
+      console.log("Hola",this.servicio.valoracionesDto.length)
+      for(let i=0; i<this.servicio.valoracionesDto.length; i++){
+        media+=this.servicio.valoracionesDto[i].puntuacion
       }
       this.media=media
       console.log("MEDIA: "+this.media)

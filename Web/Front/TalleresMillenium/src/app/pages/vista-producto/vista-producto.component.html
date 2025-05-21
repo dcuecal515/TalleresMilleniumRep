@@ -7,10 +7,10 @@
             <img class="imagen" [src]="servicio?.imagen" alt="">
         </div>
         <div class="principal-datos-caracteristicas">
-            <h1>{{servicio.nombre}}</h1>
+            <h1>{{servicio?.nombre}}</h1>
             <h2>Valoracion:{{media}}</h2>
             <p class="principal-datos-caracteristicas-descripcion"><b
-                    class="principal-datos-caracteristicas-descripcion-titulo">Descripcion:</b>{{servicio.descripcion}}</p>
+                    class="principal-datos-caracteristicas-descripcion-titulo">Descripcion:</b>{{servicio?.descripcion}}</p>
             @if(this.tipo=="producto"){
             <h3>disponible</h3>
             }@else if (this.tipo=="servicio") {

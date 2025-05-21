@@ -13,5 +13,14 @@ namespace TalleresMillenium.Mappers
                 ServicioId = reviewDto.ServicioId,
             };
         }
+        public ValoracionDto Todto(Valoracion valoracion) {
+            return new ValoracionDto
+            {
+                Puntuacion=valoracion.Puntuacion,
+                Nombre=valoracion.Usuario.Name,
+                Texto=valoracion.Texto,
+                Imagen=valoracion.Usuario.Imagen
+            };
+        }
     }
 }
