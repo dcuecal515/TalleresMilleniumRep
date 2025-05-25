@@ -7,20 +7,19 @@
         <h1>{{'service' | translate }}</h1>
     }@else if (tipo=="productos") {
         <h1>{{'product' | translate }}</h1>
-    }@else{
-        <h1>pendejo</h1>
     }
     <div class="buscador">
         <form (ngSubmit)="search()">
             <input type="text" name="busqueda" [(ngModel)]="busqueda" placeholder="Buscar" size="40">
             <button><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
-    </div>@if(listaservicios!=null){
+    </div>
+    @if(listaservicios!=null){
     <div class="lista">
         
             @for (item of listaserviciosultima; track $index) {
         <div class="lista-carta">
-            <img class="lista-image" [src]="item.imagen" alt="">
+            <img class="lista-image" [src]="item.imagen" alt="Fotos productos">
             <h2>{{item.nombre}}</h2>
             <h3>valoracion: {{item.valoracion}}  <i class="fa-regular fa-star fa-flip fa-lg" style="color: #FFD43B;"></i></h3>@if(tipo=="servicios"){
                 <button class="lista-boton" (click)="goToContent(item.id)">Ver mas</button>
@@ -30,9 +29,27 @@
         </div>
     }
     </div>
-    }@else {
+    }@else if(listaproductos==null){
             <h2>Ha habido un problema al cargar los servicios</h2>
-        }
+    }
+    @if(listaproductos!=null){
+        <div class="lista">
+        
+            @for (item of listaserviciosultima; track $index) {
+        <div class="lista-carta">
+            <img class="lista-image" [src]="item.imagen" alt="Fotos productos">
+            <h2>{{item.nombre}}</h2>
+            <h3>valoracion: {{item.valoracion}}  <i class="fa-regular fa-star fa-flip fa-lg" style="color: #FFD43B;"></i></h3>@if(tipo=="servicios"){
+                <button class="lista-boton" (click)="goToContent(item.id)">Ver mas</button>
+            }@else if (tipo=="productos") {
+                <button class="lista-boton" (click)="goToContent(item.id)"> Ver mas</button>
+            }
+        </div>
+    }
+    </div>
+    }@else if(listaservicios==null){
+        <h2>Ha habido un problema al cargar los productos</h2>
+    }
     <div class="games-history-btns">
                 <button disabled (click)="firstPage()" id="firstBtn"><i class="fa-solid fa-angles-left"></i></button>
                 <button disabled (click)="prevPage()" id="prevBtn"><i class="fa-solid fa-angle-left"></i></button>

@@ -36,6 +36,10 @@ namespace TalleresMillenium
 
         public ReviewRepository ReviewRepository => _reviewRepository ??= new ReviewRepository(_context);
 
+        private ProductRepository _productRepository;
+
+        public ProductRepository ProductRepository => _productRepository ??= new ProductRepository(_context);
+
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() > 0;

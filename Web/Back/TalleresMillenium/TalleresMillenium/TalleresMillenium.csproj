@@ -22,4 +22,8 @@
 		</Content>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <EditorConfigFiles Remove="C:\Users\Usuario\Documents\GitHub\TalleresMilleniumRep\Web\Back\TalleresMillenium\TalleresMillenium\DTOs\.editorconfig" />
+	</ItemGroup>
+
 </Project>

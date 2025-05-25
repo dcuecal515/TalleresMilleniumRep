@@ -5,6 +5,7 @@ import { Servicio } from '../models/servicio';
 import { environment } from '../../environments/environment.development';
 import { querypage } from '../models/querypage';
 import { Productlistreal } from '../models/productlistreal';
+import { Productlistproduct } from '../models/productlistproduct';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,13 @@ export class ListService {
 
   async getallservice(Query:querypage){
     const result=await this.api.get<Productlistreal>("Service",Query,'json')
+    if(result.data){
+      return result
+    }
+    return null;
+  }
+  async getallproduct(Query:querypage){
+    const result=await this.api.get<Productlistproduct>("Product",Query,'json')
     if(result.data){
       return result
     }
