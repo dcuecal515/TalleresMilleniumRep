@@ -74,6 +74,7 @@ namespace TalleresMillenium.Services
                         Id = producto.Id,
                         Nombre = producto.Nombre,
                         Imagen = producto.Imagen,
+                        Disponible=producto.Disponible,
                         Valoraciones = producto.valoraciones.Select(v => v.Puntuacion).ToList()
                     };
                     productdto.Add(dto);
@@ -92,6 +93,7 @@ namespace TalleresMillenium.Services
             productoDto.Id = id;
             productoDto.Nombre = producto.Nombre;
             productoDto.Descripcion = producto.Descripcion;
+            productoDto.Disponible = producto.Disponible;
             productoDto.Imagen = producto.Imagen;
             foreach (Valoracion valoracion in producto.valoraciones)
             {
