@@ -3,6 +3,6 @@
     public class ChatDto
     {
         public string Username { get; set; }
-        public MensajeDto[] Mensajes { get; set; }
+        public List<MensajeDto> Mensajes { get; set; }
     }
 }

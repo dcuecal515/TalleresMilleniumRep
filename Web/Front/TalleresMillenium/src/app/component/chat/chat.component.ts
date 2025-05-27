@@ -32,15 +32,22 @@ export class ChatComponent {
   isConnected: boolean = false;
   chats:Chat[] = []
   chatName:string = ""
+  chatAbierto:boolean = false
 
   ngOnInit(): void {
     this.messageReceived$ = this.webSocketService.messageReceived.subscribe(async message => {
       if(message.message=="Te llego un mensaje"){
-        const mensaje:Mensaje={UserName:message.userName,Texto:message.texto}
-        const mensajes:Mensaje[] = []
-        mensajes.push(mensaje)
-        const chat:Chat={UserName:message.userName, Mensajes:mensajes}
-        this.chats.push(chat)
+        const mensaje:Mensaje={userName:message.userName,texto:message.texto}
+        
+        this.chats.forEach(chat => {
+          if(chat.username == message.userName){
+            chat.mensajes.push(mensaje)
+          }
+        });
+      }
+      if(message.message=="Te llego un mensaje de admin"){
+        const mensaje:Mensaje={userName:message.userName,texto:message.texto}
+        this.chats[0].mensajes.push(mensaje)
       }
     });
     this.disconnected$ = this.webSocketService.disconnected.subscribe(() => this.isConnected = false);
@@ -49,8 +56,14 @@ export class ChatComponent {
 
   async obtenerChats(){
     if(this.decoded){
+      console.log("rol antes de pedir chats: ",this.decoded.role)
       const result = await this.chatService.getChats(this.decoded.role == "Admin")
-      this.chats =  result.data
+      if(result.data == null){
+        this.chats=[]
+      }else{
+        this.chats =  result.data
+      }
+      
     }
   }
 
@@ -59,11 +72,20 @@ export class ChatComponent {
     if(this.texto!=""){
       if(this.decoded.role == "Admin"){
         if(this.chatName != ""){
-          const mensaje:WebsocketMensaje={TypeMessage:"mensaje a otro" ,Identifier: "nombre",Identifier2:this.texto}
+          const mensajeWS:WebsocketMensaje={TypeMessage:"mensaje a otro" ,Identifier: this.chatName,Identifier2:this.texto}
           // Convertir el objeto a JSON
-          const jsonData = JSON.stringify(mensaje);
-          console.log(JSON.stringify(mensaje));
+          const jsonData = JSON.stringify(mensajeWS);
+          console.log(JSON.stringify(mensajeWS));
           this.webSocketService.sendRxjs(jsonData);
+
+          const mensaje:Mensaje={userName:this.decoded.name,texto:this.texto}
+
+          this.chats.forEach(chat => {
+            if(chat.username == this.chatName){
+              chat.mensajes.push(mensaje)
+            }
+          });
+          
         }
         else{
           // No tiene que llegar aqui
@@ -75,11 +97,16 @@ export class ChatComponent {
         const jsonData = JSON.stringify(mensajeWS);
         console.log(JSON.stringify(mensajeWS));
         this.webSocketService.sendRxjs(jsonData);
-        const mensaje:Mensaje={UserName:this.decoded.name,Texto:this.texto}
-        const mensajes:Mensaje[] = []
-        mensajes.push(mensaje)
-        const chat:Chat={UserName:this.decoded.name, Mensajes:mensajes}
-        this.chats.push(chat)
+
+        const mensaje:Mensaje={userName:this.decoded.name,texto:this.texto}
+        if(this.chats.length == 0){
+          const mensajes:Mensaje[] = []
+          mensajes.push(mensaje)
+          const chat:Chat={username:this.decoded.name, mensajes:mensajes}
+          this.chats.push(chat)
+        }else{
+          this.chats[0].mensajes.push(mensaje)
+        }
       }
       
       this.texto = ""

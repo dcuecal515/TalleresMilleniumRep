@@ -53,6 +53,8 @@ namespace TalleresMillenium
             builder.Services.AddScoped<ReviewMapper>();
             builder.Services.AddScoped<ReviewService>();
             builder.Services.AddScoped<ProductService>();
+            builder.Services.AddScoped<Coche_ServicioMapper>();
+            builder.Services.AddScoped<CocheService>();
 
 
             builder.Services.AddCors(

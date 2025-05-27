@@ -13,5 +13,14 @@ namespace TalleresMillenium.Mappers
                 Email = userDto.email
             };
         }
+
+        public UsuarioDto toDto(Usuario user) {
+            return new UsuarioDto
+            {
+                Email = user.Email,
+                Name = user.Name,
+                Imagen = user.Imagen
+            };    
+        }
     }
 }
