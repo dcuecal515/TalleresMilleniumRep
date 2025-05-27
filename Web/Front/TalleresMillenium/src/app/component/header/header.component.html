@@ -5,6 +5,7 @@
         <h3 class="logo-opciones" (click)="goToRoute('sobre-nosotros')">Sobre nosotros</h3>
         <h3 class="logo-opciones" (click)="goToRoute('tienda/productos')">{{'product' | translate}}</h3>
         <h3 class="logo-opciones" (click)="changeoption()">{{'language' | translate}}</h3>
+        <h3 class="logo-opciones" (click)="goToRoute('carrito')"><i class="fa-solid fa-cart-shopping"></i></h3>
     </div>
     @if(decoded!=null){
         <div class="acceder" (click)="goToRoute('perfil')">

@@ -4,7 +4,7 @@
     
         <!-- Sección Usuario -->
         <div class="profile-section">
-            <div class="user-image">
+            <div class="user-image" (click)="cambiar_imagen()">
                 <img class="image" [src]="user.imagen">
             </div>
             <div class="user-data">
@@ -18,7 +18,7 @@
         <div class="vehicle-folder">
             <div class="tabs">
                 @for(coche of user.coches; track coche.matricula){
-                    <div class="tab" (click)="seleccionar_coche()">{{coche.matricula}}</div>
+                    <div class="tab" (click)="seleccionar_coche(coche.matricula)">{{coche.matricula}}</div>
                 }
                 <div class="tab" (click)="anadir_coche()"><i class="fa-solid fa-plus"></i></div>
             </div>
@@ -33,7 +33,7 @@
                         <p>Tipo de combustible: {{coche_actual.combustible}}</p>
                         <p>Kilometraje: {{coche_actual.kilometraje}}</p>
                         <div class="ficha-tecnica">
-                            <p>Ver ficha tecnica </p><span><button><i class="fa-regular fa-eye"></i></button></span>
+                            <p>Ver ficha tecnica </p><button (click)="ver_ficha(coche_actual.imagen)"><i class="fa-regular fa-eye"></i></button>
                         </div>
                         
                     </div>

@@ -121,5 +121,23 @@ namespace TalleresMillenium.Services
         {
             return await _unitOfWork.UserRepository.GetFullUserById(id);
         }
+        public async Task<Usuario> updateUser(Usuario user)
+        {
+            _unitOfWork.UserRepository.Update(user);
+            await _unitOfWork.SaveAsync();
+            return user;
+        }
+
+        public async Task<Boolean> GetIfMatriculaExists(string matricula)
+        {
+            Coche coche = await _unitOfWork.CocheRepository.GetByMatriculaAsync(matricula);
+            if (coche == null)
+            {
+                return false;
+            } else
+            {
+                return true;
+            }
+        }
     }
 }
