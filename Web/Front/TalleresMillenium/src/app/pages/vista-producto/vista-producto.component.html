@@ -1,42 +1,44 @@
+<div class="principal">
 <div>
     <app-header></app-header>
 </div>
-<div class="principal">
+@if(this.tipo=="servicio" && servicio!=null){
     <div class="principal-datos">
         <div class="principal-datos-imagen">
-            <img class="imagen" src="assets/paisaje2.webp" alt="">
+            <img class="imagen" [src]="servicio.imagen" alt="">
         </div>
         <div class="principal-datos-caracteristicas">
-            <h1>Titulo producto</h1>
-            <h2>Valoracion:3.5</h2>
+            <h1>{{servicio.nombre}}</h1>
+            <h2>Valoracion:{{media}}</h2>
             <p class="principal-datos-caracteristicas-descripcion"><b
-                    class="principal-datos-caracteristicas-descripcion-titulo">Descripcion:</b>Lorem ipsum dolor sit
-                amet, consectetur adipisicing elit. Asperiores a reiciendis expedita fuga eaque aut veniam molestias
-                debitis. Sunt quam consectetur dolores magnam hic tempora, iusto nisi labore numquam vitae.
-                Animi, atque? Facilis eaque nobis laboriosam sed blanditiis ea autem libero incidunt, aliquid voluptatum
-                numquam tempore? Voluptas voluptates molestias facere ad quod, mollitia quaerat perspiciatis ipsum
-                dolorem libero. Numquam, dolore.
-                Optio, vero velit ullam doloremque pariatur blanditiis quam ab, laudantium itaque beatae officia maxime?
-                Sed totam nostrum ipsa doloribus dolor, obcaecati, hic dolores omnis ipsum voluptas excepturi quasi.
-                Nobis, est.
-                Cumque laboriosam rerum consequatur facere delectus modi ducimus amet corporis quis, velit harum minima
-                expedita fuga maxime cum veniam voluptas quo sequi perferendis exercitationem! Unde perspiciatis vitae
-                omnis nisi eveniet?</p>
-            @if(this.tipo=="producto"){
-            <h3>disponible</h3>
-            }@else if (this.tipo=="servicio") {
+                    class="principal-datos-caracteristicas-descripcion-titulo">Descripcion:</b>{{servicio.descripcion}}</p>
             <button class="principal-datos-caracteristicas-descripcion-boton">Reservar</button>
-            }
         </div>
     </div>
+}
+@if(this.tipo=="producto" && producto!=null){
+    <div class="principal-datos">
+        <div class="principal-datos-imagen">
+            <img class="imagen" [src]="producto?.imagen" alt="">
+        </div>
+        <div class="principal-datos-caracteristicas">
+            <h1>{{producto?.nombre}}</h1>
+            <h2>Valoracion:{{media}}</h2>
+            <p class="principal-datos-caracteristicas-descripcion"><b
+                    class="principal-datos-caracteristicas-descripcion-titulo">Descripcion:</b>{{producto?.descripcion}}</p>
+            <h3>{{producto.disponible}}</h3>
+        </div>
+    </div>
+}
     <div class="comentarios">
-        <h2>Comentarios</h2>
+        @if(decoded!=null){
+            <h2>Comentarios</h2>
         <div class="comentarios-casilla">
-            <form action="" class="comentario-casilla-texto">
+            <form [formGroup]="subidareview" class="comentario-casilla-texto">
                     <textarea class="comentario-casilla-texto-escrito" rows="5" cols="50"
-                        placeholder="Danos tu opinion"></textarea>
+                        placeholder="Danos tu opinion" formControlName="texto"></textarea>
                         <div class="comentario-casilla-texto-embebido">
-                    <select name="puntuacion" id="categoria" class="comentario-casilla-texto-puntuacion">
+                    <select name="puntuacion" id="categoria" class="comentario-casilla-texto-puntuacion" formControlName="puntuacion">
                         <option value="">puntuacion</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -47,12 +49,15 @@
                     <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                 </div>
             </form>
+            <button class="boton-enviar" (click)="postreview()">Enviar comentario</button>
         </div>
+        }
+        
     </div>
     <div class="">
 
     </div>
-</div>
-<div>
+<div class="footer">
     <app-footer></app-footer>
+</div>
 </div>

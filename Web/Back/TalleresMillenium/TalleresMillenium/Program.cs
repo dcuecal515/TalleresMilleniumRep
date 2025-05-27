@@ -6,6 +6,7 @@ using System.Text;
 using TalleresMillenium.Models;
 using TalleresMillenium.Services;
 using TalleresMillenium.Mappers;
+using System.Text.Json.Serialization;
 
 namespace TalleresMillenium
 {
@@ -20,7 +21,10 @@ namespace TalleresMillenium
             // Add services to the container.
             builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
             builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<Settings>>().Value);
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -46,6 +50,9 @@ namespace TalleresMillenium
             builder.Services.AddScoped<ServiceService>();
             builder.Services.AddScoped<WSHelper>();
             builder.Services.AddScoped<ChatService>();
+            builder.Services.AddScoped<ReviewMapper>();
+            builder.Services.AddScoped<ReviewService>();
+            builder.Services.AddScoped<ProductService>();
             builder.Services.AddScoped<Coche_ServicioMapper>();
             builder.Services.AddScoped<CocheService>();
 
@@ -105,7 +112,7 @@ namespace TalleresMillenium
                         new Servicio{ Nombre="Alineaci�n y balanceo",Descripcion="Evita el desgaste irregular de llantas y mejora la estabilidad de tu auto. �Viaja m�s c�modo y seguro!", Imagen="/images/alineacionbalanceo.webp"},
                         new Servicio{ Nombre="Diagn�stico computarizado del motor",Descripcion="Detectamos fallas con precisi�n gracias a esc�neres avanzados. �Ah�rrate problemas y dinero!", Imagen="/images/diagnostico.webp"},
                         new Servicio{ Nombre="Mantenimiento preventivo",Descripcion="Antic�pate a fallas mayores con revisiones peri�dicas. M�s vida �til para tu auto y menos gastos imprevistos.", Imagen="/images/mantenimientopreventivo.jpg"},
-                        new Servicio{ Nombre="Reparaci�n de suspensi�n y direcci�n",Descripcion="Soluciona ruidos, vibraciones y p�rdida de control. Tu auto volver� a sentirse como nuevo.", Imagen="/images/reparacionsuspension.jpg"},
+                        new Servicio{ Nombre="Reparaci�n de suspensi�n y direcci�n",Descripcion="Soluciona ruidos, vibraciones y p�rdida de control. Tu auto volver� a sentirse como nuevo.", Imagen="/images/reparacionsuspension.png"},
                         new Servicio{ Nombre="Cambio de amortiguadores",Descripcion="Mejora la estabilidad, reduce rebotes y aumenta la comodidad de manejo. �Amortiguadores nuevos, viaje m�s suave!", Imagen="/images/cambioamortiguadores.webp"},
                         new Servicio{ Nombre="Servicio de aire acondicionado",Descripcion="Recupera el aire fr�o en tu veh�culo con nuestro servicio completo de A/C. Ideal para d�as calurosos.", Imagen="/images/servicioaire.jpg"},
                         new Servicio{ Nombre="Revisi�n y reparaci�n del sistema el�ctrico",Descripcion="Solucionamos problemas con luces, arranque, tablero y m�s. �Todo conectado y funcionando como debe!", Imagen="/images/revisionsistemaelectrico.png"},
@@ -117,23 +124,23 @@ namespace TalleresMillenium
                         new Servicio{ Nombre="Revisi�n t�cnica pre-compra",Descripcion="Aseg�rate de hacer una buena compra. Inspeccionamos el veh�culo usado antes de que lo adquieras.", Imagen="/images/revisionpreventa.jpg"}
                     };
                     var productos = new List<Producto>
-                    {
-                        new Producto{Nombre="Aceites de motor",Descripcion="Manten tu motor lubricado y protegido con aceites de alta calidad. Variedad para cada tipo de vehiculo.",Imagen="/images/aceitemotor.jpg"},
-                        new Producto{Nombre="Filtros de aceite, aire y gasolina",Descripcion="Mejora el rendimiento del motor filtrando impurezas. Cambiar filtros es esencial para el cuidado del auto.",Imagen="/images/filtros.jpg"},
-                        new Producto{Nombre="Pastillas y discos de freno",Descripcion="Frenado seguro con piezas de alta durabilidad. Tenemos repuestos para multiples marcas y modelos.",Imagen="/images/discofrena.jpg"},
-                        new Producto{Nombre="Amortiguadores",Descripcion="Viaja comodo y estable. Contamos con amortiguadores de marcas reconocidas y garant�a de fabrica.",Imagen="/images/amortiguadores.webp"},
-                        new Producto{Nombre="Baterias para auto",Descripcion="Energia confiable para tu vehiculo. Venta e instalacion de bater�as con prueba incluida.",Imagen="/images/bateriacoche.png"},
-                        new Producto{Nombre="Limpiaparabrisas",Descripcion="Visibilidad clara en lluvia o polvo. Escobillas de alto rendimiento para cada temporada.",Imagen="/images/limpiaparabrisas.jpg"},
-                        new Producto{Nombre="Refrigerante / Anticongelante",Descripcion="Protege tu motor del sobrecalentamiento con nuestros refrigerantes premium.",Imagen="/images/refrigerante.jpg"},
-                        new Producto{Nombre="Aditivos para motor y combustible",Descripcion="Mejora el rendimiento, reduce el desgaste y limpia tu sistema. �Una peque�a inversion que hace la diferencia!",Imagen="/images/aditivos.webp"},
-                        new Producto{Nombre="Bombillas y faros",Descripcion="Luz potente y segura. Cambia tus faros fundidos con nuestras bombillas homologadas.",Imagen="/images/bombillas.jpg"},
-                        new Producto{Nombre="Correas de distribucion y accesorios",Descripcion="Evita da�os graves al motor reemplazando las correas a tiempo. Tenemos las adecuadas para tu auto.",Imagen="/images/correaservicio.webp"},
-                        new Producto{Nombre="Sensores (oxigeno, temperatura, etc.)",Descripcion="Repuestos originales para un funcionamiento �ptimo del motor. Diagnostico e instalacion.",Imagen="/images/sensor.jpg"},
-                        new Producto{Nombre="Llantas / neumaticos",Descripcion="Mejora el agarre y la seguridad con neumaticos nuevos. Contamos con marcas reconocidas a buen precio.",Imagen="/images/llantas.jpg"},
-                        new Producto{Nombre="Cables de bujias y bobinas",Descripcion="Garantiza una chispa fuerte y estable. Mejora el encendido y rendimiento del motor.",Imagen="/images/cablesbujias.jpg"},
-                        new Producto{Nombre="Liquido de frenos",Descripcion="Elemento esencial para un frenado eficaz. Lo tenemos en stock y te lo cambiamos al instante.",Imagen="/images/liquidofrenos.jpg"},
-                        new Producto{Nombre="Kit de herramientas basicas para el auto",Descripcion="Ideal para emergencias. Incluye llaves, gato, maneral y mas. �Todo conductor deber�a tener uno!",Imagen="/images/kit.jpg"}
-                    };
+{
+                        new Producto{Nombre = "Aceites de motor", Descripcion = "Mantén tu motor lubricado y protegido con aceites de alta calidad. Variedad para cada tipo de vehículo.", Imagen = "/images/aceitemotor.jpg", Disponible = "Disponible"},
+                        new Producto{Nombre = "Filtros de aceite, aire y gasolina", Descripcion = "Mejora el rendimiento del motor filtrando impurezas. Cambiar filtros es esencial para el cuidado del auto.", Imagen = "/images/filtros.jpg", Disponible = "No disponible"},
+                        new Producto{Nombre = "Pastillas y discos de freno", Descripcion = "Frenado seguro con piezas de alta durabilidad. Tenemos repuestos para múltiples marcas y modelos.", Imagen = "/images/discofreno.jpg", Disponible = "Disponible"},
+                        new Producto{Nombre = "Amortiguadores", Descripcion = "Viaja cómodo y estable. Contamos con amortiguadores de marcas reconocidas y garantía de fábrica.", Imagen = "/images/amortiguadores.webp", Disponible = "No disponible"},
+                        new Producto{Nombre = "Baterías para auto", Descripcion = "Energía confiable para tu vehículo. Venta e instalación de baterías con prueba incluida.", Imagen = "/images/bateriacoche.png", Disponible = "Disponible"},
+                        new Producto{Nombre = "Limpiaparabrisas", Descripcion = "Visibilidad clara en lluvia o polvo. Escobillas de alto rendimiento para cada temporada.", Imagen = "/images/limpiaparabrisas.jpg", Disponible = "No disponible"},
+                        new Producto{Nombre = "Refrigerante / Anticongelante", Descripcion = "Protege tu motor del sobrecalentamiento con nuestros refrigerantes premium.", Imagen = "/images/refrigerante.jpg", Disponible = "No disponible"},
+                        new Producto{Nombre = "Aditivos para motor y combustible", Descripcion = "Mejora el rendimiento, reduce el desgaste y limpia tu sistema. ¡Una pequeña inversión que hace la diferencia!", Imagen = "/images/aditivos.webp", Disponible = "Disponible"},
+                        new Producto{Nombre = "Bombillas y faros", Descripcion = "Luz potente y segura. Cambia tus faros fundidos con nuestras bombillas homologadas.", Imagen = "/images/bombillas.jpg", Disponible = "No disponible"},
+                        new Producto{Nombre = "Correas de distribución y accesorios", Descripcion = "Evita daños graves al motor reemplazando las correas a tiempo. Tenemos las adecuadas para tu auto.", Imagen = "/images/correaservicio.webp", Disponible = "Disponible"},
+                        new Producto{Nombre = "Sensores (oxígeno, temperatura, etc.)", Descripcion = "Repuestos originales para un funcionamiento óptimo del motor. Diagnóstico e instalación.", Imagen = "/images/sensor.jpg", Disponible = "No disponible"},
+                        new Producto{Nombre = "Llantas / neumáticos", Descripcion = "Mejora el agarre y la seguridad con neumáticos nuevos. Contamos con marcas reconocidas a buen precio.", Imagen = "/images/llantas.jpg", Disponible = "Disponible"},
+                        new Producto{Nombre = "Cables de bujías y bobinas", Descripcion = "Garantiza una chispa fuerte y estable. Mejora el encendido y rendimiento del motor.", Imagen = "/images/cablesbujias.jpg", Disponible = "Disponible"},
+                        new Producto{Nombre = "Líquido de frenos", Descripcion = "Elemento esencial para un frenado eficaz. Lo tenemos en stock y te lo cambiamos al instante.", Imagen = "/images/liquidofrenos.jpg", Disponible = "No disponible"},
+                        new Producto{Nombre = "Kit de herramientas básicas para el auto", Descripcion = "Ideal para emergencias. Incluye llaves, gato, maneral y más. ¡Todo conductor debería tener uno!", Imagen = "/images/kit.jpg", Disponible = "Disponible"}
+                        };
                     var user1 = new Usuario { Email = "example@gmail.com",Name="Pepe", Password = passwordService.Hash("123456"), Rol = "Admin" };
                     dbContext.Usuarios.Add(user1);
                     dbContext.Servicios.AddRange(servicios);

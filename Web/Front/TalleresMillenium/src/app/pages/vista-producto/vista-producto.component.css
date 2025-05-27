@@ -1,5 +1,6 @@
 .principal{
-    margin-top: 10px;
+    min-height: 100vh;
+    height: 100%;
 }
 .principal-datos{
     display: flex;
@@ -88,4 +89,8 @@ gap: 20px;
     border-color: #FFD43B;
     box-shadow: 0 0 5px rgba(255, 212, 59, 0.6);
     outline: none;
+}
+.boton-enviar{
+    display: flex;
+    align-items: center;
 }

@@ -9,14 +9,20 @@ namespace TalleresMillenium.Controllers
     [Route("api/[controller]")]
     public class ServiceController : Controller
     {
-        private readonly ServiceService _service;
+        private readonly ServiceService _serviceService;
         public ServiceController(ServiceService serviceService) {
-            _service = serviceService;
+            _serviceService = serviceService;
         }
         [HttpGet]
-        public async Task<IEnumerable<ServiceDto>> GetAllService() {
-            IEnumerable<ServiceDto> servicios=await _service.GetallService();
+        public async Task<ServicioFullDto> GetAllService([FromQuery] QueryDto queryDto) {
+            ServicioFullDto servicios =await _serviceService.GetallService(queryDto);
             return servicios;
+        }
+        [HttpGet("{id}")]
+        public async Task<ServicioDto> GetServiceById(int id)
+        {
+            ServicioDto servicioDto=await _serviceService.GetServiceById(id);
+            return servicioDto;
         }
 
     }
