@@ -80,14 +80,18 @@ namespace TalleresMillenium.Services
                                 tasks.Add(handler.SendAsync(messageToSend));
                             }
                         }
-                        if (user.Chats.Count == 0) { 
-                            IEnumerable<Usuario> usuarios = new List<Usuario>();
-                            usuarios.Append(user);
-                            usuarios.Append(user2);
+                        if (user.Chats.Count == 0) 
+                        { 
+                            List<Usuario> usuarios = new List<Usuario>();
+                            usuarios.Add(user);
+                            usuarios.Add(user2);
                             Chat chat = new Chat
                             {
                                 Usuarios = usuarios
                             };
+
+                            chat = await _wsHelper.InsertChatAsync(chat);
+
                             Mensaje mensaje = new Mensaje
                             {
                                 UserId = user.Id,
@@ -95,7 +99,7 @@ namespace TalleresMillenium.Services
                                 Texto = mensajeRecivido.Identifier
                             };
                             
-                            await _wsHelper.InsertChatAsync(chat);
+                            
                             await _wsHelper.InsertMensajeAsync(mensaje);
                         } else
                         {
@@ -106,7 +110,6 @@ namespace TalleresMillenium.Services
                                 ChatId = chat.Id,
                                 Texto = mensajeRecivido.Identifier
                             };
-                            await _wsHelper.UpdateChatAsync(chat);
                             await _wsHelper.InsertMensajeAsync(mensaje);
                         }
                     }
@@ -130,7 +133,8 @@ namespace TalleresMillenium.Services
                                 WebsocketMessageDto outMessage = new WebsocketMessageDto
                                 {
                                     Message = "Te llego un mensaje de admin",
-                                    Texto = mensajeRecivido.Identifier2
+                                    Texto = mensajeRecivido.Identifier2,
+                                    UserName = user.Name
                                 };
                                 string messageToSend = JsonSerializer.Serialize(outMessage, JsonSerializerOptions.Web);
                                 tasks.Add(handler.SendAsync(messageToSend));
@@ -139,11 +143,10 @@ namespace TalleresMillenium.Services
                         Chat chat = await _wsHelper.GetChatByUserId(user2.Id);
                         Mensaje mensaje = new Mensaje
                         {
-                            UserId = user2.Id,
+                            UserId = user.Id,
                             ChatId = chat.Id,
                             Texto = mensajeRecivido.Identifier2
                         };
-                        await _wsHelper.UpdateChatAsync(chat);
                         await _wsHelper.InsertMensajeAsync(mensaje);
                     }
                 }

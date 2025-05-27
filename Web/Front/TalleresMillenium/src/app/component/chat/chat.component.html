@@ -1,55 +1,79 @@
 @if(decoded){
     @if(decoded.role == "Admin"){
         @if(chats.length > 0){
-            <div class="container">
-                @for(chat of chats; track chat.UserName){
-                    <p class="chats" (click)="chatName = chat.UserName">{{chat.UserName}}</p>
-                    @if(chatName == chat.UserName){
-                        <h2 class="nombre">{{chat.UserName}}</h2>
-                        @for(mensaje of chat.Mensajes; track mensaje.Texto){
-                            <div class="mensajes">
-                                @if(decoded.name == mensaje.UserName){
-                                    <p class="mio">{{mensaje.Texto}}</p>
-                                }@else {
-                                    <p class="suyo">{{mensaje.Texto}}</p>
-                                }
+            @if(chatAbierto){
+                <div class="container">
+                    <p class="close-chat" (click)="chatAbierto = false"><i class="fa-solid fa-xmark"></i></p>
+                    @for(chat of chats; track chat.username){
+                        @if(chatName == ""){
+                            <p class="chats" (click)="chatName = chat.username">{{chat.username}}</p>
+                        }
+                        @if(chatName == chat.username){
+                            <h2 class="nombre">{{chat.username}}</h2>
+                            @for(mensaje of chat.mensajes; track mensaje.texto){
+                                <div class="mensajes">
+                                    @if(decoded.name == mensaje.userName){
+                                        <p class="mio">{{mensaje.texto}}</p>
+                                    }@else {
+                                        <p class="suyo">{{mensaje.texto}}</p>
+                                    }
+                                </div>
+                            }
+                            <div class="barrita">
+                                <input type="text" class="text-input" [(ngModel)]="texto"><i class="fa-solid fa-square-caret-right icon" (click)="enviar()"></i>
                             </div>
                         }
-                        <div class="barrita">
-                            <input type="text" class="text-input" [(ngModel)]="texto"><i class="fa-solid fa-square-caret-right icon" (click)="enviar()"></i>
+                    }
+                    @if(chatName == ""){
+                        <div class="relleno">
+                            <p class="contenido">Elige algún chat</p>
                         </div>
                     }
-                }
-                @if(chatName == ""){
-                    <div class="relleno">
-                        <p class="contenido">Elige algún chat</p>
-                    </div>
-                }
-            </div>
+                    @else {
+                        <p class="back-arrow" (click)="chatName=''">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </p>
+                    }
+                </div>
+            }
+            @else {
+                <button class="btn-chat" (click)="chatAbierto = true">
+                    <i class="fa-regular fa-comment-dots"></i>
+                </button>
+            }
         }
 
         
     }@else{
-        <div class="container">
-            <h2 class="nombre">Talleres Milenium Info</h2>
-            @if(chats.length > 0){
-                @for(mensaje of chats[0].Mensajes; track mensaje.Texto){
-                    <div class="mensajes">
-                        @if(decoded.name == mensaje.UserName){
-                            <p class="mio">{{mensaje.Texto}}</p>
-                        }@else {
-                            <p class="suyo">{{mensaje.Texto}}</p>
-                        }
-                    </div>
+        @if(chatAbierto){
+            <div class="container">
+                <p class="close-chat" (click)="chatAbierto = false"><i class="fa-solid fa-xmark"></i></p>
+                <h2 class="nombre">Talleres Milenium Info</h2>
+                @if(chats.length > 0){
+                    @for(mensaje of chats[0].mensajes; track mensaje.texto){
+                        <div class="mensajes">
+                            @if(decoded.name == mensaje.userName){
+                                <p class="mio">{{mensaje.texto}}</p>
+                            }@else {
+                                <p class="suyo">{{mensaje.texto}}</p>
+                            }
+                        </div>
+                    }
+                }@else {
+                    <p class="contenido">No tienes chats</p>
                 }
-            }@else {
-                <p class="contenido">No tienes chats</p>
-            }
-            <div class="barrita">
-                <input type="text" class="text-input" [(ngModel)]="texto"><i class="fa-solid fa-square-caret-right icon" (click)="enviar()"></i>
+                <div class="barrita">
+                    <input type="text" class="text-input" [(ngModel)]="texto"><i class="fa-solid fa-square-caret-right icon" (click)="enviar()"></i>
+                </div>
+                
             </div>
-            
-        </div>
+        }
+        @else {
+            <button class="btn-chat" (click)="chatAbierto = true">
+                Contactanos
+            </button>
+        }
+        
     }
     <!--<button class="contactBTN">Contactanos</button>-->
 }

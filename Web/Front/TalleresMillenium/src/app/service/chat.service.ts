@@ -10,7 +10,8 @@ export class ChatService {
   constructor(private api:ApiService) { }
 
   async getChats(isAdmin:boolean){
-    const result=await this.api.get<Chat[]>('Chat/all',isAdmin)
+    console.log(isAdmin)
+    const result=await this.api.get<Chat[]>('Chat/all',{ isAdmin: isAdmin})
 
     console.log("Resultados ",result,result.data)
 

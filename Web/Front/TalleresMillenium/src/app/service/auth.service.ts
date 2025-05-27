@@ -5,6 +5,10 @@ import { Result } from '../models/result';
 import { Token } from '../models/token';
 import { SignupCar } from '../models/signupCar';
 import { SignupUser } from '../models/signupUser';
+import { FullUser } from '../models/FullUser';
+import { Image } from '../models/Image';
+import { Coche } from '../models/Coche';
+import { NewCoche } from '../models/NewCoche';
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +34,63 @@ export class AuthService {
     }else{
       alert("Hubo un problema")
     }
+    return result 
+  }
+
+  async getFullUser(id:number){
+    console.log("Id: "+id)
+    const result = await this.api.get<FullUser>("User/full",{id: id})
+
+    console.log("Resultados ",result,result.data)
     return result
-    
-    
+  }
+
+  async changeName(nom:string){
+    console.log("Nombre: "+nom)
+    const result = await this.api.post<string>("User/nombre",{nombre:nom})
+
+    console.log("Result: ",result)
+
+    return result
+  }
+
+  async changeEmail(mail:string){
+    console.log("Email: "+mail)
+    const result = await this.api.post<Result>("User/email",{email:mail})
+
+    console.log("Result: ",result)
+
+    return result
+  }
+
+  async changeContrasena(oldC:string, newC:string){
+    console.log("OldContrasena: "+oldC)
+    console.log("NewContrasena: "+newC)
+    const result = await this.api.post<Result>("User/contrasena",{oldContrasena:oldC,newContrasena:newC})
+
+    console.log("Result: ",result)
+
+    return result
+  }
+  async changeImage(img:File){
+    const result=await this.api.putWithImage<Image>('User/image',this.createFormImage(img))
+
+    console.log(result)
+    return result
+  }
+
+  async newCar(car:NewCoche,img:File){
+    const result = await this.api.postWithImage<Coche>('User/coche',this.createFormCoche(car,img))
+
+    console.log(result)
+    return result
+  }
+
+  createFormImage(image:File):FormData{
+    console.log(image)
+    const formdata = new FormData()
+    formdata.append("image",image)
+    return formdata
   }
 
   createForm(user:SignupUser,car:SignupCar,imagenPerfil:File,imagenFT:File) : FormData{
@@ -53,5 +111,15 @@ export class AuthService {
     formdata.append("imagenFT", imagenFT)
     console.log(formdata)
     return formdata;
+  }
+  createFormCoche(car:NewCoche,img:File) : FormData{
+    const formdata = new FormData()
+    formdata.append("tipo",car.tipo)
+    formdata.append("matricula",car.matricula)
+    formdata.append("fecha_itv",car.fecha_itv)
+    formdata.append("combustible",car.combustible)
+    formdata.append("kilometraje",car.kilometraje.toString())
+    formdata.append("imagen",img)
+    return formdata
   }
 }
