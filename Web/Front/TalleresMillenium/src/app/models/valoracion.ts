@@ -1,6 +1,6 @@
 export interface Valoracion{
     texto: string,
     puntuacion: number,
-    name:string,
+    nombre:string,
     imagen:string
 }

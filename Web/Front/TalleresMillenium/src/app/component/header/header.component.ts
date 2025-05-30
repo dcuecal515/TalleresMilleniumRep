@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { jwtDecode } from "jwt-decode";
@@ -12,7 +12,7 @@ import { LanguageService } from '../../service/language.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   constructor(private router:Router,private translate: LanguageService){
     if(localStorage.getItem("token")){
@@ -22,6 +22,10 @@ export class HeaderComponent {
     }
   }
   decoded:User
+
+  ngOnInit() {
+      this.translate.initLanguage()
+  }
 
   goToRoute(route: string) {
     this.router.navigateByUrl(route)

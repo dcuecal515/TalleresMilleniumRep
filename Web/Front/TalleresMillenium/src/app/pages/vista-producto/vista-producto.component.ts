@@ -10,11 +10,12 @@ import { Enviovaloracion } from '../../models/enviovaloracion';
 import { User } from '../../models/user';
 import { jwtDecode } from "jwt-decode";
 import { Producto } from '../../models/Producto';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-vista-producto',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, FormsModule, ReactiveFormsModule],
+  imports: [HeaderComponent, FooterComponent, FormsModule, ReactiveFormsModule,CommonModule],
   templateUrl: './vista-producto.component.html',
   styleUrl: './vista-producto.component.css'
 })
@@ -49,26 +50,32 @@ export class VistaProductoComponent {
     }
   }
   async getservicioproducto(id: string, tipo: string) {
-    console.log("me hago")
     console.log(tipo)
     let media = 0
+    let contador=0
     let result
     if (tipo == "servicio") {
       result = await this.list.getservicio(id);
     } else if (tipo == "producto") {
       result = await this.list.getproducto(id);
     }
-    console
     if (result != null) {
+      console.log("Resultado actualizado:", result);
       if (tipo == "servicio") {
         this.servicio = result
         console.log(this.servicio)
         console.log("Hola", this.servicio.valoracionesDto.length)
+        console.log("Media antes del bucle:"+media)
         for (let i = 0; i < this.servicio.valoracionesDto.length; i++) {
           media += this.servicio.valoracionesDto[i].puntuacion
+          contador++
         }
-        this.media = media
-        console.log("MEDIA: " + this.media)
+        console.log("MEDIA despues del bucle: " + this.media)
+        if(media>0){
+          this.media = media/contador
+        }else{
+          media=0
+        }
         console.log("SERVICIO O PRODUCTO:", this.servicio)
       } else if (tipo == "producto") {
         this.producto = result
@@ -88,11 +95,18 @@ export class VistaProductoComponent {
     if (this.subidareview.valid) {
       const valoracion: Enviovaloracion = { Texto: this.subidareview.value.texto.trim(), Puntuacion: parseInt(this.subidareview.value.puntuacion), ServicioId: parseInt(this.id) }
       console.log(valoracion)
-      await this.valoracionService.postvaloracion(valoracion)
-      this.getservicioproducto(this.id, this.tipo)
+      if(this.tipo=="servicio"){
+        await this.valoracionService.postvaloracion(valoracion)
+      }else if(this.tipo == "producto"){
+        await this.valoracionService.postvaloracionProduct(valoracion)
+      }
+      this.subidareview.reset();
+      await this.getservicioproducto(this.id, this.tipo)
     } else {
       alert("MACACO ESCRIBE O PUNTUA")
     }
-
   }
+  delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 }

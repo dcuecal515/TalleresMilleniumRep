@@ -87,7 +87,7 @@ namespace TalleresMillenium.Services
         }
         public async Task<ProductoDto> GetProductById(int id)
         {
-            Producto producto = await _unitOfWork.ProductRepository.GetServiceById(id);
+            Producto producto = await _unitOfWork.ProductRepository.GetProductById(id);
             ProductoDto productoDto = new ProductoDto();
 
             productoDto.Id = id;
