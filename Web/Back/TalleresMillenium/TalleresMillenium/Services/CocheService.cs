@@ -16,5 +16,11 @@ namespace TalleresMillenium.Services
             await _unitOfWork.SaveAsync();
             return updCoche;
         }
+
+        public async Task<Coche> GetCocheByMatricula(string matricula)
+        {
+            Coche coche = await _unitOfWork.CocheRepository.GetByMatriculaAsync(matricula);
+            return coche;
+        }
     }
 }

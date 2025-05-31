@@ -40,6 +40,10 @@ namespace TalleresMillenium
 
         public ProductRepository ProductRepository => _productRepository ??= new ProductRepository(_context);
 
+        private Coche_ServicioRepository _coche_SercicioRepository;
+
+        public Coche_ServicioRepository Coche_ServicioRepository => _coche_SercicioRepository ??= new Coche_ServicioRepository(_context);
+
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() > 0;
