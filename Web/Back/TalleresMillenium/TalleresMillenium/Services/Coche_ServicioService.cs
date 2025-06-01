@@ -26,5 +26,23 @@ namespace TalleresMillenium.Services
             await _unitOfWork.SaveAsync();
             return newCoche_Servicio;
         }
+
+        public Coche_Servicio GetCoche_ServicioByMYN(string matricula, string nombreServicio)
+        {
+            Coche_Servicio coche_Servicio = _unitOfWork.Coche_ServicioRepository.GetCoche_ServicioByMYN(matricula, nombreServicio);
+            return coche_Servicio;
+        }
+
+        public async Task DeleteCoche_Servicio(Coche_Servicio coche_Servicio)
+        {
+            _unitOfWork.Coche_ServicioRepository.Delete(coche_Servicio);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task UpdateCoche_Servicio(Coche_Servicio coche_Servicio)
+        {
+            _unitOfWork.Coche_ServicioRepository.Update(coche_Servicio);
+            await _unitOfWork.SaveAsync();
+        }
     }
 }

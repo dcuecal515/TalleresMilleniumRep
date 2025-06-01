@@ -1,1 +1,18 @@
-<p>carrito works!</p>
+@if(carrito){
+    @if(carrito.length > 0){
+        @for(coche of carrito; track coche.matricula){
+            @if(coche.servicios.length > 0){
+                <h3>{{coche.tipo}}</h3>
+                <h3>{{coche.matricula}}</h3>
+                @for(servicio of coche.servicios; track servicio.nombre){
+                    <p><img [src]="servicio.imagen" alt=""></p>
+                    <h3>{{servicio.nombre}}</h3>
+                    <button (click)="eliminar(coche.matricula,servicio.nombre)">Eliminar</button>
+                }
+                <button (click)="completarReserva(coche.matricula)">Completar Reserva</button>
+            }
+        }
+    }@else{
+        <h1>No tienes reservas a confirmar</h1>
+    }
+}

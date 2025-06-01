@@ -91,6 +91,7 @@ namespace TalleresMillenium.Controllers
                     List<ServicioCarritoDto> servicios = new List<ServicioCarritoDto>();
                     if (coche.coche_Servicios.Count > 0)
                     {
+                        bool serviciosEnEspera = false;
                         foreach (var coche_servicio in coche.coche_Servicios)
                         {
                             if(coche_servicio.Estado == "Espera")
@@ -101,21 +102,65 @@ namespace TalleresMillenium.Controllers
                                     Imagen = coche_servicio.servicio.Imagen
                                 };
                                 servicios.Add(servicio);
+                                serviciosEnEspera = true;
                             }
                         }
+                        if (serviciosEnEspera)
+                        {
+                            ElementoCarritoDto element = new ElementoCarritoDto
+                            {
+                                Tipo = coche.Tipo,
+                                Matricula = coche.Matricula,
+                                Servicios = servicios
+                            };
+                            elementoCarritoDtos.Add(element);
+                        }
                     }
-                    ElementoCarritoDto element = new ElementoCarritoDto
-                    {
-                        Tipo = coche.Tipo,
-                        Matricula = coche.Matricula,
-                        Servicios = servicios
-                    };
-                    elementoCarritoDtos.Add(element);
                 }
                 return elementoCarritoDtos;
             } else
             {
                 return null;
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("eliminarServicio")]
+        public async Task<IActionResult> EliminarServicioCarrito([FromQuery] Coche_ServicioEliminarDto coche_Servicio)
+        {
+            Coche_Servicio coche_Servicio1 = _coche_ServicioService.GetCoche_ServicioByMYN(coche_Servicio.Matricula, coche_Servicio.NombreServicio);
+            if (coche_Servicio1 == null) {
+                return Unauthorized();
+            } else
+            {
+                await _coche_ServicioService.DeleteCoche_Servicio(coche_Servicio1);
+                return Ok();
+            }
+        }
+
+        [Authorize]
+        [HttpPost("completarReserva")]
+        public async Task<IActionResult> CompletarReserva([FromBody] MatriculaDto matriculaDto)
+        {
+            Coche coche = await _cocheService.GetCocheByMatricula(matriculaDto.Matricula);
+
+            if (coche == null)
+            {
+                return Unauthorized();
+            } else
+            {
+                if (coche.coche_Servicios.Count == 0)
+                {
+                    return Conflict();
+                } else
+                {
+                    foreach (var coche_Servicio in coche.coche_Servicios)
+                    {
+                        coche_Servicio.Estado = "Reservado";
+                        await _coche_ServicioService.UpdateCoche_Servicio(coche_Servicio);
+                    }
+                    return Ok();
+                }
             }
         }
 

@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Reserva } from '../models/Reserva';
 import { Result } from '../models/result';
 import { ServicioCarrito } from '../models/ServicioCarrito';
+import { ElementoCarrito } from '../models/ElementoCarrito';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +43,31 @@ export class CarritoService {
   }
 
   async getCarrito(){
-    const result = await this.api.get<ServicioCarrito[]>('Coche_Servicio/carrito')
+    const result = await this.api.get<ElementoCarrito[]>('Coche_Servicio/carrito')
     console.log("Result: ",result)
     
+    result.data.forEach(e => {
+      e.servicios.forEach(s => {
+        s.imagen = environment.images+s.imagen
+      });
+    });
+
+    return result
+  }
+
+  async deleteService(matricula:string,nombreServicio:string){
+    const result = await this.api.delete<Result>('Coche_Servicio/eliminarServicio',{matricula:matricula,nombreServicio:nombreServicio})
+
+    console.log("Result: ",result)
+
+    return result
+  }
+
+  async completarReserva(matricula:string){
+    const result = await this.api.post<Result>('Coche_Servicio/completarReserva',{matricula:matricula})
+
+    console.log("Result: ",result)
+
+    return result
   }
 }
