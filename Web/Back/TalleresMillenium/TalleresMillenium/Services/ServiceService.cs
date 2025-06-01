@@ -101,5 +101,20 @@ namespace TalleresMillenium.Services
 
             return servicioDto;
         }
+        public async Task<ICollection<ServiceAdminDto>> GetAllServiceFull()
+        {
+            IEnumerable<Servicio> servicios = await _unitOfWork.ServiceRepository.GetAllServiceFull();
+            var services = new List<ServiceAdminDto>();
+            foreach (Servicio servicio in servicios)
+            {
+                ServiceAdminDto serviceAdminDto = new ServiceAdminDto();
+                serviceAdminDto.Id = servicio.Id;
+                serviceAdminDto.Nombre = servicio.Nombre;
+                serviceAdminDto.Descripcion = servicio.Descripcion;
+                serviceAdminDto.Imagen = servicio.Imagen;
+                services.Add(serviceAdminDto);
+            }
+            return services;
+        }
     }
 }

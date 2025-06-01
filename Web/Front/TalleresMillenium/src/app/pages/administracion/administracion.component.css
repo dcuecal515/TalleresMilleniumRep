@@ -1,0 +1,95 @@
+.panel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.botones {
+    margin-bottom: 20px;
+}
+
+.botones button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.botones button:hover {
+    background-color: #0056b3;
+}
+
+.cuadro {
+    background-color: grey;
+    width: 600px;
+    min-height: 300px;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.fila {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.fila:last-child {
+    border-bottom: none;
+}
+
+.imagen {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+    border-radius: 8px;
+    object-fit: cover;
+    background-color: #eee;
+}
+
+.info {
+    flex: 1;
+}
+
+.texto{
+    margin: 4px 0 0;
+    color: white;
+    font-size: 14px;
+}
+.titulo{
+    margin: 0;
+    font-size: 16px;
+}
+
+.acciones {
+    display: flex;
+    gap: 8px;
+}
+
+.acciones button {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.editar {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.eliminar {
+    background-color: #dc3545;
+    color: #fff;
+}
+.titulo1{
+    text-align: center;
+}

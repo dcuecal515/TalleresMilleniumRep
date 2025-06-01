@@ -27,6 +27,7 @@ namespace TalleresMillenium.Controllers
             }
             await _reviewService.InsertReview(reviewDto,usuario.Id);
         }
+        [Authorize]
         [HttpPost("Product")]
         public async Task AddReviewProduct([FromBody] ReviewDto reviewDto)
         {

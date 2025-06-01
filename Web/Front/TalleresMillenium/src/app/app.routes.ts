@@ -6,6 +6,8 @@ import { TiendaComponent } from './pages/tienda/tienda.component';
 import { VistaProductoComponent } from './pages/vista-producto/vista-producto.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { CarritoComponent } from './pages/carrito/carrito.component';
+import { AdministracionComponent } from './pages/administracion/administracion.component';
+
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
@@ -14,5 +16,6 @@ export const routes: Routes = [
     {path:'perfil',component:PerfilComponent},
     {path:'tienda/:tipo',component:TiendaComponent},
     {path:'tienda/:tipo/:id',component:VistaProductoComponent},
-    {path:'carrito',component:CarritoComponent}
+    {path:'carrito',component:CarritoComponent},
+    {path:'admistracion',component:AdministracionComponent}
 ];

@@ -103,5 +103,21 @@ namespace TalleresMillenium.Services
 
             return productoDto;
         }
+        public async Task<ICollection<ProductAdminDto>> GetAllProductFull()
+        {
+            IEnumerable<Producto> productos = await _unitOfWork.ProductRepository.GetAllProductFull();
+            var products = new List<ProductAdminDto>();
+            foreach (Producto producto in productos)
+            {
+                ProductAdminDto productAdminDto = new ProductAdminDto();
+                productAdminDto.Id= producto.Id;
+                productAdminDto.Nombre= producto.Nombre;
+                productAdminDto.Descripcion= producto.Descripcion;
+                productAdminDto.Disponible= producto.Disponible;
+                productAdminDto.Imagen= producto.Imagen;
+                products.Add(productAdminDto);
+            }
+            return products;
+        }
     }
 }

@@ -17,5 +17,9 @@ namespace TalleresMillenium.Repositories
             Producto producto = await GetQueryable().Include(producto => producto.valoraciones).ThenInclude(valoracion => valoracion.Usuario).FirstOrDefaultAsync(s => s.Id == id);
             return producto;
         }
+        public async Task<IEnumerable<Producto>> GetAllProductFull()
+        {
+            return await GetQueryable().OrderBy(p => p.Nombre) .ToListAsync();
+        }
     }
 }

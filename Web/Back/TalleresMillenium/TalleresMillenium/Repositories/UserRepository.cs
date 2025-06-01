@@ -48,5 +48,11 @@ namespace TalleresMillenium.Repositories
                         .ThenInclude(coche_servicio => coche_servicio.servicio)
                 .FirstOrDefaultAsync(user => user.Id == id);
         }
+        public async Task<ICollection<Usuario>> GetAllUser(int id)
+        {
+            return await GetQueryable()
+                 .Where(user => user.Id != id)
+                 .ToArrayAsync();
+        }
     }
 }

@@ -9,7 +9,7 @@ import { ValoracionService } from '../../service/valoracion.service';
 import { Enviovaloracion } from '../../models/enviovaloracion';
 import { User } from '../../models/user';
 import { jwtDecode } from "jwt-decode";
-import { Producto } from '../../models/Producto';
+import { Producto } from '../../models/producto';
 import { CommonModule } from '@angular/common';
 
 @Component({
