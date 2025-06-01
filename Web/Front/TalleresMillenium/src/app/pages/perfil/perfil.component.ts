@@ -40,8 +40,11 @@ export class PerfilComponent {
       coche.imagen = environment.images+coche.imagen
     });
     console.log(this.user.imagen)
-    this.matricula_actual = this.user.coches[0].matricula
-    this.coche_actual = this.user.coches[0]
+    if(this.user.coches.length > 0){
+      this.matricula_actual = this.user.coches[0].matricula
+      this.coche_actual = this.user.coches[0]
+    }
+    
 
     console.log("Usuario: ",this.user)
   }
@@ -157,6 +160,10 @@ export class PerfilComponent {
     result.data.imagen = environment.images+result.data.imagen
 
     this.user.coches.push(result.data)
+    if(this.user.coches.length > 0){
+      this.matricula_actual = this.user.coches[0].matricula
+      this.coche_actual = this.user.coches[0]
+    }
   }
 
   cambiar_imagen(){

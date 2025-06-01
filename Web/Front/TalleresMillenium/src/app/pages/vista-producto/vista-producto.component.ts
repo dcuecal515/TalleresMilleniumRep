@@ -89,6 +89,15 @@ export class VistaProductoComponent {
     }
   }
 
+  getImagenTipo(tipo: string): string {
+    switch (tipo) {
+      case 'Coche': return 'assets/coche2.webp';
+      case 'Camion': return 'assets/camion2.webp';
+      case 'Autobus': return 'assets/autobus2.webp';
+      default: return 'assets/default.webp';
+    }
+  }
+
   async reservar(){
     const result = await this.carritoService.getCoches()
 
@@ -110,7 +119,9 @@ export class VistaProductoComponent {
           <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
             ${this.coches.map(coche => `
               <label style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 10px; width: 120px; cursor: pointer;">
-                <div style="font-weight: bold; margin-bottom: 4px;">${coche.tipo}</div>
+                <div style="width: 150px; height: 120px; margin-bottom: 4px;">
+                    <img src="${this.getImagenTipo(coche.tipo)}" style="width: 100%; height: 100%; object-fit: contain;" />
+                </div>
                 <div style="font-size: 0.9em; color: #555;">${coche.matricula}</div>
                 <input type="radio" name="coche" value="${coche.matricula}" style="margin-top: 10px;" />
               </label>

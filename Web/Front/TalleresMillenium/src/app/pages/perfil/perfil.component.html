@@ -17,23 +17,42 @@
         <!-- Sección Vehículos -->
         <div class="vehicle-folder">
             <div class="tabs">
-                @for(coche of user.coches; track coche.matricula){
-                    <div class="tab" (click)="seleccionar_coche(coche.matricula)">{{coche.matricula}}</div>
+                @if(user.coches.length > 0){
+                    @for(coche of user.coches; track coche.matricula){
+                        <div class="tab" (click)="seleccionar_coche(coche.matricula)">{{coche.matricula}}</div>
+                    }
                 }
                 <div class="tab" (click)="anadir_coche()"><i class="fa-solid fa-plus"></i></div>
             </div>
             <div class="vehicle-content">
                 <div class="car-info">
                     <div class="car-image">
-                        <!--<img class="image" [src]="coche_actual.imagen">-->
-                        <p>{{coche_actual.tipo}}</p>
+                        @if(user.coches.length > 0){
+                            @if(coche_actual.tipo == "Coche"){
+                                <img class="image" src="assets/coche2.webp">
+                            }@else if (coche_actual.tipo == "Camion") {
+                                <img class="image" src="assets/camion2.webp">
+                            }@else {
+                                <img class="image" src="assets/autobus2.webp">
+                            }
+                            
+                        }   
                     </div>
                     <div class="car-details">
-                        <p>Fecha_itv: {{coche_actual.fecha_itv}}</p>
-                        <p>Tipo de combustible: {{coche_actual.combustible}}</p>
-                        <p>Kilometraje: {{coche_actual.kilometraje}}</p>
+                        
+                        <p>Fecha_itv: @if(user.coches.length > 0){
+                            {{coche_actual.fecha_itv}}
+                        }</p>
+                        <p>Tipo de combustible: @if(user.coches.length > 0){
+                            {{coche_actual.combustible}}
+                        }</p>
+                        <p>Kilometraje: @if(user.coches.length > 0){
+                            {{coche_actual.kilometraje}}
+                        }</p>
                         <div class="ficha-tecnica">
-                            <p>Ver ficha tecnica </p><button (click)="ver_ficha(coche_actual.imagen)"><i class="fa-regular fa-eye"></i></button>
+                            <p>Ver ficha tecnica </p>@if(user.coches.length > 0){
+                                <button (click)="ver_ficha(coche_actual.imagen)"><i class="fa-regular fa-eye"></i></button>
+                            }
                         </div>
                         
                     </div>
@@ -49,12 +68,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for(servicio of coche_actual.servicios; track servicio.nombre){
-                                <tr>
-                                    <td>{{servicio.estado}}</td>
-                                    <td>{{servicio.nombre}}</td>
-                                    <td>{{servicio.descripcion}}</td>
-                                </tr>
+                            @if(user.coches.length > 0){
+                                @for(servicio of coche_actual.servicios; track servicio.nombre){
+                                    <tr>
+                                        <td>{{servicio.estado}}</td>
+                                        <td>{{servicio.nombre}}</td>
+                                        <td>{{servicio.descripcion}}</td>
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>
