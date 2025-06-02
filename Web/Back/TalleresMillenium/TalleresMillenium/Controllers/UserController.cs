@@ -16,14 +16,16 @@ namespace TalleresMillenium.Controllers
         private readonly CocheService _cocheService;
         private readonly CocheMapper _cocheMapper;
         private readonly Coche_ServicioMapper _cocheServicioMapper;
+        private readonly Coche_ServicioService _coche_ServicioService;
 
-        public UserController(UserService userService, UserMapper userMapper, CocheMapper cocheMapper, Coche_ServicioMapper coche_ServicioMapper, CocheService cocheService)
+        public UserController(UserService userService, UserMapper userMapper, CocheMapper cocheMapper, Coche_ServicioMapper coche_ServicioMapper, CocheService cocheService, Coche_ServicioService coche_ServicioService)
         {
             _userMapper = userMapper;
             _userService = userService;
             _cocheMapper = cocheMapper;
             _cocheServicioMapper = coche_ServicioMapper;
             _cocheService = cocheService;
+            _coche_ServicioService = coche_ServicioService;
         }
 
         [Authorize]
@@ -66,6 +68,7 @@ namespace TalleresMillenium.Controllers
             return usuarioDto;
         }
 
+        [Authorize]
         [HttpPost("nombre")]
         public async Task<string> changeName([FromBody] NombreDto nombreDto)
         {
@@ -76,6 +79,7 @@ namespace TalleresMillenium.Controllers
             return userUpdated.Name;
         }
 
+        [Authorize]
         [HttpPost("email")]
         public async Task<IActionResult> changeEmail([FromBody] EmailDto emailDto)
         {
@@ -92,6 +96,7 @@ namespace TalleresMillenium.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("contrasena")]
         public async Task<IActionResult> changePassword([FromBody] ContrasenaDto contrasenaDto)
         {
@@ -110,6 +115,7 @@ namespace TalleresMillenium.Controllers
 
         }
 
+        [Authorize]
         [HttpPut("image")]
         public async Task<ImageSendDto> changeimage([FromForm] ImageDto imageDto)
         {
@@ -126,6 +132,7 @@ namespace TalleresMillenium.Controllers
             return new ImageSendDto { Image = user.Imagen };
         }
 
+        [Authorize]
         [HttpPost("coche")]
         public async Task<CocheDto> newCar([FromForm] NewCocheDto newCocheDto)
         {
@@ -145,7 +152,7 @@ namespace TalleresMillenium.Controllers
                     UsuarioId = fullUser.Id,
                     coche_Servicios = new List<Coche_Servicio>(),
                     Combustible = newCocheDto.Combustible,
-                    Fecha_itv = newCocheDto.Combustible,
+                    Fecha_itv = newCocheDto.Fecha_itv,
                     Imagen = "/" + await imageService.InsertAsync(newCocheDto.Imagen),
                     Kilometraje = int.Parse(newCocheDto.Kilometraje),
                     Matricula = newCocheDto.Matricula,

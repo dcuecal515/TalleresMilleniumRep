@@ -57,12 +57,6 @@ namespace TalleresMillenium.Services
         public async Task<string> RegisterUser(SignUpDto receivedUser)
         {
             Usuario user = _userMapper.toEntity(receivedUser);
-            Coche coche = _cocheMapper.toEntity(receivedUser);
-            Coche cocheExistente = await _unitOfWork.CocheRepository.GetByMatriculaAsync(receivedUser.matricula);
-            if (cocheExistente != null)
-            {
-                return null;
-            }
             PasswordService passwordService = new PasswordService();
             user.Password = passwordService.Hash(receivedUser.contrasena);
             if (receivedUser.imagenPerfil != null)
@@ -73,10 +67,6 @@ namespace TalleresMillenium.Services
                 user.Imagen = "/images/perfilDefect.webp";
             }
             user.Rol = "User";
-            coche.Imagen = "/" + await _imageService.InsertAsync(receivedUser.imagenFT);
-            coche.Kilometraje = 0;
-            user.Coches.Add(coche);
-            await _unitOfWork.CocheRepository.InsertAsync(coche);
 
             Usuario newUser = await InsertUserAsync(user);
 

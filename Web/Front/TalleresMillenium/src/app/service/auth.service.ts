@@ -25,9 +25,9 @@ export class AuthService {
     return result
   }
 
-  async register(signupUser:SignupUser,signupCar:SignupCar,imagenPerfil:File|null,imagenFT:File){
+  async register(signupUser:SignupUser,imagenPerfil:File|null){
     
-    const result=await this.api.postWithImage<Token>('Auth/signup', this.createForm(signupUser,signupCar,imagenPerfil,imagenFT))
+    const result=await this.api.postWithImage<Token>('Auth/signup', this.createForm(signupUser,imagenPerfil))
     if(result.success){
       console.log("Entró con accessToken: ",result.data.accessToken)
       this.api.jwt = result.data.accessToken;
@@ -93,22 +93,15 @@ export class AuthService {
     return formdata
   }
 
-  createForm(user:SignupUser,car:SignupCar,imagenPerfil:File,imagenFT:File) : FormData{
+  createForm(user:SignupUser,imagenPerfil:File) : FormData{
     const formdata = new FormData()
     console.log("Mi imagen es esta: ",imagenPerfil)
-    console.log("Imagen ficha tecnica: ",imagenFT)
     formdata.append("nombre", user.nombre)
     formdata.append("email", user.correo)
     formdata.append("contrasena", user.contrasena)
     if(imagenPerfil){
       formdata.append("imagenPerfil",imagenPerfil)
     }
-    formdata.append("matricula", car.matricula)
-    formdata.append("tipo_vehiculo", car.tipo_vehiculo)
-    console.log("Fecha ITV: ",car.fecha_ITV)
-    formdata.append("fecha_ITV", car.fecha_ITV.toString())
-    formdata.append("tipo_combustible", car.tipo_combustible)
-    formdata.append("imagenFT", imagenFT)
     console.log(formdata)
     return formdata;
   }
