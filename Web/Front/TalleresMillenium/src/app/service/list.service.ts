@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Productlist } from '../models/productlist';
 import { Servicio } from '../models/servicio';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { querypage } from '../models/querypage';
 import { Productlistreal } from '../models/productlistreal';
 import { Productlistproduct } from '../models/productlistproduct';

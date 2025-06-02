@@ -25,8 +25,13 @@ namespace TalleresMillenium
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            #if DEBUG
             string baseDir = AppDomain.CurrentDomain.BaseDirectory;
             optionsBuilder.UseSqlite($"DataSource={baseDir}{DATABASE_PATH}");
+            #else
+                string connection = "Server=db20891.databaseasp.net; Database=db20891; Uid=db20891; Pwd=bF+9Z2t!x%5J;";
+                optionsBuilder.UseMySql(connection,ServerVersion.AutoDetect(connection));
+            #endif
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

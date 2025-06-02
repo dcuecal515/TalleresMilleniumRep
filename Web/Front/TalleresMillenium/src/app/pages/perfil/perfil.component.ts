@@ -6,7 +6,7 @@ import { User } from '../../models/user';
 import { FullUser } from '../../models/FullUser';
 import { Coche } from '../../models/Coche';
 import { NewCoche } from '../../models/NewCoche';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import Swal from 'sweetalert2';
 
 @Component({

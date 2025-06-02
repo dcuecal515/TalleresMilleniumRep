@@ -6,7 +6,7 @@ import { Reserva } from '../models/Reserva';
 import { Result } from '../models/result';
 import { ServicioCarrito } from '../models/ServicioCarrito';
 import { ElementoCarrito } from '../models/ElementoCarrito';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

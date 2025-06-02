@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FooterComponent } from '../../component/footer/footer.component';
 import { Productlist } from '../../models/productlist';
 import { ListService } from '../../service/list.service';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { querypage } from '../../models/querypage';
 import { Productlistreal } from '../../models/productlistreal';
 import { FormsModule } from '@angular/forms';
