@@ -87,7 +87,7 @@ namespace TalleresMillenium.Services
         }
         public async Task<ProductoDto> GetProductById(int id)
         {
-            Producto producto = await _unitOfWork.ProductRepository.GetServiceById(id);
+            Producto producto = await _unitOfWork.ProductRepository.GetProductById(id);
             ProductoDto productoDto = new ProductoDto();
 
             productoDto.Id = id;
@@ -102,6 +102,41 @@ namespace TalleresMillenium.Services
             }
 
             return productoDto;
+        }
+        public async Task<ICollection<ProductAdminDto>> GetAllProductFull()
+        {
+            IEnumerable<Producto> productos = await _unitOfWork.ProductRepository.GetAllProductFull();
+            var products = new List<ProductAdminDto>();
+            foreach (Producto producto in productos)
+            {
+                ProductAdminDto productAdminDto = new ProductAdminDto();
+                productAdminDto.Id= producto.Id;
+                productAdminDto.Nombre= producto.Nombre;
+                productAdminDto.Descripcion= producto.Descripcion;
+                productAdminDto.Disponible= producto.Disponible;
+                productAdminDto.Imagen= producto.Imagen;
+                products.Add(productAdminDto);
+            }
+            return products;
+        }
+        public async Task<Producto> getProductByIdOnlyAsync(int id)
+        {
+            return await _unitOfWork.ProductRepository.GetByIdAsync(id);
+        }
+        public async Task DeleteProduct(Producto producto)
+        {
+            _unitOfWork.ProductRepository.Delete(producto);
+            await _unitOfWork.SaveAsync();
+        }
+        public async Task UpdateProduct(Producto producto)
+        {
+            _unitOfWork.ProductRepository.Update(producto);
+            await _unitOfWork.SaveAsync();
+        }
+        public async Task InsertProduct(Producto producto)
+        {
+            await _unitOfWork.ProductRepository.InsertAsync(producto);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

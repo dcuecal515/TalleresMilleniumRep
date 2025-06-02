@@ -1,0 +1,74 @@
+<div class="principal">
+    <h1 class="titulo1">Administración</h1>
+    <div class="panel-container">
+
+        <div class="botones">
+            <button (click)="getallUser()">Usuarios</button>
+            <button (click)="getallproduct()">Productos</button>
+            <button (click)="getallservicios()">Servicios</button>
+            <button>Solicitudes</button>
+        </div>
+
+        @if(verusuarios==true){
+        <div class="cuadro">
+            <h1>Usuarios</h1>
+            @for(item of listusers; track $index){
+                <div class="fila">
+                <img class="imagen" [src]="item.imagen" alt="imagen de usuarios">
+                <div class="info">
+                    <h4 class="titulo">{{item.email}}</h4>
+                    <p class="texto">{{item.name}}</p>
+                </div>
+                <div class="acciones">
+                    @if(item.rol!="Admin"){
+                        <button class="editar" (click)="putadmin(item.id,item.rol)">Hacer admin</button>
+                    }@else if(item.rol=="Admin" && item.email!="example@gmail.com"){
+                        <button class="editar" (click)="putadmin(item.id,item.rol)">Hacer Usuario</button>
+                    }
+                    @if(item.email!="example@gmail.com"){
+                        <button class="eliminar" (click)="deleteuser(item.id)">Eliminar</button>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+        }
+        @if(verproductos==true){
+        <div class="cuadro">
+            <h1>Productos</h1>
+            <button class="editar" (click)="addproduct()">Añadir producto</button>
+            @for(item of listproducts; track $index){
+                <div class="fila">
+                <img class="imagen" [src]="item.imagen" alt="imagen de productos">
+                <div class="info">
+                    <h4 class="titulo">{{item.nombre}}</h4>
+                    <p class="texto">{{item.descripcion}}</p>
+                    <p class="texto">{{item.disponible}}</p>
+                </div>
+                <div class="acciones">
+                    <button class="editar" (click)="editproduct(item)">Editar</button>
+                    <button class="eliminar" (click)="deleteproduct(item.id)">Eliminar</button>
+                </div>
+            </div>
+            }
+        </div>
+        }
+        @if(verservicios==true){
+        <div class="cuadro">
+            <h1>Servicios</h1>
+            <button class="editar" (click)="addservice()">Añadir Servicio</button>
+            @for(item of listservice; track $index){
+                <div class="fila">
+                <img class="imagen" [src]="item.imagen" alt="Imagen de servicios">
+                <div class="info">
+                    <h4 class="titulo">{{item.nombre}}</h4>
+                    <p class="texto">{{item.descripcion}}</p>
+                </div>
+                <div class="acciones">
+                    <button class="editar" (click)="editservice(item)">Editar</button>
+                </div>
+            </div>
+            }
+        </div>
+        }
+    </div>

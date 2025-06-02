@@ -318,4 +318,7 @@ export class PerfilComponent {
       background: '#fff'
     });
   }
+    goToRoute(route: string) {
+    this.router.navigateByUrl(route)
+  }
 }

@@ -11,6 +11,9 @@
                 <p (click)="cambiar_nombre()"><strong>{{user.name}}</strong> <span class="edit" >Cambiar</span></p>
                 <p (click)="cambiar_email()"><strong>{{user.email}}</strong> <span class="edit" >Cambiar</span></p>
                 <p (click)="cambiar_contrasena()"><strong>Contraseña</strong> <span class="edit">Cambiar</span></p>
+                @if(decoded.role=="Admin"){
+                    <button (click)="goToRoute('admistracion')">Administración</button>
+                }
             </div>
         </div>
     

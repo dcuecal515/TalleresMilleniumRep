@@ -11,11 +11,12 @@ import { Productlistreal } from '../../models/productlistreal';
 import { FormsModule } from '@angular/forms';
 import { Productlistproduct } from '../../models/productlistproduct';
 import { Productlist2 } from '../../models/productlist2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tienda',
   standalone: true,
-  imports: [HeaderComponent, TranslateModule, FooterComponent, FormsModule],
+  imports: [HeaderComponent, TranslateModule, FooterComponent, FormsModule,CommonModule],
   templateUrl: './tienda.component.html',
   styleUrl: './tienda.component.css'
 })

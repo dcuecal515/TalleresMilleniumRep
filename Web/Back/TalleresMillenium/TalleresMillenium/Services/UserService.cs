@@ -129,5 +129,24 @@ namespace TalleresMillenium.Services
                 return true;
             }
         }
+        public async Task<IEnumerable<Usuario>> GetAllUsers(int id)
+        {
+            ICollection<Usuario> usuarios= await _unitOfWork.UserRepository.GetAllUser(id);
+            return usuarios;
+        }
+        public async Task<Usuario> getUserByIdOnlyAsync(int id)
+        {
+            return await _unitOfWork.UserRepository.GetByIdAsync(id);
+        }
+        public async Task UpdateUser(Usuario usuario)
+        {
+            _unitOfWork.UserRepository.Update(usuario);
+            await _unitOfWork.SaveAsync();
+        }
+        public async Task DeleteUser(Usuario usuario)
+        {
+            _unitOfWork.UserRepository.Delete(usuario);
+            await _unitOfWork.SaveAsync();
+        }
     }
 }
