@@ -75,5 +75,8 @@ export class ListService {
         }
         return null
   }
+  async deleteproduct(id:number){
+    const result= await this.api.delete<Result>("Product",{id})
+  }
 }
 

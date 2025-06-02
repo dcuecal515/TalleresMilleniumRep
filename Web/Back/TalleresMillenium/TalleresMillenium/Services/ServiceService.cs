@@ -116,5 +116,19 @@ namespace TalleresMillenium.Services
             }
             return services;
         }
+        public async Task<Servicio> getServiceByIdOnlyAsync(int id)
+        {
+            return await _unitOfWork.ServiceRepository.GetByIdAsync(id);
+        }
+        public async Task UpdateService(Servicio servicio)
+        {
+            _unitOfWork.ServiceRepository.Update(servicio);
+            await _unitOfWork.SaveAsync();
+        }
+        public async Task InsertService(Servicio servicio)
+        {
+            await _unitOfWork.ServiceRepository.InsertAsync(servicio);
+            await _unitOfWork.SaveAsync();
+        }
     }
 }

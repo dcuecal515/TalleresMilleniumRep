@@ -28,5 +28,13 @@ namespace TalleresMillenium
             string baseDir = AppDomain.CurrentDomain.BaseDirectory;
             optionsBuilder.UseSqlite($"DataSource={baseDir}{DATABASE_PATH}");
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Valoracion>()
+                .HasOne(v => v.Producto)
+                .WithMany(p => p.valoraciones)
+                .HasForeignKey(v => v.ProductoId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

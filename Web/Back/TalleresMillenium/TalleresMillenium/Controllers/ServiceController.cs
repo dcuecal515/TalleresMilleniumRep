@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TalleresMillenium.DTOs;
 using TalleresMillenium.Models;
 using TalleresMillenium.Services;
@@ -37,6 +38,49 @@ namespace TalleresMillenium.Controllers
             }
             ICollection<ServiceAdminDto> serviceAdminDto = await _serviceService.GetAllServiceFull();
             return serviceAdminDto;
+        }
+        [Authorize]
+        [HttpPut("change")]
+        public async Task PutService([FromForm] ChangeServiceDto changeServiceDto)
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null || !usuario.Rol.Equals("Admin"))
+            {
+                return;
+            }
+
+            Servicio servicio = await _serviceService.getServiceByIdOnlyAsync(int.Parse(changeServiceDto.Id));
+
+            if (servicio == null)
+            {
+                return;
+            }
+            servicio.Nombre = changeServiceDto.Nombre;
+            servicio.Descripcion = changeServiceDto.Descripcion;
+            if (changeServiceDto.Imagen != null)
+            {
+                ImageService imageService = new ImageService();
+                servicio.Imagen = "/" + await imageService.InsertAsync(changeServiceDto.Imagen);
+            }
+
+            await _serviceService.UpdateService(servicio);
+        }
+        [Authorize]
+        [HttpPost("new")]
+        public async Task AddService([FromForm] NewServiceDto newServiceDto)
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null || !usuario.Rol.Equals("Admin"))
+            {
+                return;
+            }
+            Servicio servicio = new Servicio();
+            servicio.Nombre = newServiceDto.Nombre;
+            servicio.Descripcion = newServiceDto.Descripcion;
+            ImageService imageService = new ImageService();
+            servicio.Imagen = "/" + await imageService.InsertAsync(newServiceDto.Imagen);
+
+            await _serviceService.InsertService(servicio);
         }
         private async Task<Usuario> GetCurrentUser()
         {

@@ -73,7 +73,9 @@
     gap: 8px;
 }
 
-.acciones button {
+.editar {
+    background-color: #ffc107;
+    color: #000;
     padding: 6px 12px;
     font-size: 14px;
     border: none;
@@ -81,14 +83,14 @@
     cursor: pointer;
 }
 
-.editar {
-    background-color: #ffc107;
-    color: #000;
-}
-
 .eliminar {
     background-color: #dc3545;
     color: #fff;
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
 }
 .titulo1{
     text-align: center;

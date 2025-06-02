@@ -41,6 +41,70 @@ namespace TalleresMillenium.Controllers
             ICollection<ProductAdminDto> productAdminDto=await _productService.GetAllProductFull();
             return productAdminDto;
         }
+        [Authorize]
+        [HttpDelete]
+        public async Task DeleteProduct([FromQuery] int id)
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null || !usuario.Rol.Equals("Admin"))
+            {
+                return;
+            }
+
+            Producto deletedProduct = await _productService.getProductByIdOnlyAsync(id);
+
+            if (deletedProduct == null)
+            {
+                return;
+            }
+
+            await _productService.DeleteProduct(deletedProduct);
+        }
+        [Authorize]
+        [HttpPut("change")]
+        public async Task PutProduct([FromForm] ChangeProductDto changeProductDto)
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null || !usuario.Rol.Equals("Admin"))
+            {
+                return;
+            }
+
+            Producto producto = await _productService.getProductByIdOnlyAsync(int.Parse(changeProductDto.Id));
+
+            if (producto == null)
+            {
+                return;
+            }
+            producto.Nombre = changeProductDto.Nombre;
+            producto.Disponible= changeProductDto.Disponible;
+            producto.Descripcion = changeProductDto.Descripcion;
+            if (changeProductDto.Imagen != null)
+            {
+                ImageService imageService = new ImageService();
+                producto.Imagen = "/" + await imageService.InsertAsync(changeProductDto.Imagen);
+            }
+
+            await _productService.UpdateProduct(producto);
+        }
+        [Authorize]
+        [HttpPost("new")]
+        public async Task AddProduct([FromForm] NewProductDto newProductDto)
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null || !usuario.Rol.Equals("Admin"))
+            {
+                return;
+            }
+            Producto producto = new Producto();
+            producto.Nombre= newProductDto.Nombre;
+            producto.Descripcion= newProductDto.Descripcion;
+            producto.Disponible=newProductDto.Disponible;
+            ImageService imageService = new ImageService();
+            producto.Imagen = "/" + await imageService.InsertAsync(newProductDto.Imagen);
+
+            await _productService.InsertProduct(producto);
+        }
         private async Task<Usuario> GetCurrentUser()
         {
             // Pilla el usuario autenticado según ASP

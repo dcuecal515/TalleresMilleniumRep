@@ -119,5 +119,24 @@ namespace TalleresMillenium.Services
             }
             return products;
         }
+        public async Task<Producto> getProductByIdOnlyAsync(int id)
+        {
+            return await _unitOfWork.ProductRepository.GetByIdAsync(id);
+        }
+        public async Task DeleteProduct(Producto producto)
+        {
+            _unitOfWork.ProductRepository.Delete(producto);
+            await _unitOfWork.SaveAsync();
+        }
+        public async Task UpdateProduct(Producto producto)
+        {
+            _unitOfWork.ProductRepository.Update(producto);
+            await _unitOfWork.SaveAsync();
+        }
+        public async Task InsertProduct(Producto producto)
+        {
+            await _unitOfWork.ProductRepository.InsertAsync(producto);
+            await _unitOfWork.SaveAsync();
+        }
     }
 }
