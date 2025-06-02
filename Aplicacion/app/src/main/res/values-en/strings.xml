@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TalleresMileniumApp</string>
+    <string name="error_invalid_credentials">Invalid admin credentials</string>
+    <string name="error_network">Connection error. Please check your internet connection.</string>
+    <string name="error_unknown">An unknown error occurred</string>
+    <string name="error_empty_credentials">You cannot leave the fields empty</string>
+</resources>
