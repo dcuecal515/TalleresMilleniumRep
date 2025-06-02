@@ -30,6 +30,11 @@ namespace TalleresMillenium.Controllers
         [HttpPost("signup")]
         public async Task<LoginResultDto> RegisterUser([FromForm] SignUpDto signUpDto)
         {
+            Boolean returnResult = await _userService.GetIfEmailExists(signUpDto.email);
+            if (returnResult)
+            {
+                return null;
+            }
             string token = await _userService.RegisterUser(signUpDto);
             if (token == null)
             {
@@ -37,18 +42,6 @@ namespace TalleresMillenium.Controllers
             }
             LoginResultDto loginResultDto = new LoginResultDto { accessToken = token };
             return loginResultDto;
-        }
-
-        [HttpGet("emailExists")]
-        public async Task<IActionResult> GetIfEmailExists([FromQuery] string correo)
-        {
-            Boolean returnResult = await _userService.GetIfEmailExists(correo);
-            if (returnResult) {
-                return Unauthorized();
-            } else
-            {
-                return Ok();
-            }
         }
     }
 }

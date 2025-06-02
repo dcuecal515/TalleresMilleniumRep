@@ -88,7 +88,7 @@ export class InicioSesionComponent {
     }
   }
 
-  async continuarRellenando(){
+  async registrarse(){
     const imagenPerfil = document.getElementById("imagenPerfil") as HTMLInputElement
     if(this.nYApellido != ""){
       if (this.correo != "" && this.correo.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
@@ -97,15 +97,15 @@ export class InicioSesionComponent {
             if(this.contrasena == this.contrasena2){
               console.log("formulario es ",this.signupForm1)
               if(this.signupForm1.valid){
-                const result = await this.apiService.get<Result>('Auth/emailExists',{ correo: this.correo })
-                console.log(result)
-                if(result.success){
-                  if(imagenPerfil.files && imagenPerfil.files.length > 0){
-                    this.imagenPerfil = imagenPerfil.files[0]
-                  }
-                  this.primerRellenoCorrecto = true
-                }else{
-                  alert("El correo ya esta registrado, mejor inicia sesión")
+                if(imagenPerfil.files && imagenPerfil.files.length > 0){
+                  this.imagenPerfil = imagenPerfil.files[0]
+                }
+                const User:SignupUser = {nombre: this.nYApellido.trim(), correo: this.correo.trim(), contrasena: this.contrasena.trim()}
+                await this.authservice.register(User,this.imagenPerfil)
+                console.log("Estado de mi jwt despues de registro fallido: "+this.apiService.jwt);
+                if(this.apiService.jwt){
+                  console.log("he entrado pro que si xD");
+                  await this.rememberfunction()
                 }
               }else{
                 alert("Algún campo incorrecto")
@@ -129,30 +129,6 @@ export class InicioSesionComponent {
     }
     else{
       alert("El campo nombre no puede estar vacio")
-    }
-  }
-
-  btn_atras(){
-    this.primerRellenoCorrecto=false
-  }
-
-  async registrarse(){
-    if(this.signupForm2.valid){
-      if(this.imagenFT != null){
-        const User:SignupUser = {nombre: this.nYApellido.trim(), correo: this.correo.trim(), contrasena: this.contrasena.trim()}
-        const Car:SignupCar={matricula: this.matricula.trim(), tipo_vehiculo: this.tipo_vehiculo.trim(), fecha_ITV: this.fecha_ITV, tipo_combustible: this.tipo_combustible.trim()}
-        console.log("Estado de mi jwt: "+this.apiService.jwt);
-        await this.authservice.register(User,Car,this.imagenPerfil,this.imagenFT)
-        console.log("Estado de mi jwt despues de registro fallido: "+this.apiService.jwt);
-        if(this.apiService.jwt){
-          console.log("he entrado pro que si xD");
-          await this.rememberfunction()
-        }
-      }else{
-        alert("No puedes registrarte sin foto de la ficha tecnica")
-      }
-    }else{
-      alert("Campos no validos")
     }
   }
   async loginUser():Promise<void>{

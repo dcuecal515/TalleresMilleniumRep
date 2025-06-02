@@ -10,6 +10,10 @@ import { Enviovaloracion } from '../../models/enviovaloracion';
 import { User } from '../../models/user';
 import { jwtDecode } from "jwt-decode";
 import { Producto } from '../../models/Producto';
+import { CarritoService } from '../../service/carrito.service';
+import { CocheR } from '../../models/CocheR';
+import Swal from 'sweetalert2';
+import { Reserva } from '../../models/Reserva';
 
 @Component({
   selector: 'app-vista-producto',
@@ -19,7 +23,7 @@ import { Producto } from '../../models/Producto';
   styleUrl: './vista-producto.component.css'
 })
 export class VistaProductoComponent {
-  constructor(private route: ActivatedRoute, private list: ListService, private formBuilder: FormBuilder, private valoracionService: ValoracionService) {
+  constructor(private route: ActivatedRoute, private list: ListService, private formBuilder: FormBuilder, private valoracionService: ValoracionService, private carritoService: CarritoService) {
     this.subidareview = this.formBuilder.group({
       texto: ['', [Validators.required]],
       puntuacion: ['', [Validators.required]]
@@ -35,6 +39,7 @@ export class VistaProductoComponent {
   texto: string
   puntuacion: number
   decoded: User
+  coches:CocheR[] | null = null
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -83,6 +88,75 @@ export class VistaProductoComponent {
       }
     }
   }
+
+  getImagenTipo(tipo: string): string {
+    switch (tipo) {
+      case 'Coche': return 'assets/coche2.webp';
+      case 'Camion': return 'assets/camion2.webp';
+      case 'Autobus': return 'assets/autobus2.webp';
+      default: return 'assets/default.webp';
+    }
+  }
+
+  async reservar(){
+    const result = await this.carritoService.getCoches()
+
+    console.log("Resultado: ",result.data)
+
+    this.coches = result.data
+
+    if (this.coches != null) {
+      if (this.coches.length === 1) {
+        const cocheUnico = this.coches[0];
+        console.log('Coche unico:', cocheUnico);
+        const reserva:Reserva = {
+          matricula: cocheUnico.matricula,
+          servicioId: this.servicio.id
+        }
+        this.carritoService.reservar(reserva)
+      } else {
+        const htmlRadios = `
+          <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+            ${this.coches.map(coche => `
+              <label style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 10px; width: 120px; cursor: pointer;">
+                <div style="width: 150px; height: 120px; margin-bottom: 4px;">
+                    <img src="${this.getImagenTipo(coche.tipo)}" style="width: 100%; height: 100%; object-fit: contain;" />
+                </div>
+                <div style="font-size: 0.9em; color: #555;">${coche.matricula}</div>
+                <input type="radio" name="coche" value="${coche.matricula}" style="margin-top: 10px;" />
+              </label>
+            `).join('')}
+          </div>
+        `;
+    
+        Swal.fire({
+          title: 'Selecciona un coche',
+          html: htmlRadios,
+          showCancelButton: true,
+          confirmButtonText: 'Seleccionar',
+          preConfirm: () => {
+            const selected = (document.querySelector('input[name="coche"]:checked') as HTMLInputElement)?.value;
+            if (!selected) {
+              Swal.showValidationMessage('¡Debes seleccionar un coche!');
+              return null;
+            }
+            return selected;
+          }
+        }).then(result => {
+          if (result.isConfirmed && result.value) {
+            const cocheSeleccionado = this.coches.find(c => c.matricula === result.value);
+            console.log('Coche seleccionado:', cocheSeleccionado);
+            const reserva:Reserva = {
+              matricula: cocheSeleccionado.matricula,
+              servicioId: this.servicio.id
+            }
+            this.carritoService.reservar(reserva)
+          }
+        });
+      }
+    }        
+  }
+
   async postreview() {
     console.log(this.subidareview.value);
     if (this.subidareview.valid) {

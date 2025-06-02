@@ -4,6 +4,7 @@ import { User } from '../../models/user';
 import { jwtDecode } from "jwt-decode";
 import {TranslateModule} from '@ngx-translate/core';
 import { LanguageService } from '../../service/language.service';
+import { ApiService } from '../../service/api.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,7 @@ import { LanguageService } from '../../service/language.service';
 })
 export class HeaderComponent {
 
-  constructor(private router:Router,private translate: LanguageService){
+  constructor(private router:Router,private translate: LanguageService, private apiService:ApiService){
     if(localStorage.getItem("token")){
       this.decoded=jwtDecode(localStorage.getItem("token"));
     }else if(sessionStorage.getItem("token")){
@@ -26,6 +27,13 @@ export class HeaderComponent {
   goToRoute(route: string) {
     this.router.navigateByUrl(route)
   }
+
+  async cerrarSesion() {
+    this.apiService.deleteToken();
+    await this.router.navigateByUrl("inicio-sesion");
+    window.location.reload()
+  }
+
   changeoption(){
     const language=localStorage.getItem('language');
     if(language=='en'){

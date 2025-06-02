@@ -40,8 +40,11 @@ export class PerfilComponent {
       coche.imagen = environment.images+coche.imagen
     });
     console.log(this.user.imagen)
-    this.matricula_actual = this.user.coches[0].matricula
-    this.coche_actual = this.user.coches[0]
+    if(this.user.coches.length > 0){
+      this.matricula_actual = this.user.coches[0].matricula
+      this.coche_actual = this.user.coches[0]
+    }
+    
 
     console.log("Usuario: ",this.user)
   }
@@ -58,7 +61,7 @@ export class PerfilComponent {
   }
 
   async anadir_coche(){
-    const { value: tipo } = await Swal.fire({
+    const { value: tipoRaw } = await Swal.fire({
       title: 'Selecciona el tipo de vehículo',
       input: 'radio',
       inputOptions: {
@@ -69,7 +72,9 @@ export class PerfilComponent {
       inputValidator: value => !value && 'Debes seleccionar un tipo'
     });
   
-    if (!tipo) return;
+    if (!tipoRaw) return;
+
+    const tipo = tipoRaw.charAt(0).toUpperCase() + tipoRaw.slice(1);
   
     const { value: matricula } = await Swal.fire({
       title: 'Introduce la matrícula',
@@ -96,7 +101,7 @@ export class PerfilComponent {
   
     if (!fecha_itv) return;
   
-    const { value: combustible } = await Swal.fire({
+    const { value: combustibleRaw } = await Swal.fire({
       title: 'Selecciona el tipo de combustible',
       input: 'radio',
       inputOptions: {
@@ -107,7 +112,9 @@ export class PerfilComponent {
       inputValidator: value => !value && 'Debes seleccionar un tipo de combustible'
     });
   
-    if (!combustible) return;
+    if (!combustibleRaw) return;
+
+    const combustible = combustibleRaw.charAt(0).toUpperCase() + combustibleRaw.slice(1);
   
     const { value: kilometraje } = await Swal.fire({
       title: 'Introduce el kilometraje',
@@ -150,7 +157,13 @@ export class PerfilComponent {
 
     const result = await this.authService.newCar(newCoche, file)
 
+    result.data.imagen = environment.images+result.data.imagen
+
     this.user.coches.push(result.data)
+    if(this.user.coches.length > 0){
+      this.matricula_actual = this.user.coches[0].matricula
+      this.coche_actual = this.user.coches[0]
+    }
   }
 
   cambiar_imagen(){

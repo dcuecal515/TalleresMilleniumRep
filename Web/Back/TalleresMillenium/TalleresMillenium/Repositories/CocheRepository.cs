@@ -10,7 +10,9 @@ namespace TalleresMillenium.Repositories
 
         public async Task<Coche> GetByMatriculaAsync(string matricula)
         {
-            return await GetQueryable().FirstOrDefaultAsync(coche => coche.Matricula.Equals(matricula));
+            return await GetQueryable()
+                .Include(x => x.coche_Servicios)
+                .FirstOrDefaultAsync(coche => coche.Matricula.Equals(matricula));
         }
     }
 }
