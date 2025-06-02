@@ -27,6 +27,17 @@ namespace TalleresMillenium.Controllers
             }
             await _reviewService.InsertReview(reviewDto,usuario.Id);
         }
+        [Authorize]
+        [HttpPost("Product")]
+        public async Task AddReviewProduct([FromBody] ReviewDto reviewDto)
+        {
+            Usuario usuario = await GetAuthorizedUser();
+            if (usuario == null)
+            {
+                return;
+            }
+            await _reviewService.InsertReviewProduct(reviewDto, usuario.Id);
+        }
         private async Task<Usuario> GetAuthorizedUser()
         {
             // Pilla el usuario autenticado según ASP

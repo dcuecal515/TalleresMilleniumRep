@@ -18,5 +18,9 @@ namespace TalleresMillenium.Repositories
             Servicio servicio = await GetQueryable().Include(servicio=>servicio.valoraciones).ThenInclude(valoracion=> valoracion.Usuario).FirstOrDefaultAsync(s=>s.Id==id);
             return servicio;
         }
+        public async Task<IEnumerable<Servicio>> GetAllServiceFull()
+        {
+            return await GetQueryable().OrderBy(p => p.Nombre).ToListAsync();
+        }
     }
 }

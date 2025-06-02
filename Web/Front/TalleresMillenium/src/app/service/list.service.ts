@@ -6,7 +6,10 @@ import { environment } from '../../environments/environment.development';
 import { querypage } from '../models/querypage';
 import { Productlistreal } from '../models/productlistreal';
 import { Productlistproduct } from '../models/productlistproduct';
-import { Producto } from '../models/Producto';
+import { Producto } from '../models/producto';
+import { Product } from '../models/product';
+import { Result } from '../models/result';
+import { Service } from '../models/service';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +54,29 @@ export class ListService {
       return producto
     }
     return null
+  }
+  async getallProductWhithoutreview():Promise<Result<Product[]>>{
+    const result= await this.api.get<Product[]>("Product/full",{},'json')
+        if(result.data){
+          result.data.forEach(element => {
+            element.imagen=environment.images+element.imagen
+          });
+          return result
+        }
+        return null
+  }
+  async getallServiceWhithoutreview():Promise<Result<Service[]>>{
+    const result= await this.api.get<Service[]>("Service/full",{},'json')
+        if(result.data){
+          result.data.forEach(element => {
+            element.imagen=environment.images+element.imagen
+          });
+          return result
+        }
+        return null
+  }
+  async deleteproduct(id:number){
+    const result= await this.api.delete<Result>("Product",{id})
   }
 }
 

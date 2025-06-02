@@ -12,10 +12,14 @@ namespace TalleresMillenium.Repositories
         {
             return await GetQueryable().Include(s => s.valoraciones).OrderBy(s => s.Nombre).ToListAsync();
         }
-        public async Task<Producto> GetServiceById(int id)
+        public async Task<Producto> GetProductById(int id)
         {
-            Producto producto = await GetQueryable().Include(servicio => servicio.valoraciones).ThenInclude(valoracion => valoracion.Usuario).FirstOrDefaultAsync(s => s.Id == id);
+            Producto producto = await GetQueryable().Include(producto => producto.valoraciones).ThenInclude(valoracion => valoracion.Usuario).FirstOrDefaultAsync(s => s.Id == id);
             return producto;
+        }
+        public async Task<IEnumerable<Producto>> GetAllProductFull()
+        {
+            return await GetQueryable().OrderBy(p => p.Nombre) .ToListAsync();
         }
     }
 }

@@ -1,8 +1,8 @@
 <div class="principal">
-<div>
-    <app-header></app-header>
-</div>
-@if(this.tipo=="servicio" && servicio!=null){
+    <div>
+        <app-header></app-header>
+    </div>
+    @if(this.tipo=="servicio" && servicio!=null){
     <div class="principal-datos">
         <div class="principal-datos-imagen">
             <img class="imagen" [src]="servicio.imagen" alt="">
@@ -11,34 +11,39 @@
             <h1>{{servicio.nombre}}</h1>
             <h2>Valoracion:{{media}}</h2>
             <p class="principal-datos-caracteristicas-descripcion"><b
+                    class="principal-datos-caracteristicas-descripcion-titulo">Descripcion:</b>{{servicio.descripcion}}
+            </p>
+            <button class="principal-datos-caracteristicas-descripcion-boton">Reservar</button>
                     class="principal-datos-caracteristicas-descripcion-titulo">Descripcion:</b>{{servicio.descripcion}}</p>
             <button class="principal-datos-caracteristicas-descripcion-boton" (click)="reservar()">Reservar</button>
         </div>
     </div>
-}
-@if(this.tipo=="producto" && producto!=null){
+    }
+    @if(this.tipo=="producto" && producto!=null){
     <div class="principal-datos">
         <div class="principal-datos-imagen">
             <img class="imagen" [src]="producto?.imagen" alt="">
         </div>
         <div class="principal-datos-caracteristicas">
             <h1>{{producto?.nombre}}</h1>
-            <h2>Valoracion:{{media}}</h2>
+            <h2>Valoracion:{{ media | number:'1.1-1' }}</h2>
             <p class="principal-datos-caracteristicas-descripcion"><b
-                    class="principal-datos-caracteristicas-descripcion-titulo">Descripcion:</b>{{producto?.descripcion}}</p>
+                    class="principal-datos-caracteristicas-descripcion-titulo">Descripcion:</b>{{producto?.descripcion}}
+            </p>
             <h3>{{producto.disponible}}</h3>
         </div>
     </div>
-}
+    }
     <div class="comentarios">
         @if(decoded!=null){
-            <h2>Comentarios</h2>
+        <h2>Comentarios</h2>
         <div class="comentarios-casilla">
             <form [formGroup]="subidareview" class="comentario-casilla-texto">
-                    <textarea class="comentario-casilla-texto-escrito" rows="5" cols="50"
-                        placeholder="Danos tu opinion" formControlName="texto"></textarea>
-                        <div class="comentario-casilla-texto-embebido">
-                    <select name="puntuacion" id="categoria" class="comentario-casilla-texto-puntuacion" formControlName="puntuacion">
+                <textarea class="comentario-casilla-texto-escrito" rows="5" cols="50" placeholder="Danos tu opinion"
+                    formControlName="texto"></textarea>
+                <div class="comentario-casilla-texto-embebido">
+                    <select name="puntuacion" id="categoria" class="comentario-casilla-texto-puntuacion"
+                        formControlName="puntuacion">
                         <option value="">puntuacion</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -51,13 +56,43 @@
             </form>
             <button class="boton-enviar" (click)="postreview()">Enviar comentario</button>
         </div>
+        <br>
         }
-        
     </div>
-    <div class="">
-
+    @if(servicio != null && producto.valoracionesDto.length > 0 ){
+    @for(item of servicio.valoracionesDto; track $index){
+    <div class="contenedor">
+        <div class="vista-comentario">
+            <div class="vista-comentario-datos">
+                <img class="vista-comentario-datos-imagen" src="assets/paisaje1.webp" alt="imagen perfil">
+                <h4>{{item.nombre}}</h4>
+                <h4>valoracion: {{item.puntuacion}}</h4>
+            </div>
+            <div class="vista-comentario-texto">
+                <p>{{item.texto}}</p>
+            </div>
+        </div>
     </div>
-<div class="footer">
-    <app-footer></app-footer>
-</div>
+    <br>
+    }
+    }@else if( producto != null && producto.valoracionesDto?.length > 0){
+    @for(item of producto.valoracionesDto; track $index){
+    <div class="contenedor">
+        <div class="vista-comentario">
+            <div class="vista-comentario-datos">
+                <img class="vista-comentario-datos-imagen" src="assets/paisaje1.webp" alt="imagen perfil">
+                <h4>{{item.nombre}}</h4>
+                <h4>valoracion: {{item.puntuacion}}</h4>
+            </div>
+            <div class="vista-comentario-texto">
+                <p>{{item.texto}}</p>
+            </div>
+        </div>
+    </div>
+    <br>
+    }
+    }
+    <div class="footer">
+        <app-footer></app-footer>
+    </div>
 </div>

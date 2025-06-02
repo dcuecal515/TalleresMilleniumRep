@@ -29,13 +29,27 @@ namespace TalleresMillenium.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        public async Task<ICollection<ListuserDto>> GetAllUsers()
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null || !usuario.Rol.Equals("Admin"))
+            {
+                return null;
+            }
+            IEnumerable<Usuario> usuarios = await _userService.GetAllUsers(usuario.Id);
+            ICollection<ListuserDto> users = _userMapper.ListtoDto(usuarios.ToList());
+            return users;
+        }
+
+
         [HttpGet("full")]
-        public async Task<UsuarioDto> GetFullUsuario([FromQuery]int id)
+        public async Task<UsuarioDto> GetFullUsuario([FromQuery] int id)
         {
             Usuario user = await _userService.GetFullUserById(id);
             UsuarioDto usuarioDto = _userMapper.toDto(user);
             List<CocheDto> cocheDtos = new List<CocheDto>();
-            
+
 
             foreach (var coche in user.Coches)
             {
@@ -149,6 +163,46 @@ namespace TalleresMillenium.Controllers
                 CocheDto cocheDto = _cocheMapper.toDto(updCoche);
                 return cocheDto;
             }
+        }
+        [Authorize]
+        [HttpPut("change")]
+        public async Task<IActionResult> PutChangeRol([FromBody] ChangeRolDto changeRolDto)
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null || !usuario.Rol.Equals("Admin"))
+            {
+                return Unauthorized();
+            }
+            Usuario userchange = await _userService.getUserByIdOnlyAsync(changeRolDto.Id);
+            if (userchange != null)
+            {
+                userchange.Rol = changeRolDto.Rol;
+            }
+            else
+            {
+                return null;
+            }
+            await _userService.UpdateUser(userchange);
+            return Ok();
+        }
+        [Authorize]
+        [HttpDelete]
+        public async Task DeleteUser([FromQuery] int id)
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null || !usuario.Rol.Equals("Admin") || usuario.Id == id)
+            {
+                return;
+            }
+
+            Usuario deletedUser = await _userService.getUserByIdOnlyAsync(id);
+
+            if (deletedUser == null)
+            {
+                return;
+            }
+
+            await _userService.DeleteUser(deletedUser);
         }
 
         private async Task<Usuario> GetCurrentUser()
