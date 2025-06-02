@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { jwtDecode } from "jwt-decode";
 import {TranslateModule} from '@ngx-translate/core';
 import { LanguageService } from '../../service/language.service';
+import { ApiService } from '../../service/api.service';
 
 @Component({
   selector: 'app-header',
@@ -12,24 +13,31 @@ import { LanguageService } from '../../service/language.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
-  constructor(private router:Router,private translate: LanguageService){
+  constructor(private router:Router,private translate: LanguageService, private apiService:ApiService){
     if(localStorage.getItem("token")){
       this.decoded=jwtDecode(localStorage.getItem("token"));
     }else if(sessionStorage.getItem("token")){
       this.decoded=jwtDecode(sessionStorage.getItem("token"));
-    }else{
-      router.navigateByUrl("")
-      this.decoded=null
-      
     }
   }
   decoded:User
 
+  ngOnInit() {
+      this.translate.initLanguage()
+  }
+
   goToRoute(route: string) {
     this.router.navigateByUrl(route)
   }
+
+  async cerrarSesion() {
+    this.apiService.deleteToken();
+    await this.router.navigateByUrl("inicio-sesion");
+    window.location.reload()
+  }
+
   changeoption(){
     const language=localStorage.getItem('language');
     if(language=='en'){

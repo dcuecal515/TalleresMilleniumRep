@@ -1,0 +1,96 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using TalleresMillenium.DTOs;
+using TalleresMillenium.Models;
+using TalleresMillenium.Services;
+
+namespace TalleresMillenium.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ServiceController : Controller
+    {
+        private readonly ServiceService _serviceService;
+        private readonly UserService _userService;
+        public ServiceController(ServiceService serviceService, UserService userService)
+        {
+            _serviceService = serviceService;
+            _userService = userService;
+        }
+        [HttpGet]
+        public async Task<ServicioFullDto> GetAllService([FromQuery] QueryDto queryDto) {
+            ServicioFullDto servicios =await _serviceService.GetallService(queryDto);
+            return servicios;
+        }
+        [HttpGet("{id}")]
+        public async Task<ServicioDto> GetServiceById(int id)
+        {
+            ServicioDto servicioDto=await _serviceService.GetServiceById(id);
+            return servicioDto;
+        }
+        [HttpGet("full")]
+        public async Task<ICollection<ServiceAdminDto>> GetAllFullProduct()
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null || !usuario.Rol.Equals("Admin"))
+            {
+                return null;
+            }
+            ICollection<ServiceAdminDto> serviceAdminDto = await _serviceService.GetAllServiceFull();
+            return serviceAdminDto;
+        }
+        [Authorize]
+        [HttpPut("change")]
+        public async Task PutService([FromForm] ChangeServiceDto changeServiceDto)
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null || !usuario.Rol.Equals("Admin"))
+            {
+                return;
+            }
+
+            Servicio servicio = await _serviceService.getServiceByIdOnlyAsync(int.Parse(changeServiceDto.Id));
+
+            if (servicio == null)
+            {
+                return;
+            }
+            servicio.Nombre = changeServiceDto.Nombre;
+            servicio.Descripcion = changeServiceDto.Descripcion;
+            if (changeServiceDto.Imagen != null)
+            {
+                ImageService imageService = new ImageService();
+                servicio.Imagen = "/" + await imageService.InsertAsync(changeServiceDto.Imagen);
+            }
+
+            await _serviceService.UpdateService(servicio);
+        }
+        [Authorize]
+        [HttpPost("new")]
+        public async Task AddService([FromForm] NewServiceDto newServiceDto)
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null || !usuario.Rol.Equals("Admin"))
+            {
+                return;
+            }
+            Servicio servicio = new Servicio();
+            servicio.Nombre = newServiceDto.Nombre;
+            servicio.Descripcion = newServiceDto.Descripcion;
+            ImageService imageService = new ImageService();
+            servicio.Imagen = "/" + await imageService.InsertAsync(newServiceDto.Imagen);
+
+            await _serviceService.InsertService(servicio);
+        }
+        private async Task<Usuario> GetCurrentUser()
+        {
+            // Pilla el usuario autenticado según ASP
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+            string idString = currentUser.Claims.First().ToString().Substring(3); // 3 porque en las propiedades sale "id: X", y la X sale en la tercera posición
+
+            // Pilla el usuario de la base de datos
+            return await _userService.GetUserFromDbByStringId(idString);
+        }
+
+    }
+}

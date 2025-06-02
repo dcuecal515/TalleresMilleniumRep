@@ -5,14 +5,16 @@ namespace TalleresMillenium.Mappers
 {
     public class CocheMapper
     {
-        public Coche toEntity(SignUpDto userDto)
+        public CocheDto toDto(Coche coche)
         {
-            return new Coche
+            return new CocheDto
             {
-                Matricula = userDto.matricula,
-                Tipo = userDto.tipo_vehiculo,
-                Combustible = userDto.tipo_combustible,
-                Fecha_itv = userDto.fecha_ITV
+                Tipo = coche.Tipo,
+                Combustible = coche.Combustible,
+                Fecha_itv = coche.Fecha_itv,
+                Imagen = coche.Imagen,
+                Kilometraje = coche.Kilometraje,
+                Matricula = coche.Matricula
             };
         }
     }

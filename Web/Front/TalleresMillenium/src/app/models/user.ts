@@ -1,6 +1,6 @@
 export interface User{
-    Id:number
+    id:number
     email:string
     name:string
-    rol:string
+    role:string
 }

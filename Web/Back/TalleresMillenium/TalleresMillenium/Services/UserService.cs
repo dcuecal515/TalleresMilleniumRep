@@ -57,12 +57,6 @@ namespace TalleresMillenium.Services
         public async Task<string> RegisterUser(SignUpDto receivedUser)
         {
             Usuario user = _userMapper.toEntity(receivedUser);
-            Coche coche = _cocheMapper.toEntity(receivedUser);
-            Coche cocheExistente = await _unitOfWork.CocheRepository.GetByMatriculaAsync(receivedUser.matricula);
-            if (cocheExistente != null)
-            {
-                return null;
-            }
             PasswordService passwordService = new PasswordService();
             user.Password = passwordService.Hash(receivedUser.contrasena);
             if (receivedUser.imagenPerfil != null)
@@ -73,10 +67,6 @@ namespace TalleresMillenium.Services
                 user.Imagen = "/images/perfilDefect.webp";
             }
             user.Rol = "User";
-            coche.Imagen = "/" + await _imageService.InsertAsync(receivedUser.imagenFT);
-            coche.Kilometraje = 0;
-            user.Coches.Add(coche);
-            await _unitOfWork.CocheRepository.InsertAsync(coche);
 
             Usuario newUser = await InsertUserAsync(user);
 
@@ -110,6 +100,53 @@ namespace TalleresMillenium.Services
             Usuario newUser = await _unitOfWork.UserRepository.InsertAsync(user);
             await _unitOfWork.SaveAsync();
             return newUser;
+        }
+
+        public async Task<Usuario> GetUserFromDbByStringId(string stringId)
+        {
+            return await _unitOfWork.UserRepository.GetByIdAsync(Int32.Parse(stringId));
+        }
+
+        public async Task<Usuario> GetFullUserById(int id)
+        {
+            return await _unitOfWork.UserRepository.GetFullUserById(id);
+        }
+        public async Task<Usuario> updateUser(Usuario user)
+        {
+            _unitOfWork.UserRepository.Update(user);
+            await _unitOfWork.SaveAsync();
+            return user;
+        }
+
+        public async Task<Boolean> GetIfMatriculaExists(string matricula)
+        {
+            Coche coche = await _unitOfWork.CocheRepository.GetByMatriculaAsync(matricula);
+            if (coche == null)
+            {
+                return false;
+            } else
+            {
+                return true;
+            }
+        }
+        public async Task<IEnumerable<Usuario>> GetAllUsers(int id)
+        {
+            ICollection<Usuario> usuarios= await _unitOfWork.UserRepository.GetAllUser(id);
+            return usuarios;
+        }
+        public async Task<Usuario> getUserByIdOnlyAsync(int id)
+        {
+            return await _unitOfWork.UserRepository.GetByIdAsync(id);
+        }
+        public async Task UpdateUser(Usuario usuario)
+        {
+            _unitOfWork.UserRepository.Update(usuario);
+            await _unitOfWork.SaveAsync();
+        }
+        public async Task DeleteUser(Usuario usuario)
+        {
+            _unitOfWork.UserRepository.Delete(usuario);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

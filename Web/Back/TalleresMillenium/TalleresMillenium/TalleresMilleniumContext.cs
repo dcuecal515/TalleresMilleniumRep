@@ -16,11 +16,25 @@ namespace TalleresMillenium
 
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Coche> Coches { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<Mensaje> Mensajes { get; set; }
+        public DbSet<Servicio> Servicios { get; set; }
+        public DbSet<Valoracion> Valoraciones { get; set; }
+        public DbSet<Coche_Servicio> Coche_Servicios { get; set; }
+        public DbSet<Producto> Productos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string baseDir = AppDomain.CurrentDomain.BaseDirectory;
             optionsBuilder.UseSqlite($"DataSource={baseDir}{DATABASE_PATH}");
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Valoracion>()
+                .HasOne(v => v.Producto)
+                .WithMany(p => p.valoraciones)
+                .HasForeignKey(v => v.ProductoId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

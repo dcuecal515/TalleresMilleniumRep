@@ -1,0 +1,116 @@
+.go-back{
+    font-size: x-large;
+    margin-left: 1%;
+}
+.container {
+    width: 80%;
+    margin: 0 auto;
+    height: 90vh;
+}
+.profile-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.user-image {
+    width: 150px;
+    height: 150px;
+    background: #ddd;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.image{
+    width: 100%;
+    height: 100%;
+}
+
+.user-data p {
+    margin: 0.8rem 0;
+    font-size: 1.1rem;
+}
+
+.edit {
+    color: #0077cc;
+    cursor: pointer;
+    margin-left: 1rem;
+}
+
+.vehicle-folder {
+    background: #f4e7b3;
+    padding: 1rem;
+    border-radius: 8px;
+    position: relative;
+    margin-top: 20%;
+    border: black solid 2px;
+}
+
+.tabs {
+    display: flex;
+    gap: 1rem;
+    position: absolute;
+    top: -1.5rem;
+    left: 1rem;
+}
+
+.tab {
+    background: #f4e7b3;
+    padding: 0.3rem 1rem;
+    border: 1px solid black;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    font-weight: bold;
+}
+
+.vehicle-content {
+    padding: 1rem;
+    margin-top: 1.5rem;
+}
+
+.car-info {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.car-image {
+    width: 150px;
+    height: 120px;
+    background: #ede3aa;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.car-details p {
+    margin: 0.4rem 0;
+}
+
+.ficha-tecnica{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5%;
+}
+
+.services h3 {
+    margin-bottom: 0.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th, td {
+    border: 2px solid black;
+    padding: 0.5rem;
+}

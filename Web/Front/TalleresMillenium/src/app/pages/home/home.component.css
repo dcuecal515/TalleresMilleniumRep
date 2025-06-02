@@ -95,3 +95,8 @@ tr:last-child td {
     text-align: center;
     
 }
+.chat{
+    position: fixed;
+    bottom: 5%;
+    width: 100%;
+}

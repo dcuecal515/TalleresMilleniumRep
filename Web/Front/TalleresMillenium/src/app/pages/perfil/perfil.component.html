@@ -1,0 +1,89 @@
+<p class="go-back" (click)="this.router.navigateByUrl('')"><i class="fa-sharp fa-solid fa-left-long" style="color: #ff0000;"></i></p>
+@if(user){
+    <div class="container">
+    
+        <!-- Sección Usuario -->
+        <div class="profile-section">
+            <div class="user-image" (click)="cambiar_imagen()">
+                <img class="image" [src]="user.imagen">
+            </div>
+            <div class="user-data">
+                <p (click)="cambiar_nombre()"><strong>{{user.name}}</strong> <span class="edit" >Cambiar</span></p>
+                <p (click)="cambiar_email()"><strong>{{user.email}}</strong> <span class="edit" >Cambiar</span></p>
+                <p (click)="cambiar_contrasena()"><strong>Contraseña</strong> <span class="edit">Cambiar</span></p>
+                @if(decoded.role=="Admin"){
+                    <button (click)="goToRoute('admistracion')">Administración</button>
+                }
+            </div>
+        </div>
+    
+        <!-- Sección Vehículos -->
+        <div class="vehicle-folder">
+            <div class="tabs">
+                @if(user.coches.length > 0){
+                    @for(coche of user.coches; track coche.matricula){
+                        <div class="tab" (click)="seleccionar_coche(coche.matricula)">{{coche.matricula}}</div>
+                    }
+                }
+                <div class="tab" (click)="anadir_coche()"><i class="fa-solid fa-plus"></i></div>
+            </div>
+            <div class="vehicle-content">
+                <div class="car-info">
+                    <div class="car-image">
+                        @if(user.coches.length > 0){
+                            @if(coche_actual.tipo == "Coche"){
+                                <img class="image" src="assets/coche2.webp">
+                            }@else if (coche_actual.tipo == "Camion") {
+                                <img class="image" src="assets/camion2.webp">
+                            }@else {
+                                <img class="image" src="assets/autobus2.webp">
+                            }
+                            
+                        }   
+                    </div>
+                    <div class="car-details">
+                        
+                        <p>Fecha_itv: @if(user.coches.length > 0){
+                            {{coche_actual.fecha_itv}}
+                        }</p>
+                        <p>Tipo de combustible: @if(user.coches.length > 0){
+                            {{coche_actual.combustible}}
+                        }</p>
+                        <p>Kilometraje: @if(user.coches.length > 0){
+                            {{coche_actual.kilometraje}}
+                        }</p>
+                        <div class="ficha-tecnica">
+                            <p>Ver ficha tecnica </p>@if(user.coches.length > 0){
+                                <button (click)="ver_ficha(coche_actual.imagen)"><i class="fa-regular fa-eye"></i></button>
+                            }
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="services">
+                    <h3>Servicios recibidos:</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Estado</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(user.coches.length > 0){
+                                @for(servicio of coche_actual.servicios; track servicio.nombre){
+                                    <tr>
+                                        <td>{{servicio.estado}}</td>
+                                        <td>{{servicio.nombre}}</td>
+                                        <td>{{servicio.descripcion}}</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>    
+}
