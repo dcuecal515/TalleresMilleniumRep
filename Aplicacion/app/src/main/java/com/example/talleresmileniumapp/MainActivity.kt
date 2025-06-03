@@ -12,6 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.talleresmileniumapp.Navegationdrawer.NavigationDrawer
+import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ui.theme.TalleresMileniumAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +24,7 @@ class MainActivity : ComponentActivity() {
             TalleresMileniumAppTheme {
                 val authViewModel: AuthViewModel by viewModels()
 
-
+                NavigationDrawer(authViewModel)
             }
         }
     }

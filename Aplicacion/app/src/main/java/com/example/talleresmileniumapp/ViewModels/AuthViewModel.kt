@@ -15,6 +15,7 @@ import com.example.talleresmileniumapp.Repositories.AuthRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import com.auth0.android.jwt.JWT
 
 private val dataStoreName = "talleres_milenium_app_authentication";
 
@@ -91,7 +92,7 @@ class AuthViewModel( application: Application) : AndroidViewModel(application){
             val response = auth.login(email,password)
 
             if (response != null){
-                getUserDataAndSave(response.accessToken)
+                getUserDataAndSave(response.AccessToken)
                 _authState.value = AuthState.Authenticated
 
             } else {
@@ -111,11 +112,13 @@ class AuthViewModel( application: Application) : AndroidViewModel(application){
     }
 
     suspend fun getUserDataAndSave(accessToken: String) {
-        val response = auth.getAuthUser(accessToken)
+        val jwt = JWT(accessToken)
+        val email = jwt.getClaim("email").asString()
+        val name = jwt.getClaim("name").asString()
 
-        if (response != null) {
-            saveData(response.name,
-                response.email,
+        if (email != null && name != null) {
+            saveData(name,
+                email,
                 accessToken)
         }
     }

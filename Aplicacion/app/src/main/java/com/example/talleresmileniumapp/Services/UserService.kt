@@ -7,6 +7,6 @@ import retrofit2.http.Header
 
 interface UserService {
     //Método solo disponible con token
-    @GET("/api/user")
+    @GET("/api/User/")
     suspend fun getAuthUser(@Header("Authorization") token: String): Response<UserResponse>
 }
