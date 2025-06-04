@@ -92,7 +92,7 @@ class AuthViewModel( application: Application) : AndroidViewModel(application){
             val response = auth.login(email,password)
 
             if (response != null){
-                getUserDataAndSave(response.AccessToken)
+                getUserDataAndSave(response.accessToken)
                 _authState.value = AuthState.Authenticated
 
             } else {

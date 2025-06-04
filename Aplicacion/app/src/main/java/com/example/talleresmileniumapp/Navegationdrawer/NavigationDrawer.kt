@@ -6,20 +6,26 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.ExitToApp
+import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Badge
 import androidx.compose.material3.DrawerValue
@@ -56,6 +62,10 @@ import com.example.talleresmileniumapp.Data.Routes
 import com.example.talleresmileniumapp.Principal
 import com.example.talleresmileniumapp.R
 import com.example.talleresmileniumapp.Views.Login
+import com.example.talleresmileniumapp.Views.Productos
+import com.example.talleresmileniumapp.Views.Reservas
+import com.example.talleresmileniumapp.Views.Servicios
+import com.example.talleresmileniumapp.Views.Usuarios
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -71,16 +81,40 @@ fun NavigationDrawer(
     ///List of Navigation Items that will be clicked
     val items = listOf(
         NavigationItems(
-            title = "inicio"/*context.getString(R.string.home_text)*/,
+            title = "Inicio"/*context.getString(R.string.home_text)*/,
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Outlined.Home,
             route = Routes.Principal.route
         ),
         NavigationItems(
-            title = "cuenta"/*context.getString(R.string.account_text)*/,
+            title = "Cuenta"/*context.getString(R.string.account_text)*/,
             selectedIcon = Icons.Filled.Person,
             unselectedIcon = Icons.Outlined.Person,
             route = Routes.Login.route
+        ),
+        NavigationItems(
+            title = "Servicios"/*context.getString(R.string.account_text)*/,
+            selectedIcon = Icons.Filled.Build,
+            unselectedIcon = Icons.Outlined.Build,
+            route = Routes.Servicios.route
+        ),
+        NavigationItems(
+            title = "Productos"/*context.getString(R.string.account_text)*/,
+            selectedIcon = Icons.Filled.ShoppingCart,
+            unselectedIcon = Icons.Outlined.ShoppingCart,
+            route = Routes.Productos.route
+        ),
+        NavigationItems(
+            title = "Usuarios"/*context.getString(R.string.account_text)*/,
+            selectedIcon = Icons.Filled.Face,
+            unselectedIcon = Icons.Outlined.Face,
+            route = Routes.Usuarios.route
+        ),
+        NavigationItems(
+            title = "Reservas"/*context.getString(R.string.account_text)*/,
+            selectedIcon = Icons.Filled.DateRange,
+            unselectedIcon = Icons.Outlined.DateRange,
+            route = Routes.Reservas.route
         ),
         /*NavigationItems(
             title = "tareas"/*context.getString(R.string.tasks_name)*/,
@@ -89,7 +123,7 @@ fun NavigationDrawer(
             route = Routes.TasksManager.route
         ),*/
         NavigationItems(
-            title = "salir"/*context.getString(R.string.exit_button_title)*/,
+            title = "Salir"/*context.getString(R.string.exit_button_title)*/,
             selectedIcon = Icons.Filled.ExitToApp,
             unselectedIcon = Icons.Outlined.ExitToApp,
             route = null
@@ -180,12 +214,24 @@ fun NavigationDrawer(
                 )
             }
         ) {
-            NavHost(navController = navController, startDestination = Routes.Principal.route) {
+            NavHost(navController = navController, startDestination = Routes.Login.route) {
                 composable(Routes.Principal.route) { selectedItemIndex = 0
                     Principal(navController, authViewModel) }
                 composable(Routes.Login.route) { selectedItemIndex = 1
                     Login(navController, authViewModel) }
-                /*composable(Routes.TasksManager.route) { selectedItemIndex = 5
+                composable(Routes.Servicios.route){ selectedItemIndex = 2
+                    Servicios(navController,authViewModel)
+                }
+                composable(Routes.Productos.route) { selectedItemIndex = 3
+                    Productos(navController,authViewModel)
+                }
+                composable(Routes.Usuarios.route) { selectedItemIndex = 4
+                    Usuarios(navController,authViewModel)
+                }
+                composable(Routes.Reservas.route) { selectedItemIndex = 5
+                    Reservas(navController,authViewModel)
+                }
+                /*composable(Routes.TasksManager.route) { selectedItemIndex = 6
                     TasksManager(navController,tasksViewModel)
                 }*/
             }

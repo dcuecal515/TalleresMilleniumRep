@@ -103,19 +103,9 @@ fun InsertHeader(context: Context, authViewModel: AuthViewModel, navController: 
                 }
 
             }
-
             is AuthState.Unauthenticated ->
             {
-                TextButton(
-                    onClick = { navController.navigate(Routes.Login.route) },
-                ) {
-                    Text(
-                        text = context.getString(R.string.loginTitle),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
-
+                navController.navigate(Routes.Login.route)
             }
             is AuthState.Error ->{
                 TextButton(
