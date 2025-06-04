@@ -1,6 +1,7 @@
-package com.example.talleresmileniumapp.Models.Auth
+package com.example.talleresmileniumapp.Models
 
 import com.example.talleresmileniumapp.Services.AuthService
+import com.example.talleresmileniumapp.Services.ServiceService
 import com.example.talleresmileniumapp.Services.UserService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,7 +12,7 @@ object RetrofitApiInstance {
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl(RetrofitApiInstance.BASE_URL)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -22,5 +23,8 @@ object RetrofitApiInstance {
 
     val userService: UserService by lazy {
         retrofit.create(UserService::class.java)
+    }
+    val serviceService:ServiceService by lazy{
+        retrofit.create(ServiceService::class.java)
     }
 }

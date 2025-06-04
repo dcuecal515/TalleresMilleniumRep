@@ -3,8 +3,8 @@ package com.example.talleresmileniumapp.Repositories
 import android.util.Log
 import com.example.talleresmileniumapp.Models.Auth.AuthenticationRequest
 import com.example.talleresmileniumapp.Models.Auth.AuthenticationResponse
-import com.example.talleresmileniumapp.Models.Auth.RetrofitApiInstance.authService
-import com.example.talleresmileniumapp.Models.Auth.RetrofitApiInstance.userService
+import com.example.talleresmileniumapp.Models.RetrofitApiInstance.authService
+import com.example.talleresmileniumapp.Models.RetrofitApiInstance.userService
 import com.example.talleresmileniumapp.Models.Auth.UserResponse
 
 class AuthRepository() {
