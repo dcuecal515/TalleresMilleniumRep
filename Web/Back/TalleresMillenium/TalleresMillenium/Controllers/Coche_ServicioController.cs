@@ -68,6 +68,7 @@ namespace TalleresMillenium.Controllers
                     {
                         CocheId = coche.Id,
                         Estado = "Espera",
+                        Fecha = DateOnly.FromDateTime(DateTime.Now),
                         ServicioId = reservarDto.ServicioId
                     };
                     await _coche_ServicioService.InsertCoche_Servicio(coche_Servicio);
@@ -156,12 +157,65 @@ namespace TalleresMillenium.Controllers
                 {
                     foreach (var coche_Servicio in coche.coche_Servicios)
                     {
-                        coche_Servicio.Estado = "Reservado";
-                        await _coche_ServicioService.UpdateCoche_Servicio(coche_Servicio);
+                        if (coche_Servicio.Estado=="Espera")
+                        {
+                            coche_Servicio.Estado = "Reservado";
+                            coche_Servicio.Fecha = DateOnly.FromDateTime(DateTime.Now);
+                            await _coche_ServicioService.UpdateCoche_Servicio(coche_Servicio);
+                        }
                     }
                     return Ok();
                 }
             }
+        }
+        [Authorize]
+        [HttpGet]
+        public async Task<ICollection<Coche_ServicioFullDto>> getallCoche_servicio()
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null || !usuario.Rol.Equals("Admin"))
+            {
+                return null;
+            }
+            ICollection<Coche_Servicio> coche_Servicios = await _coche_ServicioService.getallCoche_servicio();
+            var coche_ServicioFullDtos = new List<Coche_ServicioFullDto>();
+
+            foreach (var coche_servicio in coche_Servicios)
+            {
+                
+                var existe = coche_ServicioFullDtos.FirstOrDefault(r =>r.Matricula == coche_servicio.coche.Matricula && r.Fecha == coche_servicio.Fecha);
+
+                if (existe != null)
+                {
+                   
+                    existe.Servicios.Add(new ServicioCocheDto
+                    {
+                        Idcoche_servicio = coche_servicio.Id,
+                        Nombre = coche_servicio.servicio.Nombre
+                    });
+                }
+                else
+                {
+                    var coche_ServicioFullDto = new Coche_ServicioFullDto
+                    {
+                        Estado = coche_servicio.Estado,
+                        Fecha = coche_servicio.Fecha,
+                        Matricula = coche_servicio.coche.Matricula,
+                        Tipo = coche_servicio.coche.Tipo,
+                        Servicios = new List<ServicioCocheDto>
+                {
+                    new ServicioCocheDto
+                    {
+                         Idcoche_servicio = coche_servicio.Id,
+                        Nombre = coche_servicio.servicio.Nombre
+                    }
+                }
+                    };
+                    coche_ServicioFullDtos.Add(coche_ServicioFullDto);
+                }
+            }
+
+            return coche_ServicioFullDtos;
         }
 
         private async Task<Usuario> GetCurrentUser()

@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Estado { get; set; }
+        public DateOnly Fecha { get; set; }
         public int CocheId { get; set; }
         public Coche coche { get; set; }
         public int ServicioId { get; set; }

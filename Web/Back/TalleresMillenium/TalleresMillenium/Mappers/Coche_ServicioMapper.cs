@@ -11,7 +11,8 @@ namespace TalleresMillenium.Mappers
             {
                 Estado = coche_Servicio.Estado,
                 Descripcion = coche_Servicio.servicio.Descripcion,
-                Nombre = coche_Servicio.servicio.Nombre
+                Nombre = coche_Servicio.servicio.Nombre,
+                Fecha = coche_Servicio.Fecha.ToString()
             };
         }
     }

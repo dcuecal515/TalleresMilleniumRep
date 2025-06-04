@@ -3,10 +3,10 @@ import { ApiService } from './api.service';
 import { Listuser } from '../models/listuser';
 import { Result } from '../models/result';
 import { ChangeRol } from '../models/changerol';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { User } from '../models/user';
 import { Product } from '../models/product';
-import { NewProduct } from '../models/NewProduct';
+import { NewProduct } from '../models/newProduct';
 import { Service } from '../models/service';
 import { NewService } from '../models/newservice';
 

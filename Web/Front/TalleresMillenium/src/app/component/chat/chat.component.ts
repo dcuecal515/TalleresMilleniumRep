@@ -112,5 +112,8 @@ export class ChatComponent {
       this.texto = ""
     }
   }
-  
+    ngOnDestroy(): void {
+    this.messageReceived$.unsubscribe();
+    this.disconnected$.unsubscribe();
+  }
 }

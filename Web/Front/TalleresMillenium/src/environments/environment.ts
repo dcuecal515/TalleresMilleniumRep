@@ -1,4 +1,5 @@
 export const environment = {
-    apiUrl:'https://talleres-milenium.runasp.net/api/',
-    images:'https://talleres-milenium.runasp.net'
+    apiUrl:'https://talleresmilemiun.runasp.net/api/',
+    images:'https://talleresmilemiun.runasp.net',
+    socketUrllocal:'wss://talleresmilemiun.runasp.net/socket?token='
 };

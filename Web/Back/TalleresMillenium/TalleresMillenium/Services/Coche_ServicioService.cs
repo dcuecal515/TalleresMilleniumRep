@@ -44,5 +44,9 @@ namespace TalleresMillenium.Services
             _unitOfWork.Coche_ServicioRepository.Update(coche_Servicio);
             await _unitOfWork.SaveAsync();
         }
+        public async Task<ICollection<Coche_Servicio>> getallCoche_servicio()
+        {
+            return await _unitOfWork.Coche_ServicioRepository.getallCoche_servicio();
+        }
     }
 }
