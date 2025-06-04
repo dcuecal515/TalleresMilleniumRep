@@ -1,6 +1,6 @@
 package com.example.talleresmileniumapp.Models.Auth
 
 data class AuthenticationRequest(
-    val email: String,
-    val password: String
+    val Email: String,
+    val Password: String
 )

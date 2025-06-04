@@ -43,5 +43,17 @@ namespace TalleresMillenium.Controllers
             LoginResultDto loginResultDto = new LoginResultDto { accessToken = token };
             return loginResultDto;
         }
+
+        [HttpPost("iniciarAdmin")]
+        public async Task<TokenRespuestaDto> LoginAdmin([FromBody] PeticionDto peticionDto)
+        {
+            Usuario user = await _userService.GetUserByEmailAndPassword(peticionDto.Email, peticionDto.Password);
+            if (user != null && user.Rol == "Admin")
+            {
+                string token = _userService.ObtainToken(user);
+                return new TokenRespuestaDto { AccessToken = token };
+            }
+            return null;
+        }
     }
 }
