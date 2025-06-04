@@ -4,4 +4,10 @@
     <string name="error_network">Error de conexión. Verifique su conexión a internet.</string>
     <string name="error_unknown">Ocurrió un error desconocido</string>
     <string name="error_empty_credentials">No puedes dejar vacios los campos</string>
+    <string name="loginTitle">Iniciar Sesión</string>
+    <string name="emailWord">Correo electrónico</string>
+    <string name="passWord">Contraseña</string>
+    <string name="welcomeText">Bienvenido</string>
+    <string name="singoutTitle">Cerrar sesión</string>
+    <string name="appTitle">Gestiona tu taller</string>
 </resources>

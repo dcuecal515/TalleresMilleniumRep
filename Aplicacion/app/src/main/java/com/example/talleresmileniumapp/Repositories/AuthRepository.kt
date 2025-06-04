@@ -1,5 +1,6 @@
 package com.example.talleresmileniumapp.Repositories
 
+import android.util.Log
 import com.example.talleresmileniumapp.Models.Auth.AuthenticationRequest
 import com.example.talleresmileniumapp.Models.Auth.AuthenticationResponse
 import com.example.talleresmileniumapp.Models.Auth.RetrofitApiInstance.authService
@@ -10,10 +11,11 @@ class AuthRepository() {
     suspend fun login(email: String, password: String): AuthenticationResponse? {
         val response = authService.authenticate(
             AuthenticationRequest(
-                email = email,
-                password = password
+                Email = email,
+                Password = password
             )
         )
+        Log.i("TAG",response.body().toString())
         return response.body()
     }
 

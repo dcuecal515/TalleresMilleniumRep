@@ -5,4 +5,10 @@
     <string name="error_network">Connection error. Please check your internet connection.</string>
     <string name="error_unknown">An unknown error occurred</string>
     <string name="error_empty_credentials">You cannot leave the fields empty</string>
+    <string name="loginTitle">Login</string>
+    <string name="emailWord">Email</string>
+    <string name="passWord">Password</string>
+    <string name="welcomeText">Welcome</string>
+    <string name="singoutTitle">Singout</string>
+    <string name="appTitle">Manage your workshop</string>
 </resources>
