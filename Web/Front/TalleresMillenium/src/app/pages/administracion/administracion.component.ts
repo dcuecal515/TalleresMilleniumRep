@@ -6,25 +6,34 @@ import { Product } from '../../models/product';
 import { Service } from '../../models/service';
 import { ChangeRol } from '../../models/changerol';
 import Swal from 'sweetalert2';
+import { CocheServicioFullDto } from '../../models/cocheServicioFull';
+import { ServicioCocheName } from '../../models/servicioCocheName';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-administracion',
   standalone: true,
-  imports: [],
+  imports: [DatePipe],
+  providers:[DatePipe],
   templateUrl: './administracion.component.html',
   styleUrl: './administracion.component.css'
 })
 export class AdministracionComponent {
 
-  constructor(private Userservice: UserService, private Listservice: ListService) {
+  constructor(private Userservice: UserService, private Listservice: ListService,private Datepipe:DatePipe) {
     this.getallUser()
   }
   listusers: Listuser[]
   verusuarios: boolean = true
   verproductos: boolean = false
   verservicios: boolean = false
+  vercocheservicio:boolean = false
   listproducts: Product[]
   listservice: Service[]
+  listcocheserviciosespera:CocheServicioFullDto[]
+  listcocheserviciosfinal:CocheServicioFullDto[]
+  listcocheservicios:CocheServicioFullDto[]
+  hoy:Date
 
   async getallUser() {
     const result = await this.Userservice.getallUser()
@@ -33,6 +42,7 @@ export class AdministracionComponent {
     this.verusuarios = true
     this.verproductos = false
     this.verservicios = false
+    this.vercocheservicio=false
   }
   async getallproduct() {
     const result = await this.Listservice.getallProductWhithoutreview()
@@ -41,7 +51,9 @@ export class AdministracionComponent {
     this.verusuarios = false
     this.verproductos = true
     this.verservicios = false
+    this.vercocheservicio=false
   }
+
   async getallservicios() {
     const result = await this.Listservice.getallServiceWhithoutreview()
     this.listservice = result.data
@@ -49,7 +61,9 @@ export class AdministracionComponent {
     this.verusuarios = false
     this.verproductos = false
     this.verservicios = true
+    this.vercocheservicio=false
   }
+
   async putadmin(id: number, rol: string) {
     console.log("HOLA:" + id)
     if (rol == "Admin") {
@@ -75,6 +89,34 @@ export class AdministracionComponent {
     const result = await this.Listservice.deleteproduct(id)
     this.getallproduct()
   }
+
+  async getallcocheservicio(){
+    this.listcocheserviciosespera=[]
+    this.listcocheserviciosfinal=[]
+    const result = await this.Listservice.getallCocheService()
+    if(result.success){
+      const hoy= new Date();
+      this.hoy=hoy
+      this.hoy.setHours(0, 0, 0, 0);
+      this.listcocheservicios=result.data
+      console.log("BUENAS",this.listcocheservicios)
+      this.listcocheservicios.forEach(element => {
+        console.log("ESTO",element.estado)
+        const fechaformateada= new Date(element.fecha);
+        fechaformateada.setHours(0, 0, 0, 0);
+        if(element.estado=="Reservado"){
+          this.listcocheserviciosespera.push(element)
+        }else if(element.estado=="Aceptado" && fechaformateada<=this.hoy ){
+          this.listcocheserviciosfinal.push(element)
+        }
+      });
+    }
+    this.verusuarios = false
+    this.verproductos = false
+    this.verservicios = false
+    this.vercocheservicio=true
+  }
+
   editproduct(producto: Product) {
     Swal.fire({
       title: 'Editar Producto',
@@ -238,4 +280,58 @@ export class AdministracionComponent {
       }
     });
   }
+  acceptsolicitud(matricula:string,fecha:string){
+    Swal.fire({
+    title: 'Confirma el día para que el coche sea llevado al taller',
+    input: 'date',
+    inputLabel: 'Selecciona una fecha',
+    inputAttributes: {
+      min: new Date().toISOString().split('T')[0],
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Confirmar',
+    cancelButtonText: 'Cancelar',
+    inputValidator: (value) => {
+      if (!value) {
+        return 'Por favor, selecciona una fecha';
+      }
+      return null;
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const fechaSeleccionada = result.value;
+      Swal.fire(`Has confirmado el día: ${ this.Datepipe.transform(fechaSeleccionada, 'dd/MM/yyyy')}`);
+    }
+  });
+  }
+  deletesolicitud(servicios:ServicioCocheName[]){
+    const radiosHTML = servicios.map((item, index) => `
+    <div>
+      <input type="radio" name="opcion" id="op${index}" value="${item.idcoche_servicio}">
+      <label for="op${index}">${item.nombre}</label>
+    </div>
+  `).join('');
+
+  Swal.fire({
+    title: 'Selecciona un coche para eliminar',
+    html: radiosHTML,
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    cancelButtonText: 'Cancelar',
+    preConfirm: () => {
+      const selected = document.querySelector('input[name="opcion"]:checked')  as HTMLInputElement | null;
+      if (!selected) {
+        Swal.showValidationMessage('Debes seleccionar una opción');
+        return false;
+      }
+      return parseInt(selected.value);
+    }
+  }).then((result) => {
+    if (result.isConfirmed && result.value != undefined) {
+      const indexToRemove = result.value;
+      Swal.fire(`Eliminado el servicio: ${indexToRemove}`);
+    }
+  });
 }
+}
+

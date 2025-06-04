@@ -11,7 +11,8 @@ namespace TalleresMillenium.Repositories
         public bool GetIfExistsCoche_Sevicio(int cocheId, int serviceId)
         {
             Coche_Servicio coche_Servicio = GetQueryable()
-                .FirstOrDefault(coche_servicio => coche_servicio.CocheId == cocheId && coche_servicio.ServicioId == serviceId && coche_servicio.Estado == "Espera" || coche_servicio.Estado == "Reservado");
+                .FirstOrDefault(coche_servicio => coche_servicio.CocheId == cocheId && coche_servicio.ServicioId == serviceId && (coche_servicio.Estado == "Espera" || coche_servicio.Estado == "Reservado"));
+           
             if (coche_Servicio == null)
             {
                 return false;
@@ -25,6 +26,10 @@ namespace TalleresMillenium.Repositories
             Coche_Servicio coche_Servicio = GetQueryable()
                 .FirstOrDefault(coche_servicio => coche_servicio.coche.Matricula == matricula && coche_servicio.servicio.Nombre == nombreServicio);
             return coche_Servicio;
+        }
+        public async Task<ICollection<Coche_Servicio>> getallCoche_servicio()
+        {
+            return await GetQueryable().Where(cs=>cs.Estado=="Reservado" || cs.Estado=="Aceptado").OrderBy(cs=>cs.Fecha).Include(cs=>cs.coche).Include(cs=>cs.servicio).ToListAsync();
         }
     }
 }

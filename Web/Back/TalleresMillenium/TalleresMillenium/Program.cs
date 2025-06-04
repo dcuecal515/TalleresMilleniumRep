@@ -142,7 +142,7 @@ namespace TalleresMillenium
                         new Producto{Nombre = "Líquido de frenos", Descripcion = "Elemento esencial para un frenado eficaz. Lo tenemos en stock y te lo cambiamos al instante.", Imagen = "/images/liquidofrenos.jpg", Disponible = "No disponible"},
                         new Producto{Nombre = "Kit de herramientas básicas para el auto", Descripcion = "Ideal para emergencias. Incluye llaves, gato, maneral y más. ¡Todo conductor debería tener uno!", Imagen = "/images/kit.jpg", Disponible = "Disponible"}
                         };
-                    var user1 = new Usuario { Email = "example@gmail.com",Name="Pepe", Password = passwordService.Hash("123456"), Rol = "Admin" };
+                    var user1 = new Usuario { Email = "example@gmail.com",Name="Pepe", Password = passwordService.Hash("123456"), Rol = "Admin" , Imagen= "/images/perfilDefect.webp" };
                     dbContext.Usuarios.Add(user1);
                     dbContext.Servicios.AddRange(servicios);
                     dbContext.Productos.AddRange(productos);
