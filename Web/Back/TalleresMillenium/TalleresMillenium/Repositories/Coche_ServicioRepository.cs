@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TalleresMillenium.DTOs;
 using TalleresMillenium.Models;
 using TalleresMillenium.Repositories.Base;
 
@@ -30,6 +31,20 @@ namespace TalleresMillenium.Repositories
         public async Task<ICollection<Coche_Servicio>> getallCoche_servicio()
         {
             return await GetQueryable().Where(cs=>cs.Estado=="Reservado" || cs.Estado=="Aceptado").OrderBy(cs=>cs.Fecha).Include(cs=>cs.coche).Include(cs=>cs.servicio).ToListAsync();
+        }
+        public async Task<ICollection<Coche_Servicio>> getAllCoche_ServicioByMatriculaFecha(string fechaantigua,string matricula)
+        {
+            DateOnly fecha = DateOnly.Parse(fechaantigua);
+            return await GetQueryable().Where(cs => cs.Estado == "Reservado" && cs.Fecha == fecha && cs.coche.Matricula == matricula).ToListAsync();
+        }
+        public async Task<ICollection<Coche_Servicio>> getAllCoche_ServicioByMatriculaFechaFinalizar(string matricula, string fechaantigua)
+        {
+            DateOnly fecha = DateOnly.Parse(fechaantigua);
+            return await GetQueryable().Where(cs => cs.Estado == "Aceptado" && cs.Fecha == fecha && cs.coche.Matricula == matricula).ToListAsync();
+        }
+        public void UpdateRange(IEnumerable<Coche_Servicio> coche_Servicios)
+        {
+            _context.Coche_Servicios.UpdateRange(coche_Servicios);
         }
     }
 }

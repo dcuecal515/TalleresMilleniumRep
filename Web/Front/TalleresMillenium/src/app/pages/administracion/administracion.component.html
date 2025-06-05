@@ -117,7 +117,7 @@
                     <p class="texto">{{item.fecha | date: 'dd/MM/yyyy'}}</p>
                 </div>
                 <div class="acciones">
-                    <button class="editar">Finalizado</button>
+                    <button class="editar" (click)="finishsolicitud(item.matricula,item.fecha)">Finalizado</button>
                 </div>
             </div>
             }
