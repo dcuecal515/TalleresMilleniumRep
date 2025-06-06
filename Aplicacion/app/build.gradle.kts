@@ -65,5 +65,6 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.2")
     implementation ("com.auth0.android:jwtdecode:2.0.1")
     implementation("androidx.compose.material:material-icons-extended")
+    implementation("io.coil-kt:coil-compose:2.5.0")
 
 }

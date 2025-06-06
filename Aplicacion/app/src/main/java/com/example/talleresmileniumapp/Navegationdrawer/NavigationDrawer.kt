@@ -66,7 +66,6 @@ import com.example.talleresmileniumapp.ViewModels.ProductViewModel
 import com.example.talleresmileniumapp.Views.Login
 import com.example.talleresmileniumapp.Views.Productos
 import com.example.talleresmileniumapp.Views.Reservas
-import com.example.talleresmileniumapp.Views.Servicios
 import com.example.talleresmileniumapp.Views.Usuarios
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,8 +73,8 @@ import com.example.talleresmileniumapp.Views.Usuarios
 @Composable
 fun NavigationDrawer(
     authViewModel: AuthViewModel,
+    productViewModel: ProductViewModel,
     serviceViewModel: ServiceViewModel
-    productViewModel: ProductViewModel
 ){
     val navController = rememberNavController()
     val context = LocalContext.current
@@ -97,16 +96,10 @@ fun NavigationDrawer(
             route = Routes.Login.route
         ),
         NavigationItems(
-            title = "Servicios"/*context.getString(R.string.account_text)*/,
-            selectedIcon = Icons.Filled.Build,
-            unselectedIcon = Icons.Outlined.Build,
-            route = Routes.Servicios.route
-        ),
-        NavigationItems(
-            title = "Productos"/*context.getString(R.string.account_text)*/,
+            title = "Productos y Servicios"/*context.getString(R.string.account_text)*/,
             selectedIcon = Icons.Filled.ShoppingCart,
             unselectedIcon = Icons.Outlined.ShoppingCart,
-            route = Routes.Productos.route
+            route = Routes.ProductosYServicios.route
         ),
         NavigationItems(
             title = "Usuarios"/*context.getString(R.string.account_text)*/,
@@ -223,19 +216,16 @@ fun NavigationDrawer(
                     Principal(navController, authViewModel) }
                 composable(Routes.Login.route) { selectedItemIndex = 1
                     Login(navController, authViewModel) }
-                composable(Routes.Servicios.route){ selectedItemIndex = 2
-                    Servicios(navController,authViewModel, serviceViewModel)
+                composable(Routes.ProductosYServicios.route) { selectedItemIndex = 2
+                    Productos(navController,authViewModel,productViewModel,serviceViewModel)
                 }
-                composable(Routes.Productos.route) { selectedItemIndex = 3
-                    Productos(navController,authViewModel,productViewModel)
-                }
-                composable(Routes.Usuarios.route) { selectedItemIndex = 4
+                composable(Routes.Usuarios.route) { selectedItemIndex = 3
                     Usuarios(navController,authViewModel)
                 }
-                composable(Routes.Reservas.route) { selectedItemIndex = 5
+                composable(Routes.Reservas.route) { selectedItemIndex = 4
                     Reservas(navController,authViewModel)
                 }
-                /*composable(Routes.TasksManager.route) { selectedItemIndex = 6
+                /*composable(Routes.TasksManager.route) { selectedItemIndex = 5
                     TasksManager(navController,tasksViewModel)
                 }*/
             }

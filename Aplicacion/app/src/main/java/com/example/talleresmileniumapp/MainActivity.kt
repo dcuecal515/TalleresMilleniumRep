@@ -26,9 +26,8 @@ class MainActivity : ComponentActivity() {
             TalleresMileniumAppTheme {
                 val authViewModel: AuthViewModel by viewModels()
                 val serviceViewModel:ServiceViewModel by viewModels()
-                NavigationDrawer(authViewModel,serviceViewModel)
                 val productViewModel : ProductViewModel by viewModels()
-                NavigationDrawer(authViewModel, productViewModel)
+                NavigationDrawer(authViewModel, productViewModel, serviceViewModel)
             }
         }
     }

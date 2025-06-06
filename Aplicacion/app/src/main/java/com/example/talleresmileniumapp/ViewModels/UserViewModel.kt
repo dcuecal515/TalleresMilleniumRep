@@ -22,7 +22,7 @@ class UserViewModel( application: Application) : AndroidViewModel(application){
     private val _accessToken = MutableStateFlow<String?>("")
     val accessToken: StateFlow<String?> = _accessToken
     private val _users = MutableStateFlow<List<ServiceResponse>?>(null)
-    val services: StateFlow<List<ServiceResponse>?> = _services
+    val services: StateFlow<List<ServiceResponse>?> = _users
 
     init {
         loadData()
@@ -42,8 +42,8 @@ class UserViewModel( application: Application) : AndroidViewModel(application){
         val token=_accessToken.value
         if(token!=null){
             val serviceList=serviceRepository.getAllService(token)
-            _services.value=serviceList
-            Log.i("tag",_services.value.toString())
+            _users.value=serviceList
+            Log.i("tag",_users.value.toString())
         }else{
             throw IllegalStateException("NO PUTO")
         }
