@@ -9,6 +9,8 @@ import Swal from 'sweetalert2';
 import { CocheServicioFullDto } from '../../models/cocheServicioFull';
 import { ServicioCocheName } from '../../models/servicioCocheName';
 import { DatePipe } from '@angular/common';
+import { AceptarSolicitud } from '../../models/aceptarsolicitud';
+import { FinalizarSolicitud } from '../../models/finalizarsolicitud';
 
 @Component({
   selector: 'app-administracion',
@@ -115,6 +117,12 @@ export class AdministracionComponent {
     this.verproductos = false
     this.verservicios = false
     this.vercocheservicio=true
+  }
+  async finishsolicitud(matricula:string,fecha:string){
+    const finalizarsolicitud:FinalizarSolicitud={fechaantigua:fecha,matricula:matricula}
+    console.log(finalizarsolicitud)
+    await this.Userservice.finishsolicitud(finalizarsolicitud)
+    this.getallcocheservicio()
   }
 
   editproduct(producto: Product) {
@@ -297,23 +305,30 @@ export class AdministracionComponent {
       }
       return null;
     }
-  }).then((result) => {
+  }).then( async (result) => {
     if (result.isConfirmed) {
       const fechaSeleccionada = result.value;
+      console.log("resultado: ",result.value)
+      const aceptarsolicitud:AceptarSolicitud={fechanueva:result.value,fechaantigua:fecha,matricula:matricula}
+      console.log("Mi solicitud: ",aceptarsolicitud)
+      await this.Userservice.acceptsolicitud(aceptarsolicitud)
       Swal.fire(`Has confirmado el día: ${ this.Datepipe.transform(fechaSeleccionada, 'dd/MM/yyyy')}`);
+      this.getallcocheservicio()
     }
   });
   }
   deletesolicitud(servicios:ServicioCocheName[]){
     const radiosHTML = servicios.map((item, index) => `
-    <div>
+    <div style="margin-bottom: 8px;">
       <input type="radio" name="opcion" id="op${index}" value="${item.idcoche_servicio}">
-      <label for="op${index}">${item.nombre}</label>
+      <label for="op${index}" style="display: inline-block; width: 200px; padding: 5px; box-sizing: border-box;">
+        ${item.nombre}
+      </label>
     </div>
   `).join('');
 
   Swal.fire({
-    title: 'Selecciona un coche para eliminar',
+    title: 'Seleccione el servicio que quiere rechazar',
     html: radiosHTML,
     showCancelButton: true,
     confirmButtonText: 'Eliminar',
@@ -326,10 +341,12 @@ export class AdministracionComponent {
       }
       return parseInt(selected.value);
     }
-  }).then((result) => {
+  }).then(async (result) => {
     if (result.isConfirmed && result.value != undefined) {
       const indexToRemove = result.value;
+      await this.Userservice.deletesolicitud(indexToRemove)
       Swal.fire(`Eliminado el servicio: ${indexToRemove}`);
+      this.getallcocheservicio()
     }
   });
 }
