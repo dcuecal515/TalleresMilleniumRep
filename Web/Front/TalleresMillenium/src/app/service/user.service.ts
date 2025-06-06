@@ -3,12 +3,14 @@ import { ApiService } from './api.service';
 import { Listuser } from '../models/listuser';
 import { Result } from '../models/result';
 import { ChangeRol } from '../models/changerol';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { User } from '../models/user';
 import { Product } from '../models/product';
-import { NewProduct } from '../models/NewProduct';
+import { NewProduct } from '../models/newProduct';
 import { Service } from '../models/service';
 import { NewService } from '../models/newservice';
+import { AceptarSolicitud } from '../models/aceptarsolicitud';
+import { FinalizarSolicitud } from '../models/finalizarsolicitud';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +50,16 @@ export class UserService {
   }
   async addservice(newService:NewService){
     const result=await this.api.postWithImage("Service/new",this.createservice(newService))
+  }
+  async acceptsolicitud(datos:AceptarSolicitud){
+    const result= this.api.put("Coche_Servicio/aceptar",datos,'json')
+  }
+  async deletesolicitud(id:number){
+    await this.api.delete("Coche_Servicio",{id})
+  }
+  async finishsolicitud(finalizarsolicitud:FinalizarSolicitud){
+    console.log(finalizarsolicitud)
+    await this.api.put("Coche_servicio/finalizar",finalizarsolicitud,'josn')
   }
   createform(id:number,product:Product){
     const formdata = new FormData()

@@ -1,6 +1,7 @@
 package com.example.talleresmileniumapp.Models
 
 import com.example.talleresmileniumapp.Services.AuthService
+import com.example.talleresmileniumapp.Services.ServiceService
 import com.example.talleresmileniumapp.Services.ProductService
 import com.example.talleresmileniumapp.Services.UserService
 import retrofit2.Retrofit
@@ -22,6 +23,10 @@ object RetrofitApiInstance {
 
     val userService: UserService by lazy {
         retrofit.create(UserService::class.java)
+    }
+    
+    val serviceService:ServiceService by lazy{
+        retrofit.create(ServiceService::class.java)
     }
 
     val productService: ProductService by lazy {

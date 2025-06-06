@@ -1,4 +1,5 @@
-﻿using TalleresMillenium.Models;
+﻿using TalleresMillenium.DTOs;
+using TalleresMillenium.Models;
 namespace TalleresMillenium.Services
 {
     public class Coche_ServicioService
@@ -44,5 +45,23 @@ namespace TalleresMillenium.Services
             _unitOfWork.Coche_ServicioRepository.Update(coche_Servicio);
             await _unitOfWork.SaveAsync();
         }
+        public async Task<ICollection<Coche_Servicio>> getallCoche_servicio()
+        {
+            return await _unitOfWork.Coche_ServicioRepository.getallCoche_servicio();
+        }
+        public async Task<ICollection<Coche_Servicio>> getAllCoche_ServicioByMatriculaFecha(string fechaantigua,string matricula)
+        {
+            return await _unitOfWork.Coche_ServicioRepository.getAllCoche_ServicioByMatriculaFecha(fechaantigua,matricula);
+        }
+        public async Task<ICollection<Coche_Servicio>> getAllCoche_ServicioByMatriculaFechaFinalizar(string matricula, string fechaantigua)
+        {
+            return await _unitOfWork.Coche_ServicioRepository.getAllCoche_ServicioByMatriculaFechaFinalizar(matricula,fechaantigua);
+        }
+        public async Task UpdatemanyCoche_Servicio(IEnumerable<Coche_Servicio> coche_Servicios)
+        {
+            _unitOfWork.Coche_ServicioRepository.UpdateRange(coche_Servicios);
+            await _unitOfWork.SaveAsync();
+        }
+
     }
 }

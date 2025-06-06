@@ -6,7 +6,7 @@
             <button (click)="getallUser()">Usuarios</button>
             <button (click)="getallproduct()">Productos</button>
             <button (click)="getallservicios()">Servicios</button>
-            <button>Solicitudes</button>
+            <button (click)="getallcocheservicio()">Solicitudes</button>
         </div>
 
         @if(verusuarios==true){
@@ -66,6 +66,58 @@
                 </div>
                 <div class="acciones">
                     <button class="editar" (click)="editservice(item)">Editar</button>
+                </div>
+            </div>
+            }
+        </div>
+        }
+        @if(vercocheservicio==true){
+        <div class="cuadro">
+            <h1>Solicitudes por confirmar</h1>
+            @for(item of listcocheserviciosespera; track $index){
+                <div class="fila">
+                @if(item.tipo == "Coche"){
+                                <img class="imagen" src="assets/coche2.webp">
+                            }@else if (item.tipo == "Camion") {
+                                <img class="imagen" src="assets/camion2.webp">
+                            }@else {
+                                <img class="imagen" src="assets/autobus2.webp">
+                            }
+                <div class="info">
+                    <h4 class="titulo">{{item.matricula}}</h4>
+                    @for(servicio of item.servicios; track $index){
+                        <p class="texto">{{servicio.nombre}}</p>
+                    }
+                    <p class="texto">{{item.fecha | date: 'dd/MM/yyyy'}}</p>
+                </div>
+                <div class="acciones">
+                    <button class="editar" (click)="acceptsolicitud(item.matricula,item.fecha)">Aceptar</button>
+                    <button class="eliminar" (click)="deletesolicitud(item.servicios)">Eliminar</button>
+                </div>
+            </div>
+            }
+        </div>
+        <div class="cuadro">
+            <h1>Solicitudes que estan en el taller</h1>
+            <h3>Dia:{{hoy |  date: 'dd/MM/yyyy'}}</h3>
+            @for(item of listcocheserviciosfinal; track $index){
+                <div class="fila">
+                @if(item.tipo == "Coche"){
+                                <img class="imagen" src="assets/coche2.webp">
+                            }@else if (item.tipo == "Camion") {
+                                <img class="imagen" src="assets/camion2.webp">
+                            }@else {
+                                <img class="imagen" src="assets/autobus2.webp">
+                            }
+                <div class="info">
+                    <h4 class="titulo">{{item.matricula}}</h4>
+                    @for(servicio of item.servicios; track $index){
+                        <p class="texto">{{servicio.nombre}}</p>
+                    }
+                    <p class="texto">{{item.fecha | date: 'dd/MM/yyyy'}}</p>
+                </div>
+                <div class="acciones">
+                    <button class="editar" (click)="finishsolicitud(item.matricula,item.fecha)">Finalizado</button>
                 </div>
             </div>
             }
