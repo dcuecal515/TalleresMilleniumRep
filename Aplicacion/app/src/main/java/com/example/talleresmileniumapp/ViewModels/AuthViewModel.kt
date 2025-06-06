@@ -42,8 +42,6 @@ class AuthViewModel( application: Application) : AndroidViewModel(application){
     private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
     //Variable para poder verlos en las vistas
     var authState: StateFlow<AuthState> = _authState
-    private val _userId = MutableStateFlow<String?>("")
-    val userId: StateFlow<String?> = _userId
     private val _userName = MutableStateFlow<String?>("")
     val userName: StateFlow<String?> = _userName
     private val _email = MutableStateFlow<String?>("")
