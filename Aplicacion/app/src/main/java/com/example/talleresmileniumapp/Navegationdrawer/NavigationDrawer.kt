@@ -61,6 +61,7 @@ import kotlinx.coroutines.launch
 import com.example.talleresmileniumapp.Data.Routes
 import com.example.talleresmileniumapp.Principal
 import com.example.talleresmileniumapp.R
+import com.example.talleresmileniumapp.ViewModels.ServiceViewModel
 import com.example.talleresmileniumapp.ViewModels.ProductViewModel
 import com.example.talleresmileniumapp.Views.Login
 import com.example.talleresmileniumapp.Views.Productos
@@ -73,6 +74,7 @@ import com.example.talleresmileniumapp.Views.Usuarios
 @Composable
 fun NavigationDrawer(
     authViewModel: AuthViewModel,
+    serviceViewModel: ServiceViewModel
     productViewModel: ProductViewModel
 ){
     val navController = rememberNavController()
@@ -222,7 +224,7 @@ fun NavigationDrawer(
                 composable(Routes.Login.route) { selectedItemIndex = 1
                     Login(navController, authViewModel) }
                 composable(Routes.Servicios.route){ selectedItemIndex = 2
-                    Servicios(navController,authViewModel)
+                    Servicios(navController,authViewModel, serviceViewModel)
                 }
                 composable(Routes.Productos.route) { selectedItemIndex = 3
                     Productos(navController,authViewModel,productViewModel)
