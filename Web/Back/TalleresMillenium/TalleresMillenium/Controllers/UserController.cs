@@ -42,7 +42,7 @@ namespace TalleresMillenium.Controllers
             return users;
         }
 
-
+        [Authorize]
         [HttpGet("full")]
         public async Task<UsuarioDto> GetFullUsuario([FromQuery] int id)
         {

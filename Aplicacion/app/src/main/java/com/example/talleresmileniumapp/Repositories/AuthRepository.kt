@@ -5,7 +5,7 @@ import com.example.talleresmileniumapp.Models.Auth.AuthenticationRequest
 import com.example.talleresmileniumapp.Models.Auth.AuthenticationResponse
 import com.example.talleresmileniumapp.Models.RetrofitApiInstance.authService
 import com.example.talleresmileniumapp.Models.RetrofitApiInstance.userService
-import com.example.talleresmileniumapp.Models.Auth.UserResponse
+import com.example.talleresmileniumapp.Models.User.UserResponse
 
 class AuthRepository() {
     suspend fun login(email: String, password: String): AuthenticationResponse? {

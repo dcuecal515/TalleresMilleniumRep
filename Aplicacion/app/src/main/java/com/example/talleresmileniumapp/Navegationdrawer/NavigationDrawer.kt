@@ -61,6 +61,7 @@ import kotlinx.coroutines.launch
 import com.example.talleresmileniumapp.Data.Routes
 import com.example.talleresmileniumapp.Principal
 import com.example.talleresmileniumapp.R
+import com.example.talleresmileniumapp.ViewModels.ServiceViewModel
 import com.example.talleresmileniumapp.Views.Login
 import com.example.talleresmileniumapp.Views.Productos
 import com.example.talleresmileniumapp.Views.Reservas
@@ -71,7 +72,8 @@ import com.example.talleresmileniumapp.Views.Usuarios
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NavigationDrawer(
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel,
+    serviceViewModel: ServiceViewModel
 ){
     val navController = rememberNavController()
     val context = LocalContext.current
@@ -220,7 +222,7 @@ fun NavigationDrawer(
                 composable(Routes.Login.route) { selectedItemIndex = 1
                     Login(navController, authViewModel) }
                 composable(Routes.Servicios.route){ selectedItemIndex = 2
-                    Servicios(navController,authViewModel)
+                    Servicios(navController,authViewModel, serviceViewModel)
                 }
                 composable(Routes.Productos.route) { selectedItemIndex = 3
                     Productos(navController,authViewModel)
