@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.talleresmileniumapp.Navegationdrawer.NavigationDrawer
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ViewModels.ServiceViewModel
+import com.example.talleresmileniumapp.ViewModels.ProductViewModel
 import com.example.talleresmileniumapp.ui.theme.TalleresMileniumAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,8 +26,9 @@ class MainActivity : ComponentActivity() {
             TalleresMileniumAppTheme {
                 val authViewModel: AuthViewModel by viewModels()
                 val serviceViewModel:ServiceViewModel by viewModels()
-
                 NavigationDrawer(authViewModel,serviceViewModel)
+                val productViewModel : ProductViewModel by viewModels()
+                NavigationDrawer(authViewModel, productViewModel)
             }
         }
     }
