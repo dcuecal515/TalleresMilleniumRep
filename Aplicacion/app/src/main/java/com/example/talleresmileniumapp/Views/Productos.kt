@@ -79,7 +79,7 @@ fun Productos(navController: NavHostController, authViewModel: AuthViewModel, pr
             }
         }
 
-        val snackbarHostState = remember { SnackbarHostState() }
+        /*val snackbarHostState = remember { SnackbarHostState() }
 
 
         Scaffold(
@@ -140,7 +140,7 @@ fun Productos(navController: NavHostController, authViewModel: AuthViewModel, pr
                     1 -> AllUserActivitiesScreen(snackbarHostState, userActivities!!, activitiesViewModel)
                 }
             }
-        }
+        }*/
 
     }
 }
