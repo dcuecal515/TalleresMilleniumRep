@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                 val serviceViewModel:ServiceViewModel by viewModels()
                 val productViewModel : ProductViewModel by viewModels()
                 val userViewModel:UserViewModel by viewModels()
-                NavigationDrawer(authViewModel,serviceViewModel,productViewModel,userViewModel)
+                NavigationDrawer(authViewModel,productViewModel,serviceViewModel,userViewModel)
             }
         }
     }
