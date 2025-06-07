@@ -10,4 +10,8 @@
     <string name="welcomeText">Bienvenido</string>
     <string name="singoutTitle">Cerrar sesión</string>
     <string name="appTitle">Gestiona tu taller</string>
+    <string name="exit_title">¿Seguro que deseas cerrar la aplicación?</string>
+    <string name="exit_description">Todos los cambios no guardados se perderán.</string>
+    <string name="exit_confirm">Aceptar</string>
+    <string name="exit_cancel">Cancelar</string>
 </resources>
