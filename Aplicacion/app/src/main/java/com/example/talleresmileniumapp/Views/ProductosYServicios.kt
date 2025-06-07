@@ -20,14 +20,11 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AllInbox
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -53,7 +50,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -62,7 +58,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.talleresmileniumapp.Data.Routes
-import com.example.talleresmileniumapp.InsertTitle
 import com.example.talleresmileniumapp.Models.Product.ProductResponse
 import com.example.talleresmileniumapp.Models.Service.ServiceResponse
 import com.example.talleresmileniumapp.ViewModels.AuthState
@@ -72,7 +67,7 @@ import com.example.talleresmileniumapp.ViewModels.ServiceViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun Productos(navController: NavHostController, authViewModel: AuthViewModel, productViewModel: ProductViewModel, serviceViewModel: ServiceViewModel){
+fun ProductosYServicios(navController: NavHostController, authViewModel: AuthViewModel, productViewModel: ProductViewModel, serviceViewModel: ServiceViewModel){
 
     val pagerState = rememberPagerState(pageCount = { 2 })
     val coroutineScope = rememberCoroutineScope()
@@ -193,6 +188,19 @@ fun AllProductsScreen(snackbarHostState:SnackbarHostState, productos : List<Prod
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Button(
+            onClick = {  },
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "Icono de acción",
+                tint = MaterialTheme.colorScheme.onPrimary
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(text = "Añadir producto", color = MaterialTheme.colorScheme.onPrimary)
+        }
 
         if (productViewModel.productos.value == null) {
             // Muestra una barra circular mientras cargan actividades
@@ -209,18 +217,33 @@ fun AllProductsScreen(snackbarHostState:SnackbarHostState, productos : List<Prod
                         producto,
                         Icons.Default.Create,
                         "Editar",
-                    ) {
-                        coroutineScope.launch {
+                        Icons.Default.Delete,
+                        "Eliminar",
+                        onClickAction1 = {
                             coroutineScope.launch {
-                                snackbarHostState.showSnackbar(
-                                    "Estas editando el producto: "+producto ,
-                                    duration = SnackbarDuration.Long
-                                )
+                                coroutineScope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        "Estas editando el producto: "+producto ,
+                                        duration = SnackbarDuration.Long
+                                    )
+                                }
+
+
                             }
+                        },
+                        onClickAction2 = {
+                            coroutineScope.launch {
+                                coroutineScope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        "Vas a eliminar el producto: "+producto ,
+                                        duration = SnackbarDuration.Long
+                                    )
+                                }
 
 
+                            }
                         }
-                    }
+                    )
                 }
             }
         }
@@ -231,9 +254,12 @@ fun AllProductsScreen(snackbarHostState:SnackbarHostState, productos : List<Prod
 @Composable
 fun ShowProduct(
     product: ProductResponse,
-    buttonIcon: ImageVector,
-    textButton: String,
-    onClickAction: () -> Unit
+    buttonIcon1: ImageVector,
+    textButton1: String,
+    buttonIcon2: ImageVector,
+    textButton2: String,
+    onClickAction1: () -> Unit,
+    onClickAction2: () -> Unit
 ) {
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
@@ -296,33 +322,33 @@ fun ShowProduct(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Button(
-                    onClick = onClickAction,
+                    onClick = onClickAction1,
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Icon(
-                        imageVector = buttonIcon,
+                        imageVector = buttonIcon1,
                         contentDescription = "Icono de acción",
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = textButton, color = MaterialTheme.colorScheme.onPrimary)
+                    Text(text = textButton1, color = MaterialTheme.colorScheme.onPrimary)
                 }
 
                 Spacer(modifier = Modifier.width(12.dp))
 
                 Button(
-                    onClick = onClickAction,
+                    onClick = onClickAction2,
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
                 ) {
                     Icon(
-                        imageVector = buttonIcon,
+                        imageVector = buttonIcon2,
                         contentDescription = "Icono secundario",
                         tint = MaterialTheme.colorScheme.onSecondary
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = textButton, color = MaterialTheme.colorScheme.onSecondary)
+                    Text(text = textButton2, color = MaterialTheme.colorScheme.onSecondary)
                 }
             }
         }
@@ -369,7 +395,7 @@ fun AllServicesScreen(snackbarHostState:SnackbarHostState, services : List<Servi
                                     duration = SnackbarDuration.Long
                                 )
                             }
-                            
+
 
                         }
                     }
