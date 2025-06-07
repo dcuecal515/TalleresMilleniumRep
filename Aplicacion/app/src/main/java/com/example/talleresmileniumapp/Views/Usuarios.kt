@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -16,17 +17,25 @@ import androidx.navigation.NavHostController
 import com.example.talleresmileniumapp.Data.Routes
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
+import com.example.talleresmileniumapp.ViewModels.UserViewModel
 
 @Composable
-fun Usuarios(navController: NavHostController, authViewModel: AuthViewModel){
+fun Usuarios(navController: NavHostController, authViewModel: AuthViewModel,userViewModel: UserViewModel){
     val context = LocalContext.current
 
     val authState = authViewModel.authState.collectAsState()
+    val accessToken by userViewModel.accessToken.collectAsState()
+
 
     LaunchedEffect (authState.value){
         when(authState.value){
             is AuthState.Unauthenticated -> navController.navigate(Routes.Login.route)
             else -> Unit
+        }
+    }
+    LaunchedEffect(accessToken) {
+        accessToken?.let {
+            userViewModel.getalluser()
         }
     }
 

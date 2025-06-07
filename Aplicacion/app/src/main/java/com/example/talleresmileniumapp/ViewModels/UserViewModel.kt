@@ -5,8 +5,8 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.talleresmileniumapp.Models.Service.ServiceResponse
-import com.example.talleresmileniumapp.Repositories.ServiceRepository
+import com.example.talleresmileniumapp.Models.User.UserResponse
+import com.example.talleresmileniumapp.Repositories.UserRepository
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel.Companion.accessTokenSaved
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel.Companion.authDataStore
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,12 +17,12 @@ class UserViewModel( application: Application) : AndroidViewModel(application){
     @SuppressLint("StaticFieldLeak")
     val context = application.baseContext
 
-    val serviceRepository= ServiceRepository()
+    val userRepository= UserRepository()
 
     private val _accessToken = MutableStateFlow<String?>("")
     val accessToken: StateFlow<String?> = _accessToken
-    private val _users = MutableStateFlow<List<ServiceResponse>?>(null)
-    val services: StateFlow<List<ServiceResponse>?> = _users
+    private val _users = MutableStateFlow<List<UserResponse>?>(null)
+    val services: StateFlow<List<UserResponse>?> = _users
 
     init {
         loadData()
@@ -38,11 +38,11 @@ class UserViewModel( application: Application) : AndroidViewModel(application){
                 }
         }
     }
-    suspend fun getallservice(){
+    suspend fun getalluser(){
         val token=_accessToken.value
         if(token!=null){
-            val serviceList=serviceRepository.getAllService(token)
-            _users.value=serviceList
+            val userList=userRepository.getalluser(token)
+            _users.value=userList
             Log.i("tag",_users.value.toString())
         }else{
             throw IllegalStateException("NO PUTO")
