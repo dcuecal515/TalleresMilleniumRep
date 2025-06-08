@@ -79,6 +79,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProductosYServicios(navController: NavHostController, authViewModel: AuthViewModel, productViewModel: ProductViewModel, serviceViewModel: ServiceViewModel){
 
+    val context = LocalContext.current
     val pagerState = rememberPagerState(pageCount = { 2 })
     val coroutineScope = rememberCoroutineScope()
     val authState = authViewModel.authState.collectAsState()
@@ -87,7 +88,7 @@ fun ProductosYServicios(navController: NavHostController, authViewModel: AuthVie
     val accessToken by productViewModel.accessToken.collectAsState()
 
     // Titulos de las paginas
-    val tabs = listOf("Productos","Servicios")
+    val tabs = listOf(context.getString(R.string.products_text),context.getString(R.string.services_text))
 
     LaunchedEffect (authState.value){
         when(authState.value){
@@ -108,7 +109,7 @@ fun ProductosYServicios(navController: NavHostController, authViewModel: AuthVie
     {
         Spacer(modifier = Modifier.height(90.dp))
 
-        Text(text = "Productos y Servicios", fontSize = 35.sp)
+        Text(text = context.getString(R.string.ps_title), fontSize = 35.sp)
 
         LaunchedEffect(accessToken) {
             accessToken?.let {
@@ -175,7 +176,7 @@ fun ProductosYServicios(navController: NavHostController, authViewModel: AuthVie
             ) { page ->
                 when (page) {
                     0 -> AllProductsScreen(navController,snackbarHostState, productos, productViewModel)
-                    1 -> AllServicesScreen(snackbarHostState, services, serviceViewModel)
+                    1 -> AllServicesScreen(navController, snackbarHostState, services, serviceViewModel)
                 }
             }
         }
@@ -200,7 +201,9 @@ fun AllProductsScreen(navController: NavHostController,snackbarHostState:Snackba
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            onClick = {  },
+            onClick = {
+                navController.navigate(Routes.AddProduct.route)
+            },
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
@@ -210,7 +213,7 @@ fun AllProductsScreen(navController: NavHostController,snackbarHostState:Snackba
                 tint = MaterialTheme.colorScheme.onPrimary
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Añadir producto", color = MaterialTheme.colorScheme.onPrimary)
+            Text(text = context.getString(R.string.add_product_text), color = MaterialTheme.colorScheme.onPrimary)
         }
 
         if (productViewModel.productos.value == null) {
@@ -218,15 +221,15 @@ fun AllProductsScreen(navController: NavHostController,snackbarHostState:Snackba
             CircularProgressIndicator()
         }
         else if (productViewModel.productos.value!!.isEmpty()) {
-            Text("No hay productos todavia")
+            Text(context.getString(R.string.no_products_text))
         }
         else {
             val painter = painterResource(id = R.drawable.ic_launcher_foreground)
 
             if (showDialog && selectedProduct != null) {
                 AlertDialog(
-                    title = "¿Seguro que deseas eliminar el producto?",
-                    description = "Se eliminará de forma permanente el producto",
+                    title = context.getString(R.string.delete_title),
+                    description = context.getString(R.string.delete_description),
                     icon = painter,
                     confirmText = context.getString(R.string.exit_confirm),
                     dismissText = context.getString(R.string.exit_cancel),
@@ -249,14 +252,14 @@ fun AllProductsScreen(navController: NavHostController,snackbarHostState:Snackba
                     ShowProduct(
                         producto,
                         Icons.Default.Create,
-                        "Editar",
+                        context.getString(R.string.edit_text),
                         Icons.Default.Delete,
-                        "Eliminar",
+                        context.getString(R.string.delete_text),
                         onClickAction1 = {
                             coroutineScope.launch {
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar(
-                                        "Estas editando el producto: "+producto.nombre ,
+                                        context.getString(R.string.editing_product)+": "+producto.nombre ,
                                         duration = SnackbarDuration.Long
                                     )
                                 }
@@ -268,7 +271,7 @@ fun AllProductsScreen(navController: NavHostController,snackbarHostState:Snackba
                             coroutineScope.launch {
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar(
-                                        "Vas a eliminar el producto: "+producto.nombre ,
+                                        context.getString(R.string.deleting_product)+": "+producto.nombre ,
                                         duration = SnackbarDuration.Long
                                     )
                                 }
@@ -398,7 +401,7 @@ fun ShowProduct(
 
 @SuppressLint("StateFlowValueCalledInComposition", "CoroutineCreationDuringComposition")
 @Composable
-fun AllServicesScreen(snackbarHostState:SnackbarHostState, services : List<ServiceResponse>?, serviceViewModel: ServiceViewModel) {
+fun AllServicesScreen(navController: NavHostController,snackbarHostState:SnackbarHostState, services : List<ServiceResponse>?, serviceViewModel: ServiceViewModel) {
     val context = LocalContext.current
 
     val coroutineScope = rememberCoroutineScope()
@@ -412,7 +415,9 @@ fun AllServicesScreen(snackbarHostState:SnackbarHostState, services : List<Servi
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            onClick = {  },
+            onClick = {
+                navController.navigate(Routes.AddService.route)
+            },
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
@@ -422,14 +427,14 @@ fun AllServicesScreen(snackbarHostState:SnackbarHostState, services : List<Servi
                 tint = MaterialTheme.colorScheme.onPrimary
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Añadir servicio", color = MaterialTheme.colorScheme.onPrimary)
+            Text(text = context.getString(R.string.add_service_text), color = MaterialTheme.colorScheme.onPrimary)
         }
         if (serviceViewModel.services.value == null) {
             // Muestra una barra circular mientras cargan actividades
             CircularProgressIndicator()
         }
         else if (serviceViewModel.services.value!!.isEmpty()) {
-            Text("No hay productos todavia")
+            Text(context.getString(R.string.no_services_text))
         }
         else {
             //Muestra todas las actividades
@@ -438,17 +443,17 @@ fun AllServicesScreen(snackbarHostState:SnackbarHostState, services : List<Servi
                     ShowService(
                         service,
                         Icons.Default.Create,
-                        "Editar",
+                        context.getString(R.string.edit_text),
                     ) {
                         coroutineScope.launch {
                             coroutineScope.launch {
                                 snackbarHostState.showSnackbar(
-                                    "Estas editando el servicio: "+service.nombre ,
+                                    context.getString(R.string.editing_service)+": "+service.nombre ,
                                     duration = SnackbarDuration.Long
                                 )
                             }
-
-
+                            serviceViewModel.selectService(service)
+                            navController.navigate(Routes.EditService.route)
                         }
                     }
                 }
