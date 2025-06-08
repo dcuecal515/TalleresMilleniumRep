@@ -1,14 +1,12 @@
 package com.example.talleresmileniumapp.Views
 
-import android.content.Context
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -42,29 +40,24 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.talleresmileniumapp.Data.Routes
+import com.example.talleresmileniumapp.Models.Product.NewProduct
 import com.example.talleresmileniumapp.Models.Product.UpdateProduct
 import com.example.talleresmileniumapp.R
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ViewModels.ProductViewModel
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
 
 @Composable
-fun EditProduct(navController: NavHostController, authViewModel: AuthViewModel, productViewModel: ProductViewModel)
-{
+fun AddProduct(navController: NavHostController, authViewModel: AuthViewModel, productViewModel: ProductViewModel){
+
     val context = LocalContext.current
-
-    val authState = authViewModel.authState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
-    val producto by productViewModel.producto.collectAsState()
+    val authState = authViewModel.authState.collectAsState()
 
-    var nombre by remember { mutableStateOf(producto?.nombre ?: "") }
-    var descripcion by remember { mutableStateOf(producto?.descripcion ?: "") }
-    var disponible by remember { mutableStateOf(producto?.disponible ?: "") }
-
+    var nombre by remember { mutableStateOf("") }
+    var descripcion by remember { mutableStateOf("") }
+    var disponible by remember { mutableStateOf("") }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
 
     // Para seleccionar imagen desde el sistema
@@ -89,7 +82,7 @@ fun EditProduct(navController: NavHostController, authViewModel: AuthViewModel, 
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(90.dp))
-        Text(context.getString(R.string.edit_product_text), style = MaterialTheme.typography.headlineMedium)
+        Text(context.getString(R.string.add_product_text), style = MaterialTheme.typography.headlineMedium)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -130,8 +123,8 @@ fun EditProduct(navController: NavHostController, authViewModel: AuthViewModel, 
             RadioButton(
                 selected = disponible == "No disponible",
                 onClick = { disponible = "No disponible"
-                            Log.i("TAG","Si funciona")
-                          }
+                    Log.i("TAG","Si funciona")
+                }
             )
             Text(context.getString(R.string.not_available_text), modifier = Modifier.clickable { disponible = "No disponible" })
         }
@@ -162,53 +155,32 @@ fun EditProduct(navController: NavHostController, authViewModel: AuthViewModel, 
 
         Button(
             onClick = {
-                if(selectedImageUri != null){
-                    val file = uriToFile(context, selectedImageUri!!)
-                    coroutineScope.launch {
-                        productViewModel.updateProduct(
-                            UpdateProduct(
-                                producto!!.id.toString(),
-                                nombre,
-                                descripcion,
-                                disponible
-                            ),
-                            file
-                        )
+                when {
+                    nombre.isBlank() || descripcion.isBlank() || disponible.isBlank() -> {
+                        Toast.makeText(context, context.getString(R.string.complete_fields_text), Toast.LENGTH_SHORT).show()
                     }
-                }else{
-                    val file = null
-                    coroutineScope.launch {
-                        productViewModel.updateProduct(
-                            UpdateProduct(
-                                producto!!.id.toString(),
-                                nombre,
-                                descripcion,
-                                disponible
-                            ),
-                            file
-                        )
+                    selectedImageUri == null -> {
+                        Toast.makeText(context, context.getString(R.string.please_select_image_text), Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        val file = uriToFile(context, selectedImageUri!!)
+                        coroutineScope.launch {
+                            productViewModel.addProduct(
+                                NewProduct(
+                                    nombre,
+                                    descripcion,
+                                    disponible
+                                ),
+                                file
+                            )
+                            navController.navigate(Routes.ProductosYServicios.route)
+                        }
                     }
                 }
-                navController.navigate(Routes.ProductosYServicios.route)
-
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(context.getString(R.string.save_text))
+            Text(context.getString(R.string.add_product_text))
         }
     }
-}
-
-fun uriToFile(context: Context, uri: Uri): File {
-    val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
-    val file = File.createTempFile("temp_image", ".jpg", context.cacheDir)
-    val outputStream = FileOutputStream(file)
-
-    inputStream?.use { input ->
-        outputStream.use { output ->
-            input.copyTo(output)
-        }
-    }
-
-    return file
 }

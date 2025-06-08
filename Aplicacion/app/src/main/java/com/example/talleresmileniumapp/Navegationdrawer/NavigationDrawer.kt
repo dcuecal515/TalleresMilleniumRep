@@ -41,6 +41,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,14 +64,19 @@ import com.example.talleresmileniumapp.Data.Routes
 import com.example.talleresmileniumapp.Dialog.AlertDialog
 import com.example.talleresmileniumapp.Principal
 import com.example.talleresmileniumapp.R
+import com.example.talleresmileniumapp.Room.TasksViewModel
 import com.example.talleresmileniumapp.ViewModels.ServiceViewModel
 import com.example.talleresmileniumapp.ViewModels.ProductViewModel
 import com.example.talleresmileniumapp.ViewModels.ReservaViewModel
 import com.example.talleresmileniumapp.ViewModels.UserViewModel
+import com.example.talleresmileniumapp.Views.AddProduct
+import com.example.talleresmileniumapp.Views.AddService
 import com.example.talleresmileniumapp.Views.EditProduct
+import com.example.talleresmileniumapp.Views.EditService
 import com.example.talleresmileniumapp.Views.Login
 import com.example.talleresmileniumapp.Views.ProductosYServicios
 import com.example.talleresmileniumapp.Views.Reservas
+import com.example.talleresmileniumapp.Views.TasksManager
 import com.example.talleresmileniumapp.Views.Usuarios
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,11 +88,12 @@ fun NavigationDrawer(
     serviceViewModel: ServiceViewModel,
     userViewModel: UserViewModel,
     reservaViewModel: ReservaViewModel
+    tasksViewModel: TasksViewModel
 ){
     val navController = rememberNavController()
     val context = LocalContext.current
     val showDialog = remember { mutableStateOf(false) }
-    // val tasknotfinished by tasksViewModel.getCount().collectAsState(0)
+    val tasknotfinished by tasksViewModel.getCount().collectAsState(0)
 
     ///List of Navigation Items that will be clicked
     val items = listOf(
@@ -120,12 +127,12 @@ fun NavigationDrawer(
             unselectedIcon = Icons.Outlined.DateRange,
             route = Routes.Reservas.route
         ),
-        /*NavigationItems(
-            title = "tareas"/*context.getString(R.string.tasks_name)*/,
+        NavigationItems(
+            title = "Tareas"/*context.getString(R.string.tasks_name)*/,
             selectedIcon = Icons.Filled.CheckCircle,
             unselectedIcon = Icons.Outlined.CheckCircle,
             route = Routes.TasksManager.route
-        ),*/
+        ),
         NavigationItems(
             title = "Salir"/*context.getString(R.string.exit_button_title)*/,
             selectedIcon = Icons.Filled.ExitToApp,
@@ -174,7 +181,7 @@ fun NavigationDrawer(
                                 contentDescription = item.title
                             )
                         },
-                        /*badge = {
+                        badge = {
                             if(index == 5){
                                 if(tasknotfinished>0){
                                     Badge(
@@ -186,7 +193,7 @@ fun NavigationDrawer(
                                 }
 
                             }
-                        },*/
+                        },
                         modifier = Modifier
                             .padding(NavigationDrawerItemDefaults.ItemPadding) //padding between items
                     )
@@ -235,9 +242,18 @@ fun NavigationDrawer(
                 composable(Routes.EditProduct.route) { selectedItemIndex = -1
                     EditProduct(navController,authViewModel, productViewModel)
                 }
-                /*composable(Routes.TasksManager.route) { selectedItemIndex = 5
+                composable(Routes.AddProduct.route) { selectedItemIndex = -2
+                    AddProduct(navController,authViewModel, productViewModel)
+                }
+                composable(Routes.EditService.route) { selectedItemIndex = -3
+                    EditService(navController,authViewModel, serviceViewModel)
+                }
+                composable(Routes.AddService.route) { selectedItemIndex = -4
+                    AddService(navController,authViewModel, serviceViewModel)
+                }
+                composable(Routes.TasksManager.route) { selectedItemIndex = 5
                     TasksManager(navController,tasksViewModel)
-                }*/
+                }
             }
         }
         val activity = (LocalContext.current as? Activity)

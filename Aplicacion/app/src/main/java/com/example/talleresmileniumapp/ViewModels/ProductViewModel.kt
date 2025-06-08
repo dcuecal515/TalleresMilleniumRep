@@ -11,6 +11,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.talleresmileniumapp.Dialog.AuthErrorType
+import com.example.talleresmileniumapp.Models.Product.NewProduct
 import com.example.talleresmileniumapp.Models.Product.ProductResponse
 import com.example.talleresmileniumapp.Models.Product.UpdateProduct
 import com.example.talleresmileniumapp.Repositories.ProductRepository
@@ -92,6 +93,18 @@ class ProductViewModel (application: Application) : AndroidViewModel(application
         val token = _accessToken.value
         if(token != null){
             productR.deleteProduct(token,id)
+            getProducts()
+        }else{
+            throw IllegalStateException("Access token is null")
+        }
+    }
+
+    suspend fun addProduct(newProduct: NewProduct, file: File){
+        var token = _accessToken.value
+        if(token != null){
+            val requestFile: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+            val imagenPart: MultipartBody.Part = MultipartBody.Part.createFormData("Imagen",file.name,requestFile)
+            productR.addProduct(token,newProduct,imagenPart)
             getProducts()
         }else{
             throw IllegalStateException("Access token is null")
