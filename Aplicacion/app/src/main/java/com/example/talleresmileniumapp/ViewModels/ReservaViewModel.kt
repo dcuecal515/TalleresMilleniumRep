@@ -83,5 +83,14 @@ class ReservaViewModel( application: Application) : AndroidViewModel(application
         }
         getallreservas()
     }
+    suspend fun deleteReserva(id: String){
+        val token=_accessToken.value
+        if(token!=null){
+            reservaRepository.deleteReserva(token,id)
+        }else{
+            throw IllegalStateException("NO PUTO")
+        }
+        getallreservas()
+    }
 
 }
