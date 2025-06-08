@@ -35,20 +35,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.talleresmileniumapp.Data.Routes
+import com.example.talleresmileniumapp.Dialog.AlertDialog
 import com.example.talleresmileniumapp.Models.Product.ProductResponse
 import com.example.talleresmileniumapp.Models.User.UserResponse
+import com.example.talleresmileniumapp.R
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ViewModels.UserViewModel
@@ -64,6 +70,9 @@ fun Usuarios(navController: NavHostController, authViewModel: AuthViewModel,user
     val accessToken by userViewModel.accessToken.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     val users by userViewModel.users.collectAsState()
+    var selectUser by remember { mutableStateOf<UserResponse?>(null) }
+    var showDialog by remember { mutableStateOf(false) }
+    val painter = painterResource(id = R.drawable.ic_launcher_foreground)
 
 
     LaunchedEffect (authState.value){
@@ -93,6 +102,26 @@ fun Usuarios(navController: NavHostController, authViewModel: AuthViewModel,user
         } else if (users!!.isEmpty()) {
             Text("No hay usuarios todavia")
         } else {
+            if (showDialog && selectUser != null) {
+                AlertDialog(
+                    title = "¿Seguro que deseas eliminar el usuario?",
+                    description = "Se eliminará de forma permanente este usuario",
+                    icon = painter,
+                    confirmText = context.getString(R.string.exit_confirm),
+                    dismissText = context.getString(R.string.exit_cancel),
+                    confirm = {
+                        coroutineScope.launch {
+                            userViewModel.deleteuser(selectUser!!.id)
+                            showDialog = false
+                            selectUser = null
+                        }
+                    },
+                    dismiss = {
+                        showDialog = false
+                        selectUser = null
+                    }
+                )
+            }
             //Muestra todas las actividades
             LazyColumn {
                 items(users!!) { user ->
@@ -111,7 +140,8 @@ fun Usuarios(navController: NavHostController, authViewModel: AuthViewModel,user
                         },
                         onClickAction2 = {
                             coroutineScope.launch {
-                                userViewModel.deleteuser(user.id)
+                                showDialog=true
+                                selectUser=user
                             }
                         },
                         onClickAction3 = {

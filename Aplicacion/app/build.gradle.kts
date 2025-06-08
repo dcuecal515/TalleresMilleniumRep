@@ -67,6 +67,7 @@ dependencies {
     implementation ("com.auth0.android:jwtdecode:2.0.1")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)

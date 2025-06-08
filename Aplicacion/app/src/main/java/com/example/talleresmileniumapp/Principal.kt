@@ -129,9 +129,9 @@ fun InsertLogoImage() {
     //Cambia la imagen según si está en modo claro u oscuro
     Image(
         painter = if (isSystemInDarkTheme())
-            painterResource(R.drawable.ic_launcher_foreground)
+            painterResource(R.drawable.imagenlogo)
         else
-            painterResource(R.drawable.ic_launcher_foreground),
+            painterResource(R.drawable.imagenlogo),
         contentDescription = "Imagen Logo principal",
         modifier = Modifier.size(200.dp)
     )
