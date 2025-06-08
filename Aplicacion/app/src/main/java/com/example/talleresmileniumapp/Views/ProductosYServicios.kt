@@ -56,7 +56,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.example.talleresmileniumapp.Data.Routes
 import com.example.talleresmileniumapp.Models.Product.ProductResponse
 import com.example.talleresmileniumapp.Models.Service.ServiceResponse
