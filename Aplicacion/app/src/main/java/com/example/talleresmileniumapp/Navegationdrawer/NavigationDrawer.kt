@@ -98,43 +98,43 @@ fun NavigationDrawer(
     ///List of Navigation Items that will be clicked
     val items = listOf(
         NavigationItems(
-            title = "Inicio"/*context.getString(R.string.home_text)*/,
+            title = context.getString(R.string.home_text),
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Outlined.Home,
             route = Routes.Principal.route
         ),
         NavigationItems(
-            title = "Cuenta"/*context.getString(R.string.account_text)*/,
+            title = context.getString(R.string.account_title),
             selectedIcon = Icons.Filled.Person,
             unselectedIcon = Icons.Outlined.Person,
             route = Routes.Login.route
         ),
         NavigationItems(
-            title = "Productos y Servicios"/*context.getString(R.string.account_text)*/,
+            title = context.getString(R.string.ps_title),
             selectedIcon = Icons.Filled.ShoppingCart,
             unselectedIcon = Icons.Outlined.ShoppingCart,
             route = Routes.ProductosYServicios.route
         ),
         NavigationItems(
-            title = "Usuarios"/*context.getString(R.string.account_text)*/,
+            title = context.getString(R.string.users_title),
             selectedIcon = Icons.Filled.Face,
             unselectedIcon = Icons.Outlined.Face,
             route = Routes.Usuarios.route
         ),
         NavigationItems(
-            title = "Reservas"/*context.getString(R.string.account_text)*/,
+            title = context.getString(R.string.reservations_title),
             selectedIcon = Icons.Filled.DateRange,
             unselectedIcon = Icons.Outlined.DateRange,
             route = Routes.Reservas.route
         ),
         NavigationItems(
-            title = "Tareas"/*context.getString(R.string.tasks_name)*/,
+            title = context.getString(R.string.tasks_title),
             selectedIcon = Icons.Filled.CheckCircle,
             unselectedIcon = Icons.Outlined.CheckCircle,
             route = Routes.TasksManager.route
         ),
         NavigationItems(
-            title = "Salir"/*context.getString(R.string.exit_button_title)*/,
+            title = context.getString(R.string.exit_title),
             selectedIcon = Icons.Filled.ExitToApp,
             unselectedIcon = Icons.Outlined.ExitToApp,
             route = null

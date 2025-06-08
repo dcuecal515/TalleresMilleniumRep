@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.talleresmileniumapp.Data.Routes
+import com.example.talleresmileniumapp.Themes.misFormas
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 
@@ -50,7 +51,7 @@ fun Principal(navController: NavHostController, authViewModel: AuthViewModel) {
         Spacer(modifier = Modifier.height(26.dp))
 
         InsertLogoImage()
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.height(60.dp))
 
         InsertButtos(context, navController, authViewModel)
 
@@ -140,20 +141,58 @@ fun InsertLogoImage() {
 @Composable
 fun InsertButtos(context: Context, navController: NavHostController, authViewModel: AuthViewModel) {
 
-    // Botón para ir a About Us
-    /*Button(
-        onClick = { navController.navigate(Routes.AboutUs.route) },
+    Button(
+        onClick = { navController.navigate(Routes.ProductosYServicios.route) },
         shape = misFormas.small,
         modifier = Modifier.width(250.dp)
 
     ) {
         Text(
-            text = context.getString(R.string.about_us_title),
-            style = MaterialTheme.typography.headlineSmall,
+            text = context.getString(R.string.ps_title),
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 
-    Spacer(modifier = Modifier.height(20.dp))*/
+    Spacer(modifier = Modifier.height(20.dp))
 
+    Button(
+        onClick = { navController.navigate(Routes.Usuarios.route) },
+        shape = misFormas.small,
+        modifier = Modifier.width(250.dp)
+
+    ) {
+        Text(
+            text = context.getString(R.string.users_title),
+            style = MaterialTheme.typography.headlineSmall
+        )
+    }
+
+    Spacer(modifier = Modifier.height(20.dp))
+
+    Button(
+        onClick = { navController.navigate(Routes.Reservas.route) },
+        shape = misFormas.small,
+        modifier = Modifier.width(250.dp)
+
+    ) {
+        Text(
+            text = context.getString(R.string.reservations_title),
+            style = MaterialTheme.typography.headlineSmall
+        )
+    }
+
+    Spacer(modifier = Modifier.height(20.dp))
+
+    Button(
+        onClick = { navController.navigate(Routes.TasksManager.route) },
+        shape = misFormas.small,
+        modifier = Modifier.width(250.dp)
+
+    ) {
+        Text(
+            text = context.getString(R.string.tasks_title),
+            style = MaterialTheme.typography.headlineSmall
+        )
+    }
 
 }

@@ -55,6 +55,7 @@ import com.example.talleresmileniumapp.Dialog.AlertDialog
 import com.example.talleresmileniumapp.Models.Product.ProductResponse
 import com.example.talleresmileniumapp.Models.User.UserResponse
 import com.example.talleresmileniumapp.R
+import com.example.talleresmileniumapp.Themes.misFormas
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ViewModels.UserViewModel
@@ -96,16 +97,16 @@ fun Usuarios(navController: NavHostController, authViewModel: AuthViewModel,user
     {
         Spacer(modifier = Modifier.height(50.dp))
 
-        Text(text = "Usuarios", fontSize = 35.sp)
+        Text(text = context.getString(R.string.users_title), fontSize = 35.sp)
         if (users == null) {
             CircularProgressIndicator()
         } else if (users!!.isEmpty()) {
-            Text("No hay usuarios todavia")
+            Text(context.getString(R.string.no_users))
         } else {
             if (showDialog && selectUser != null) {
                 AlertDialog(
-                    title = "¿Seguro que deseas eliminar el usuario?",
-                    description = "Se eliminará de forma permanente este usuario",
+                    title = context.getString(R.string.delete_user_title),
+                    description = context.getString(R.string.delete_user_description_text),
                     icon = painter,
                     confirmText = context.getString(R.string.exit_confirm),
                     dismissText = context.getString(R.string.exit_cancel),
@@ -128,11 +129,11 @@ fun Usuarios(navController: NavHostController, authViewModel: AuthViewModel,user
                     ShowUser(
                         user,
                         Icons.Default.Upgrade,
-                        "Hacer Admin",
+                        context.getString(R.string.make_admin_text),
                         Icons.Default.Delete,
-                        "Eliminar",
+                        context.getString(R.string.delete_text),
                         Icons.Default.ArrowDownward,
-                        "Hacer Usuario",
+                        context.getString(R.string.make_user_text),
                         onClickAction1 = {
                             coroutineScope.launch {
                                 userViewModel.putadmin(user.id,user.rol)
@@ -168,11 +169,12 @@ fun ShowUser(
     onClickAction2: () -> Unit,
     onClickAction3: () -> Unit
 ){
+    val context = LocalContext.current
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        shape = RoundedCornerShape(16.dp),
+        shape = misFormas.large,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -193,8 +195,8 @@ fun ShowUser(
                     contentDescription = "Imagen del usuario",
                     modifier = Modifier
                         .size(100.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+                        .clip(misFormas.large)
+                        .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
                     contentScale = ContentScale.Crop
                 )
 
@@ -203,16 +205,16 @@ fun ShowUser(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = "Email: ${user.email}",
+                        text = context.getString(R.string.emailWord)+": ${user.email}",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 1
                     )
                     Text(
-                        text = "Nombre: ${user.name}",
+                        text = context.getString(R.string.name_text)+": ${user.name}",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 3
+                        maxLines = 1
                     )
                 }
             }
@@ -224,7 +226,7 @@ fun ShowUser(
                 if(user.rol=="User"){
                     Button(
                         onClick = onClickAction1,
-                        shape = RoundedCornerShape(8.dp),
+                        shape = misFormas.medium,
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                     ) {
                         Icon(
@@ -238,7 +240,7 @@ fun ShowUser(
                 }else if(user.rol=="Admin" && user.email!="example@gmail.com"){
                     Button(
                         onClick = onClickAction3,
-                        shape = RoundedCornerShape(8.dp),
+                        shape = misFormas.medium,
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                     ) {
                         Icon(
@@ -254,7 +256,7 @@ fun ShowUser(
                 if(user.email!="example@gmail.com" ){
                     Button(
                         onClick = onClickAction2,
-                        shape = RoundedCornerShape(8.dp),
+                        shape = misFormas.medium,
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
                     ) {
                         Icon(
