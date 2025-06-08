@@ -87,7 +87,7 @@ fun NavigationDrawer(
     productViewModel: ProductViewModel,
     serviceViewModel: ServiceViewModel,
     userViewModel: UserViewModel,
-    reservaViewModel: ReservaViewModel
+    reservaViewModel: ReservaViewModel,
     tasksViewModel: TasksViewModel
 ){
     val navController = rememberNavController()

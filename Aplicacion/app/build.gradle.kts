@@ -68,6 +68,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.7.8")
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
