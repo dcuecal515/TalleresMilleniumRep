@@ -1,6 +1,5 @@
 package com.example.talleresmileniumapp.ViewModels
 
-import android.R
 import android.annotation.SuppressLint
 import android.app.Application
 import android.util.Log

@@ -16,6 +16,7 @@ import com.example.talleresmileniumapp.Navegationdrawer.NavigationDrawer
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ViewModels.ServiceViewModel
 import com.example.talleresmileniumapp.ViewModels.ProductViewModel
+import com.example.talleresmileniumapp.ViewModels.ReservaViewModel
 import com.example.talleresmileniumapp.ViewModels.UserViewModel
 import com.example.talleresmileniumapp.ui.theme.TalleresMileniumAppTheme
 
@@ -29,7 +30,8 @@ class MainActivity : ComponentActivity() {
                 val serviceViewModel:ServiceViewModel by viewModels()
                 val productViewModel : ProductViewModel by viewModels()
                 val userViewModel:UserViewModel by viewModels()
-                NavigationDrawer(authViewModel,productViewModel,serviceViewModel,userViewModel)
+                val reservaViewModel : ReservaViewModel by viewModels()
+                NavigationDrawer(authViewModel,productViewModel,serviceViewModel,userViewModel,reservaViewModel)
             }
         }
     }

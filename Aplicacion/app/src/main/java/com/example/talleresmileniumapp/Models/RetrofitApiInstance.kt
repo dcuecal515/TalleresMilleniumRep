@@ -3,6 +3,7 @@ package com.example.talleresmileniumapp.Models
 import com.example.talleresmileniumapp.Services.AuthService
 import com.example.talleresmileniumapp.Services.ServiceService
 import com.example.talleresmileniumapp.Services.ProductService
+import com.example.talleresmileniumapp.Services.ReservaService
 import com.example.talleresmileniumapp.Services.UserService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -31,5 +32,8 @@ object RetrofitApiInstance {
 
     val productService: ProductService by lazy {
         retrofit.create(ProductService::class.java)
+    }
+    val reservaService: ReservaService by lazy {
+        retrofit.create(ReservaService::class.java)
     }
 }

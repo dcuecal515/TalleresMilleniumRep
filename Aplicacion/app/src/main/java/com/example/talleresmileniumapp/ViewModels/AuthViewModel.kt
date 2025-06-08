@@ -3,6 +3,7 @@ package com.example.talleresmileniumapp.ViewModels
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -62,7 +63,11 @@ class AuthViewModel( application: Application) : AndroidViewModel(application){
                     _userName.value = preferences[userNameSaved]
                     _email.value = preferences[emailSaved]
                     _accessToken.value = preferences[accessTokenSaved]
+                    if (!_accessToken.value.isNullOrEmpty()) {
+                        _authState.value = AuthState.Authenticated
+                    }
                 }
+
         }
     }
 

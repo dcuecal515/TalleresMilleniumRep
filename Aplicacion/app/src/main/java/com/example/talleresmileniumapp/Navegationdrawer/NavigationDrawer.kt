@@ -65,6 +65,7 @@ import com.example.talleresmileniumapp.Principal
 import com.example.talleresmileniumapp.R
 import com.example.talleresmileniumapp.ViewModels.ServiceViewModel
 import com.example.talleresmileniumapp.ViewModels.ProductViewModel
+import com.example.talleresmileniumapp.ViewModels.ReservaViewModel
 import com.example.talleresmileniumapp.ViewModels.UserViewModel
 import com.example.talleresmileniumapp.Views.EditProduct
 import com.example.talleresmileniumapp.Views.Login
@@ -79,7 +80,8 @@ fun NavigationDrawer(
     authViewModel: AuthViewModel,
     productViewModel: ProductViewModel,
     serviceViewModel: ServiceViewModel,
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    reservaViewModel: ReservaViewModel
 ){
     val navController = rememberNavController()
     val context = LocalContext.current
@@ -228,7 +230,7 @@ fun NavigationDrawer(
                     Usuarios(navController,authViewModel,userViewModel)
                 }
                 composable(Routes.Reservas.route) { selectedItemIndex = 4
-                    Reservas(navController,authViewModel)
+                    Reservas(navController,authViewModel, reservaViewModel)
                 }
                 composable(Routes.EditProduct.route) { selectedItemIndex = -1
                     EditProduct(navController,authViewModel, productViewModel)
