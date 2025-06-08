@@ -22,7 +22,7 @@ class UserViewModel( application: Application) : AndroidViewModel(application){
     private val _accessToken = MutableStateFlow<String?>("")
     val accessToken: StateFlow<String?> = _accessToken
     private val _users = MutableStateFlow<List<UserResponse>?>(null)
-    val services: StateFlow<List<UserResponse>?> = _users
+    val users: StateFlow<List<UserResponse>?> = _users
 
     init {
         loadData()
@@ -44,6 +44,30 @@ class UserViewModel( application: Application) : AndroidViewModel(application){
             val userList=userRepository.getalluser(token)
             _users.value=userList
             Log.i("tag",_users.value.toString())
+        }else{
+            throw IllegalStateException("NO PUTO")
+        }
+    }
+    suspend fun putadmin(id:String,rol: String){
+        val token=_accessToken.value
+        var role: String=""
+        if(token!=null){
+            if(rol=="Admin"){
+                role="User"
+            }else if(rol=="User"){
+                role="Admin"
+            }
+            userRepository.putadmin(token,id,role)
+            getalluser()
+        }else{
+            throw IllegalStateException("NO PUTO")
+        }
+    }
+    suspend fun  deleteuser(id:String){
+        val token=_accessToken.value
+        if(token!=null){
+            userRepository.deleteuser(token,id)
+            getalluser()
         }else{
             throw IllegalStateException("NO PUTO")
         }

@@ -21,6 +21,7 @@ import com.example.talleresmileniumapp.Room.TasksViewModel
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ViewModels.ServiceViewModel
 import com.example.talleresmileniumapp.ViewModels.ProductViewModel
+import com.example.talleresmileniumapp.ViewModels.ReservaViewModel
 import com.example.talleresmileniumapp.ViewModels.UserViewModel
 import com.example.talleresmileniumapp.ui.theme.TalleresMileniumAppTheme
 
@@ -34,13 +35,14 @@ class MainActivity : ComponentActivity() {
                 val serviceViewModel:ServiceViewModel by viewModels()
                 val productViewModel : ProductViewModel by viewModels()
                 val userViewModel:UserViewModel by viewModels()
+                val reservaViewModel : ReservaViewModel by viewModels()
                 //Variables necesarias para task view model
                 val context = LocalContext.current
                 val db = Room.databaseBuilder(context, TasksDatabase::class.java, "tasks2").build()
                 val tasksDao = db.TasksDao()
                 val tasksRepository = TasksRepository(tasksDao)
                 val tasksViewModel = TasksViewModel(tasksRepository)
-                NavigationDrawer(authViewModel,productViewModel,serviceViewModel,userViewModel,tasksViewModel)
+                NavigationDrawer(authViewModel,productViewModel,serviceViewModel,userViewModel,reservaViewModel,tasksViewModel)
             }
         }
     }
