@@ -1,5 +1,6 @@
 package com.example.talleresmileniumapp.Repositories
 
+import com.example.talleresmileniumapp.Models.Product.NewProduct
 import com.example.talleresmileniumapp.Models.Product.ProductResponse
 import com.example.talleresmileniumapp.Models.Product.UpdateProduct
 import com.example.talleresmileniumapp.Models.RetrofitApiInstance.productService
@@ -21,5 +22,12 @@ class ProductRepository {
     }
     suspend fun deleteProduct(token: String, id: Int){
         productService.deleteProduct("Bearer $token",id)
+    }
+
+    suspend fun addProduct(token: String, newProduct: NewProduct, imagenPart: MultipartBody.Part?){
+        val nombreBody = newProduct.Nombre.toRequestBody("text/plain".toMediaTypeOrNull())
+        val descripcionBody = newProduct.Descripcion.toRequestBody("text/plain".toMediaTypeOrNull())
+        val disponibleBody = newProduct.Disponible.toRequestBody("text/plain".toMediaTypeOrNull())
+        productService.addProduct("Bearer $token",nombreBody,descripcionBody,disponibleBody,imagenPart)
     }
 }
