@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -59,11 +60,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import kotlinx.coroutines.launch
 import com.example.talleresmileniumapp.Data.Routes
+import com.example.talleresmileniumapp.Dialog.AlertDialog
 import com.example.talleresmileniumapp.Principal
 import com.example.talleresmileniumapp.R
 import com.example.talleresmileniumapp.ViewModels.ServiceViewModel
 import com.example.talleresmileniumapp.ViewModels.ProductViewModel
 import com.example.talleresmileniumapp.ViewModels.UserViewModel
+import com.example.talleresmileniumapp.Views.EditProduct
 import com.example.talleresmileniumapp.Views.Login
 import com.example.talleresmileniumapp.Views.ProductosYServicios
 import com.example.talleresmileniumapp.Views.Reservas
@@ -227,19 +230,22 @@ fun NavigationDrawer(
                 composable(Routes.Reservas.route) { selectedItemIndex = 4
                     Reservas(navController,authViewModel)
                 }
+                composable(Routes.EditProduct.route) { selectedItemIndex = -1
+                    EditProduct(navController,authViewModel, productViewModel)
+                }
                 /*composable(Routes.TasksManager.route) { selectedItemIndex = 5
                     TasksManager(navController,tasksViewModel)
                 }*/
             }
         }
         val activity = (LocalContext.current as? Activity)
-        // val imageBitmap = ImageBitmap.imageResource(R.drawable.ic_launcher_foreground)
+        val painter = painterResource(id = R.drawable.ic_launcher_foreground)
         // Llama al AlertDialog genérico y lo muestra
-        /*if (showDialog.value) {
+        if (showDialog.value) {
             AlertDialog(
                 title =  context.getString(R.string.exit_title),
                 description =  context.getString(R.string.exit_description),
-                icon = imageBitmap,
+                icon = painter,
                 confirmText =  context.getString(R.string.exit_confirm),
                 dismissText = context.getString(R.string.exit_cancel),
                 confirm = {
@@ -248,8 +254,9 @@ fun NavigationDrawer(
                 },
                 dismiss = {
                     showDialog.value = false
-                })
-        }*/
+                }
+            )
+        }
     }
 
 
