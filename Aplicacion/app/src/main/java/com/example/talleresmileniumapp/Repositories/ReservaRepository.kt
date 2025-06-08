@@ -18,4 +18,7 @@ class ReservaRepository {
         val request= ReservaFinalRequest(fechaantigua=fechaantigua,matricula=matricula)
         reservaService.putFinalizado("Bearer $token",request)
     }
+    suspend fun deleteReserva(token: String,id: String){
+        reservaService.deleteReserva("Bearer $token",id)
+    }
 }

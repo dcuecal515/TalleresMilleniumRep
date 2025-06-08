@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.AllInbox
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -35,6 +36,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -62,6 +64,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.talleresmileniumapp.Data.Routes
+import com.example.talleresmileniumapp.Models.Product.ProductResponse
 import com.example.talleresmileniumapp.Models.Reservas.ReservaResponse
 import com.example.talleresmileniumapp.R
 import com.example.talleresmileniumapp.Themes.misFormas
@@ -182,92 +185,120 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
 
     }
 }
-    @SuppressLint("StateFlowValueCalledInComposition", "CoroutineCreationDuringComposition")
-    @Composable
-    fun AllReservaEsperaScreen(navController: NavHostController, snackbarHostState:SnackbarHostState, reservas : List<ReservaResponse>?, reservaViewModel: ReservaViewModel) {
-        val context = LocalContext.current
-        var selectReserva by remember { mutableStateOf<ReservaResponse?>(null) }
-        val coroutineScope = rememberCoroutineScope()
-        var fechaSeleccionada by remember { mutableStateOf<LocalDate?>(null) }
+@SuppressLint("StateFlowValueCalledInComposition", "CoroutineCreationDuringComposition")
+@Composable
+fun AllReservaEsperaScreen(
+    navController: NavHostController,
+    snackbarHostState: SnackbarHostState,
+    reservas: List<ReservaResponse>?,
+    reservaViewModel: ReservaViewModel
+) {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    var fechaSeleccionada by remember { mutableStateOf<LocalDate?>(null) }
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedServicioId by remember { mutableStateOf<String?>(null) }
+    var selectedReserva by remember { mutableStateOf<ReservaResponse?>(null) }
 
-        Column(
-            Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-            ,
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (reservaViewModel.reservasespera.value == null) {
-                // Muestra una barra circular mientras cargan actividades
-                CircularProgressIndicator()
-            }
-            else if (reservaViewModel.reservasespera.value!!.isEmpty()) {
-                Text(context.getString(R.string.no_reservations_text))
-            }
-            else {
-                //Muestra todas las actividades
-                LazyColumn {
-                    items(reservas!!) { reserva ->
-                        ShowReserva(
-                            reserva,
-                            Icons.Default.Check,
-                            context.getString(R.string.exit_confirm),
-                            Icons.Default.Delete,
-                            context.getString(R.string.delete_text),
-                            onClickAction1 = {
-                                coroutineScope.launch {
-                                    coroutineScope.launch {
-                                        snackbarHostState.showSnackbar(
-                                            context.getString(R.string.accept_reservation_text)+": "+reserva.matricula ,
-                                            duration = SnackbarDuration.Short
-                                        )
-                                        val calendar = Calendar.getInstance()
-                                        val year = calendar.get(Calendar.YEAR)
-                                        val month = calendar.get(Calendar.MONTH)
-                                        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-                                        val datePickerDialog = DatePickerDialog(
-                                            context,
-                                            { _, selectedYear, selectedMonth, selectedDay ->
-                                                val selectedDate = LocalDate.of(selectedYear, selectedMonth + 1, selectedDay)
-                                                fechaSeleccionada = selectedDate
-                                                coroutineScope.launch {
-                                                    snackbarHostState.showSnackbar(
-                                                        context.getString(R.string.selected_date_text)+" ${reserva.matricula}: $selectedDate"
-                                                    )
-                                                    reservaViewModel.putAceptada(reserva.fecha,reserva.matricula,selectedDate.toString())
-                                                }
-                                            },
-                                            year, month, day
-                                        ).apply {
-                                            datePicker.minDate = System.currentTimeMillis()
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        if (reservaViewModel.reservasespera.value == null) {
+            CircularProgressIndicator()
+        } else if (reservaViewModel.reservasespera.value!!.isEmpty()) {
+            Text("No hay reservas todavía")
+        } else {
+            LazyColumn {
+                items(reservas!!) { reserva ->
+                    ShowReserva(
+                        reserva,
+                        Icons.Default.Check,
+                        "Aceptar",
+                        Icons.Default.Delete,
+                        "Eliminar",
+                        onClickAction1 = {
+                            coroutineScope.launch {
+                                snackbarHostState.showSnackbar(
+                                    "Vas a aceptar los servicios solicitados por el vehículo con matrícula: ${reserva.matricula}",
+                                    duration = SnackbarDuration.Short
+                                )
+                                val calendar = Calendar.getInstance()
+                                val datePickerDialog = DatePickerDialog(
+                                    context,
+                                    { _, year, month, day ->
+                                        val selectedDate = LocalDate.of(year, month + 1, day)
+                                        fechaSeleccionada = selectedDate
+                                        coroutineScope.launch {
+                                            snackbarHostState.showSnackbar(
+                                                "Fecha seleccionada para ${reserva.matricula}: $selectedDate"
+                                            )
+                                            reservaViewModel.putAceptada(reserva.fecha, reserva.matricula, selectedDate.toString())
                                         }
-
-                                        datePickerDialog.show()
-                                    }
-
-
+                                    },
+                                    calendar.get(Calendar.YEAR),
+                                    calendar.get(Calendar.MONTH),
+                                    calendar.get(Calendar.DAY_OF_MONTH)
+                                ).apply {
+                                    datePicker.minDate = System.currentTimeMillis()
                                 }
-                            },
-                            onClickAction2 = {
-                                coroutineScope.launch {
-                                    coroutineScope.launch {
-                                        snackbarHostState.showSnackbar(
-                                            context.getString(R.string.delete_reservation_text)+": "+reserva.matricula ,
-                                            duration = SnackbarDuration.Long
-                                        )
-                                    }
-                                }
+
+                                datePickerDialog.show()
                             }
-                        )
-                    }
+                        },
+                        onClickAction2 = {
+                            selectedReserva = reserva
+                            selectedServicioId = null
+                            showDialog = true
+                        }
+                    )
                 }
             }
 
+            if (showDialog && selectedReserva != null) {
+                AlertDialog(
+                    onDismissRequest = { showDialog = false },
+                    confirmButton = {
+                        Button(onClick = {
+                            showDialog = false
+                            selectedServicioId?.let { servicioId ->
+                                coroutineScope.launch {
+                                    reservaViewModel.deleteReserva(servicioId)
+                                    snackbarHostState.showSnackbar("Servicio eliminado")
+                                }
+                            }
+                        }) {
+                            Text("Eliminar")
+                        }
+                    },
+                    dismissButton = {
+                        Button(onClick = { showDialog = false }) {
+                            Text("Cancelar")
+                        }
+                    },
+                    title = { Text("Selecciona un servicio") },
+                    text = {
+                        Column {
+                            selectedReserva?.servicios?.forEach { servicio ->
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    RadioButton(
+                                        selected = selectedServicioId == servicio.idcoche_servicio,
+                                        onClick = { selectedServicioId = servicio.idcoche_servicio }
+                                    )
+                                    Text(servicio.nombre)
+                                }
+                            }
+                        }
+                    }
+                )
+            }
         }
-
     }
+}
+
 
     @Composable
     fun ShowReserva(
@@ -309,6 +340,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                                 .size(100.dp)
                                 .clip(misFormas.large)
                                 .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
+
                             contentScale = ContentScale.Crop
                         )
                     }else if(reserva.tipo=="Camion"){
@@ -319,6 +351,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                                 .size(100.dp)
                                 .clip(misFormas.large)
                                 .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
+
                             contentScale = ContentScale.Crop
                         )
                     }else if(reserva.tipo=="Autobus"){
@@ -329,6 +362,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                                 .size(100.dp)
                                 .clip(misFormas.large)
                                 .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
+
                             contentScale = ContentScale.Crop
                         )
                     }
@@ -421,8 +455,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (reservaViewModel.reservasespera.value == null) {
-                // Muestra una barra circular mientras cargan actividades
+            if (reservaViewModel.reservasfinal.value == null) {
                 CircularProgressIndicator()
             }
             else if (reservaViewModel.reservasespera.value!!.isEmpty()) {
@@ -441,7 +474,8 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                                     coroutineScope.launch {
                                         snackbarHostState.showSnackbar(
                                             context.getString(R.string.finish_service_text)+": "+reserva.matricula ,
-                                            duration = SnackbarDuration.Long
+                                            duration = SnackbarDuration.Short
+
                                         )
                                         reservaViewModel.putFinalizado(reserva.fecha,reserva.matricula)
                                     }
@@ -494,6 +528,7 @@ fun ShowReserva2(
                             .size(100.dp)
                             .clip(misFormas.large)
                             .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
+
                         contentScale = ContentScale.Crop
                     )
                 }else if(reserva.tipo=="Camion"){
@@ -504,6 +539,7 @@ fun ShowReserva2(
                             .size(100.dp)
                             .clip(misFormas.large)
                             .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
+
                         contentScale = ContentScale.Crop
                     )
                 }else if(reserva.tipo=="Autobus"){
@@ -514,6 +550,7 @@ fun ShowReserva2(
                             .size(100.dp)
                             .clip(misFormas.large)
                             .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
+
                         contentScale = ContentScale.Crop
                     )
                 }
