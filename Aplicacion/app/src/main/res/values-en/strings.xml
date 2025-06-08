@@ -11,4 +11,8 @@
     <string name="welcomeText">Welcome</string>
     <string name="singoutTitle">Singout</string>
     <string name="appTitle">Manage your workshop</string>
+    <string name="exit_title">Are you sure you want to close the app?</string>
+    <string name="exit_description">Any unsaved changes will be lost.</string>
+    <string name="exit_confirm">Confirm</string>
+    <string name="exit_cancel">Cancel</string>
 </resources>

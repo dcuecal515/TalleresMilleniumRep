@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +19,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AllInbox
@@ -45,21 +48,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.talleresmileniumapp.Data.Routes
+import com.example.talleresmileniumapp.Dialog.AlertDialog
 import com.example.talleresmileniumapp.Models.Product.ProductResponse
 import com.example.talleresmileniumapp.Models.Service.ServiceResponse
+import com.example.talleresmileniumapp.R
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ViewModels.ProductViewModel
@@ -164,7 +174,7 @@ fun ProductosYServicios(navController: NavHostController, authViewModel: AuthVie
                     .padding(paddingValues)
             ) { page ->
                 when (page) {
-                    0 -> AllProductsScreen(snackbarHostState, productos, productViewModel)
+                    0 -> AllProductsScreen(navController,snackbarHostState, productos, productViewModel)
                     1 -> AllServicesScreen(snackbarHostState, services, serviceViewModel)
                 }
             }
@@ -175,9 +185,10 @@ fun ProductosYServicios(navController: NavHostController, authViewModel: AuthVie
 
 @SuppressLint("StateFlowValueCalledInComposition", "CoroutineCreationDuringComposition")
 @Composable
-fun AllProductsScreen(snackbarHostState:SnackbarHostState, productos : List<ProductResponse>?, productViewModel: ProductViewModel) {
+fun AllProductsScreen(navController: NavHostController,snackbarHostState:SnackbarHostState, productos : List<ProductResponse>?, productViewModel: ProductViewModel) {
     val context = LocalContext.current
-
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedProduct by remember { mutableStateOf<ProductResponse?>(null) }
     val coroutineScope = rememberCoroutineScope()
 
     Column(
@@ -210,6 +221,28 @@ fun AllProductsScreen(snackbarHostState:SnackbarHostState, productos : List<Prod
             Text("No hay productos todavia")
         }
         else {
+            val painter = painterResource(id = R.drawable.ic_launcher_foreground)
+
+            if (showDialog && selectedProduct != null) {
+                AlertDialog(
+                    title = "¿Seguro que deseas eliminar el producto?",
+                    description = "Se eliminará de forma permanente el producto",
+                    icon = painter,
+                    confirmText = context.getString(R.string.exit_confirm),
+                    dismissText = context.getString(R.string.exit_cancel),
+                    confirm = {
+                        coroutineScope.launch {
+                            productViewModel.deleteProduct(selectedProduct!!.id)
+                            showDialog = false
+                            selectedProduct = null
+                        }
+                    },
+                    dismiss = {
+                        showDialog = false
+                        selectedProduct = null
+                    }
+                )
+            }
             //Muestra todas las actividades
             LazyColumn {
                 items(productos!!) { producto ->
@@ -223,24 +256,24 @@ fun AllProductsScreen(snackbarHostState:SnackbarHostState, productos : List<Prod
                             coroutineScope.launch {
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar(
-                                        "Estas editando el producto: "+producto ,
+                                        "Estas editando el producto: "+producto.nombre ,
                                         duration = SnackbarDuration.Long
                                     )
                                 }
-
-
+                                productViewModel.selectProduct(producto)
+                                navController.navigate(Routes.EditProduct.route)
                             }
                         },
                         onClickAction2 = {
                             coroutineScope.launch {
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar(
-                                        "Vas a eliminar el producto: "+producto ,
+                                        "Vas a eliminar el producto: "+producto.nombre ,
                                         duration = SnackbarDuration.Long
                                     )
                                 }
-
-
+                                selectedProduct = producto
+                                showDialog = true
                             }
                         }
                     )
@@ -261,6 +294,8 @@ fun ShowProduct(
     onClickAction1: () -> Unit,
     onClickAction2: () -> Unit
 ) {
+    val scrollState = rememberScrollState()
+
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
@@ -301,12 +336,17 @@ fun ShowProduct(
                         color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 1
                     )
-                    Text(
-                        text = product.descripcion,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 3
-                    )
+                    Box(
+                        modifier = Modifier
+                            .height(60.dp)
+                            .verticalScroll(scrollState)
+                    ) {
+                        Text(
+                            text = product.descripcion,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                     Text(
                         text = product.disponible,
                         style = MaterialTheme.typography.bodyMedium,
@@ -371,7 +411,19 @@ fun AllServicesScreen(snackbarHostState:SnackbarHostState, services : List<Servi
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
+        Button(
+            onClick = {  },
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "Icono de acción",
+                tint = MaterialTheme.colorScheme.onPrimary
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(text = "Añadir servicio", color = MaterialTheme.colorScheme.onPrimary)
+        }
         if (serviceViewModel.services.value == null) {
             // Muestra una barra circular mientras cargan actividades
             CircularProgressIndicator()
@@ -391,7 +443,7 @@ fun AllServicesScreen(snackbarHostState:SnackbarHostState, services : List<Servi
                         coroutineScope.launch {
                             coroutineScope.launch {
                                 snackbarHostState.showSnackbar(
-                                    "Estas editando el servicio: "+service ,
+                                    "Estas editando el servicio: "+service.nombre ,
                                     duration = SnackbarDuration.Long
                                 )
                             }
