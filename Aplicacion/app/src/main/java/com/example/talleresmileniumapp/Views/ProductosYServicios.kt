@@ -319,7 +319,7 @@ fun ShowProduct(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 AsyncImage(
-                    model = "http://10.0.2.2:5151${product.imagen}",
+                    model = "https://talleresmilemiun.runasp.net${product.imagen}",
                     contentDescription = "Imagen del producto",
                     modifier = Modifier
                         .size(100.dp)
@@ -491,7 +491,7 @@ fun ShowService(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 AsyncImage(
-                    model = "http://10.0.2.2:5151${service.imagen}",
+                    model = "https://talleresmilemiun.runasp.net${service.imagen}",
                     contentDescription = "Imagen del producto",
                     modifier = Modifier
                         .size(100.dp)

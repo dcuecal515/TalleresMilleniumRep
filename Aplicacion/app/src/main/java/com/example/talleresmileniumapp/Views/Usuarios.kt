@@ -191,7 +191,7 @@ fun ShowUser(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 AsyncImage(
-                    model = "http://10.0.2.2:5151${user.imagen}",
+                    model = "https://talleresmilemiun.runasp.net${user.imagen}",
                     contentDescription = "Imagen del usuario",
                     modifier = Modifier
                         .size(100.dp)
