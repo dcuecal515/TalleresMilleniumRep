@@ -43,6 +43,7 @@ import com.example.talleresmileniumapp.Data.Routes
 import com.example.talleresmileniumapp.Models.Product.NewProduct
 import com.example.talleresmileniumapp.Models.Service.NewService
 import com.example.talleresmileniumapp.R
+import com.example.talleresmileniumapp.Themes.misFormas
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ViewModels.ProductViewModel
@@ -106,7 +107,8 @@ fun AddService(navController: NavHostController, authViewModel: AuthViewModel, s
 
         Button(
             onClick = { imagePickerLauncher.launch("image/*") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            shape = misFormas.large
         ) {
             Text(context.getString(R.string.select_image_text))
         }
@@ -120,7 +122,7 @@ fun AddService(navController: NavHostController, authViewModel: AuthViewModel, s
                 contentDescription = context.getString(R.string.selected_image_text),
                 modifier = Modifier
                     .size(150.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(misFormas.large)
             )
         }
 
@@ -150,7 +152,8 @@ fun AddService(navController: NavHostController, authViewModel: AuthViewModel, s
                     }
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            shape = misFormas.medium
         ) {
             Text(context.getString(R.string.add_service_text))
         }

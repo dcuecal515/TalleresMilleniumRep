@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,14 +21,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AllInbox
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -46,7 +42,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -66,19 +61,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import coil3.compose.AsyncImage
 import com.example.talleresmileniumapp.Data.Routes
-import com.example.talleresmileniumapp.Dialog.AlertDialog
-import com.example.talleresmileniumapp.Models.Product.ProductResponse
 import com.example.talleresmileniumapp.Models.Reservas.ReservaResponse
-import com.example.talleresmileniumapp.Models.Service.ServiceResponse
 import com.example.talleresmileniumapp.R
-import com.example.talleresmileniumapp.Repositories.ReservaRepository
+import com.example.talleresmileniumapp.Themes.misFormas
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
-import com.example.talleresmileniumapp.ViewModels.ProductViewModel
 import com.example.talleresmileniumapp.ViewModels.ReservaViewModel
-import com.example.talleresmileniumapp.ViewModels.ServiceViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Calendar
@@ -118,7 +107,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
     {
         Spacer(modifier = Modifier.height(90.dp))
 
-        Text(text = "Reservas", fontSize = 35.sp)
+        Text(text = context.getString(R.string.reservations_title), fontSize = 35.sp)
 
 
         val snackbarHostState = remember { SnackbarHostState() }
@@ -214,7 +203,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                 CircularProgressIndicator()
             }
             else if (reservaViewModel.reservasespera.value!!.isEmpty()) {
-                Text("No hay reservas todavia")
+                Text(context.getString(R.string.no_reservations_text))
             }
             else {
                 //Muestra todas las actividades
@@ -223,14 +212,14 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                         ShowReserva(
                             reserva,
                             Icons.Default.Check,
-                            "Aceptar",
+                            context.getString(R.string.exit_confirm),
                             Icons.Default.Delete,
-                            "Eliminar",
+                            context.getString(R.string.delete_text),
                             onClickAction1 = {
                                 coroutineScope.launch {
                                     coroutineScope.launch {
                                         snackbarHostState.showSnackbar(
-                                            "Vas a aceptar los servicios solicitados por el vehiculo con matricula: "+reserva.matricula ,
+                                            context.getString(R.string.accept_reservation_text)+": "+reserva.matricula ,
                                             duration = SnackbarDuration.Short
                                         )
                                         val calendar = Calendar.getInstance()
@@ -245,7 +234,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                                                 fechaSeleccionada = selectedDate
                                                 coroutineScope.launch {
                                                     snackbarHostState.showSnackbar(
-                                                        "Fecha seleccionada para ${reserva.matricula}: $selectedDate"
+                                                        context.getString(R.string.selected_date_text)+" ${reserva.matricula}: $selectedDate"
                                                     )
                                                     reservaViewModel.putAceptada(reserva.fecha,reserva.matricula,selectedDate.toString())
                                                 }
@@ -265,7 +254,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                                 coroutineScope.launch {
                                     coroutineScope.launch {
                                         snackbarHostState.showSnackbar(
-                                            "Vas a eliminar un servicio solicitado por el vehiculo con matricula: "+reserva.matricula ,
+                                            context.getString(R.string.delete_reservation_text)+": "+reserva.matricula ,
                                             duration = SnackbarDuration.Long
                                         )
                                     }
@@ -296,7 +285,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-            shape = RoundedCornerShape(16.dp),
+            shape = misFormas.large,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -318,8 +307,8 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                             contentDescription = "Imagen de coche",
                             modifier = Modifier
                                 .size(100.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+                                .clip(misFormas.large)
+                                .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
                             contentScale = ContentScale.Crop
                         )
                     }else if(reserva.tipo=="Camion"){
@@ -328,8 +317,8 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                             contentDescription = "Imagen de camion",
                             modifier = Modifier
                                 .size(100.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+                                .clip(misFormas.large)
+                                .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
                             contentScale = ContentScale.Crop
                         )
                     }else if(reserva.tipo=="Autobus"){
@@ -338,8 +327,8 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                             contentDescription = "Imagen de autobus",
                             modifier = Modifier
                                 .size(100.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+                                .clip(misFormas.large)
+                                .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
                             contentScale = ContentScale.Crop
                         )
                     }
@@ -384,7 +373,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                 ) {
                     Button(
                         onClick = onClickAction1,
-                        shape = RoundedCornerShape(8.dp),
+                        shape = misFormas.large,
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                     ) {
                         Icon(
@@ -400,7 +389,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
 
                     Button(
                         onClick = onClickAction2,
-                        shape = RoundedCornerShape(8.dp),
+                        shape = misFormas.large,
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
                     ) {
                         Icon(
@@ -437,7 +426,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                 CircularProgressIndicator()
             }
             else if (reservaViewModel.reservasespera.value!!.isEmpty()) {
-                Text("No hay vehiculos en el taller")
+                Text(context.getString(R.string.no_vehicles))
             }
             else {
                 //Muestra todas las actividades
@@ -446,12 +435,12 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
                         ShowReserva2(
                             reserva,
                             Icons.Default.Check,
-                            "Finalizado",
+                            context.getString(R.string.finished_text),
                             onClickAction1 = {
                                 coroutineScope.launch {
                                     coroutineScope.launch {
                                         snackbarHostState.showSnackbar(
-                                            "Vas a finliazar los servicios solicitados por el vehiculo con matricula: "+reserva.matricula ,
+                                            context.getString(R.string.finish_service_text)+": "+reserva.matricula ,
                                             duration = SnackbarDuration.Long
                                         )
                                         reservaViewModel.putFinalizado(reserva.fecha,reserva.matricula)
@@ -481,7 +470,7 @@ fun ShowReserva2(
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        shape = RoundedCornerShape(16.dp),
+        shape = misFormas.large,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -503,8 +492,8 @@ fun ShowReserva2(
                         contentDescription = "Imagen de coche",
                         modifier = Modifier
                             .size(100.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+                            .clip(misFormas.large)
+                            .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
                         contentScale = ContentScale.Crop
                     )
                 }else if(reserva.tipo=="Camion"){
@@ -513,8 +502,8 @@ fun ShowReserva2(
                         contentDescription = "Imagen de camion",
                         modifier = Modifier
                             .size(100.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+                            .clip(misFormas.large)
+                            .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
                         contentScale = ContentScale.Crop
                     )
                 }else if(reserva.tipo=="Autobus"){
@@ -523,8 +512,8 @@ fun ShowReserva2(
                         contentDescription = "Imagen de autobus",
                         modifier = Modifier
                             .size(100.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+                            .clip(misFormas.large)
+                            .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
                         contentScale = ContentScale.Crop
                     )
                 }
@@ -569,7 +558,7 @@ fun ShowReserva2(
             ) {
                 Button(
                     onClick = onClickAction1,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = misFormas.medium,
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Icon(

@@ -44,6 +44,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.talleresmileniumapp.Data.Routes
 import com.example.talleresmileniumapp.Models.Product.UpdateProduct
 import com.example.talleresmileniumapp.R
+import com.example.talleresmileniumapp.Themes.misFormas
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ViewModels.ProductViewModel
@@ -140,7 +141,8 @@ fun EditProduct(navController: NavHostController, authViewModel: AuthViewModel, 
 
         Button(
             onClick = { imagePickerLauncher.launch("image/*") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            shape = misFormas.large
         ) {
             Text(context.getString(R.string.select_image_text))
         }
@@ -154,7 +156,7 @@ fun EditProduct(navController: NavHostController, authViewModel: AuthViewModel, 
                 contentDescription = context.getString(R.string.selected_image_text),
                 modifier = Modifier
                     .size(150.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(misFormas.large)
             )
         }
 
@@ -192,7 +194,8 @@ fun EditProduct(navController: NavHostController, authViewModel: AuthViewModel, 
                 navController.navigate(Routes.ProductosYServicios.route)
 
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            shape = misFormas.medium
         ) {
             Text(context.getString(R.string.save_text))
         }
