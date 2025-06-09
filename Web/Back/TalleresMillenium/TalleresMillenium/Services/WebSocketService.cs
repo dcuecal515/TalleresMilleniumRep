@@ -80,21 +80,22 @@ namespace TalleresMillenium.Services
                                 tasks.Add(handler.SendAsync(messageToSend));
                             }
                         }
-                        if (user.Chats.Count == 0) 
-                        { 
-                            List<Usuario> usuarios = new List<Usuario>();
-                            usuarios.Add(user);
-                            usuarios.Add(user2);
+                        if (user.ChatUsuarios.Count == 0) 
+                        {
                             Chat chat = new Chat
                             {
-                                Usuarios = usuarios
+                                ChatUsuarios = new List<ChatUsuario>
+                                {
+                                    new ChatUsuario { UsuarioId = user.Id },
+                                    new ChatUsuario { UsuarioId = user2.Id }
+                                }
                             };
 
                             chat = await _wsHelper.InsertChatAsync(chat);
 
                             Mensaje mensaje = new Mensaje
                             {
-                                UserId = user.Id,
+                                UsuarioId = user.Id,
                                 ChatId= chat.Id,
                                 Texto = mensajeRecivido.Identifier
                             };
@@ -106,7 +107,7 @@ namespace TalleresMillenium.Services
                             Chat chat = await _wsHelper.GetChatByUserId(user.Id);
                             Mensaje mensaje = new Mensaje
                             {
-                                UserId = user.Id,
+                                UsuarioId = user.Id,
                                 ChatId = chat.Id,
                                 Texto = mensajeRecivido.Identifier
                             };
@@ -143,7 +144,7 @@ namespace TalleresMillenium.Services
                         Chat chat = await _wsHelper.GetChatByUserId(user2.Id);
                         Mensaje mensaje = new Mensaje
                         {
-                            UserId = user.Id,
+                            UsuarioId = user.Id,
                             ChatId = chat.Id,
                             Texto = mensajeRecivido.Identifier2
                         };
