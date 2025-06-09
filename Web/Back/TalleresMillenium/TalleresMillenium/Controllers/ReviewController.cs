@@ -25,6 +25,10 @@ namespace TalleresMillenium.Controllers
             {
                 return;
             }
+            bool existreview = await _reviewService.GetExixtsServiceReview(reviewDto.ServicioId, usuario.Id);
+            if (existreview) {
+                return;
+            }
             await _reviewService.InsertReview(reviewDto,usuario.Id);
         }
         [Authorize]
@@ -33,6 +37,11 @@ namespace TalleresMillenium.Controllers
         {
             Usuario usuario = await GetAuthorizedUser();
             if (usuario == null)
+            {
+                return;
+            }
+            bool existreview = await _reviewService.GetExixtsProductReview(reviewDto.ServicioId, usuario.Id);
+            if (existreview)
             {
                 return;
             }

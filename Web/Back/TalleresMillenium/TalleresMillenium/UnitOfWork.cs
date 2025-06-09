@@ -43,6 +43,10 @@ namespace TalleresMillenium
         private Coche_ServicioRepository _coche_SercicioRepository;
 
         public Coche_ServicioRepository Coche_ServicioRepository => _coche_SercicioRepository ??= new Coche_ServicioRepository(_context);
+        
+        private ChatUsuarioRepository _chatUsarioRepository;
+
+        public ChatUsuarioRepository ChatUsuarioRepository => _chatUsarioRepository ??= new ChatUsuarioRepository(_context);
 
         public async Task<bool> SaveAsync()
         {

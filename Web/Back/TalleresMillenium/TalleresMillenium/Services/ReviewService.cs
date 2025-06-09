@@ -47,6 +47,27 @@ namespace TalleresMillenium.Services
             await _unitOfWork.ReviewRepository.InsertAsync(valoracion);
             await _unitOfWork.SaveAsync();
         }
+        public async Task<bool> GetExixtsServiceReview(int ServicioId,int id)
+        {
+            Valoracion valoracion  = await _unitOfWork.ReviewRepository.GetExixtsServiceReview(ServicioId,id);
+
+            if(valoracion != null)
+            {
+                return true;
+            }
+            return false;
+
+        }
+        public async Task<bool> GetExixtsProductReview(int ServicioId,int id)
+        {
+            Valoracion valoracion = await _unitOfWork.ReviewRepository.GetExixtsProductReview(ServicioId, id);
+
+            if (valoracion != null)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public async Task<Servicio> ObtainService(int id)
         {
