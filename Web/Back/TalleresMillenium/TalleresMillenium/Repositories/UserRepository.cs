@@ -54,5 +54,11 @@ namespace TalleresMillenium.Repositories
                  .Where(user => user.Id != id)
                  .ToArrayAsync();
         }
+        public async Task<Usuario[]> GetAllAdmins()
+        {
+            return await GetQueryable()
+                    .Where(user=> user.Rol == "Admin")
+                    .ToArrayAsync();
+        }
     }
 }

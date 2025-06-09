@@ -18,6 +18,14 @@ import { ChatService } from '../../service/chat.service';
 })
 export class ChatComponent {
   constructor(private webSocketService:WebsocketService, private chatService:ChatService){
+    console.log("HOLA FUNCIONO");
+    if(localStorage.getItem("token") || sessionStorage.getItem("token")){
+      console.log("Entro si tengo sesion iniciada")
+      if(!this.webSocketService.isConnectedRxjs()){
+        console.log("Entro si no estoy conectado")
+        this.connectRxjs()
+      }
+    }
     if(localStorage.getItem("token")){
       this.decoded=jwtDecode(localStorage.getItem("token"));
     }else if(sessionStorage.getItem("token")){
@@ -25,6 +33,7 @@ export class ChatComponent {
     }
     this.obtenerChats();
   }
+  type:'rxjs';
   messageReceived$:Subscription;
   disconnected$: Subscription;
   decoded:User
@@ -38,12 +47,18 @@ export class ChatComponent {
     this.messageReceived$ = this.webSocketService.messageReceived.subscribe(async message => {
       if(message.message=="Te llego un mensaje"){
         const mensaje:Mensaje={userName:message.userName,texto:message.texto}
-        
-        this.chats.forEach(chat => {
-          if(chat.username == message.userName){
-            chat.mensajes.push(mensaje)
-          }
-        });
+        if(this.chats.length == 0){
+          const mensajes:Mensaje[] = []
+          mensajes.push(mensaje)
+          const chat:Chat = {username:message.userName,mensajes:mensajes}
+          this.chats.push(chat)
+        }else{
+          this.chats.forEach(chat => {
+            if(chat.username == message.userName){
+              chat.mensajes.push(mensaje)
+            }
+          });
+        }
       }
       if(message.message=="Te llego un mensaje de admin"){
         const mensaje:Mensaje={userName:message.userName,texto:message.texto}
@@ -65,6 +80,11 @@ export class ChatComponent {
       }
       
     }
+  }
+
+  connectRxjs() {
+    this.type = 'rxjs';
+    this.webSocketService.connectRxjs();
   }
 
   enviar(){

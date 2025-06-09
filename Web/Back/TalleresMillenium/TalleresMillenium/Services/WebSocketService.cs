@@ -64,11 +64,13 @@ namespace TalleresMillenium.Services
                     var _wsHelper = scope.ServiceProvider.GetRequiredService<WSHelper>();
                     Usuario user = await _wsHelper.GetUserById(userHandler.Id);
                     Usuario user2 = await _wsHelper.GetUserByNombre(nombre_admin);
-                    if (user2 != null)
-                    {
+
+                    Usuario[] admins = await _wsHelper.GetAllAdmins();
+
+                    foreach (var admin in admins) {
                         foreach (WebSocketHandler handler in handlers)
                         {
-                            if (handler.Id == user2.Id)
+                            if (handler.Id == admin.Id)
                             {
                                 WebsocketMessageDto outMessage = new WebsocketMessageDto
                                 {
@@ -80,39 +82,40 @@ namespace TalleresMillenium.Services
                                 tasks.Add(handler.SendAsync(messageToSend));
                             }
                         }
-                        if (user.Chats.Count == 0) 
-                        { 
-                            List<Usuario> usuarios = new List<Usuario>();
-                            usuarios.Add(user);
-                            usuarios.Add(user2);
-                            Chat chat = new Chat
-                            {
-                                Usuarios = usuarios
-                            };
-
-                            chat = await _wsHelper.InsertChatAsync(chat);
-
-                            Mensaje mensaje = new Mensaje
-                            {
-                                UserId = user.Id,
-                                ChatId= chat.Id,
-                                Texto = mensajeRecivido.Identifier
-                            };
-                            
-                            
-                            await _wsHelper.InsertMensajeAsync(mensaje);
-                        } else
-                        {
-                            Chat chat = await _wsHelper.GetChatByUserId(user.Id);
-                            Mensaje mensaje = new Mensaje
-                            {
-                                UserId = user.Id,
-                                ChatId = chat.Id,
-                                Texto = mensajeRecivido.Identifier
-                            };
-                            await _wsHelper.InsertMensajeAsync(mensaje);
-                        }
                     }
+                    if (user.Chats.Count == 0) 
+                    { 
+                        List<Usuario> usuarios = new List<Usuario>();
+                        usuarios.Add(user);
+                        usuarios.Add(user2);
+                        Chat chat = new Chat
+                        {
+                            Usuarios = usuarios
+                        };
+
+                        chat = await _wsHelper.InsertChatAsync(chat);
+
+                        Mensaje mensaje = new Mensaje
+                        {
+                            UserId = user.Id,
+                            ChatId= chat.Id,
+                            Texto = mensajeRecivido.Identifier
+                        };
+                            
+                            
+                        await _wsHelper.InsertMensajeAsync(mensaje);
+                    } else
+                    {
+                        Chat chat = await _wsHelper.GetChatByUserId(user.Id);
+                        Mensaje mensaje = new Mensaje
+                        {
+                            UserId = user.Id,
+                            ChatId = chat.Id,
+                            Texto = mensajeRecivido.Identifier
+                        };
+                        await _wsHelper.InsertMensajeAsync(mensaje);
+                    }
+                    
                 }
             }
 
