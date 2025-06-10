@@ -37,7 +37,7 @@
             <div class="lista-carta">
                 <img class="lista-image" [src]="item.imagen" alt="Fotos productos" />
                 <h2>{{ item.nombre }}</h2>
-                <h3>valoracion: {{ item.valoracion }}<i class="fa-regular fa-star fa-flip fa-lg" style="color: #FFD43B"></i></h3>
+                <h3>valoracion: {{ item.valoracion | number:'1.1-1' }}<i class="fa-regular fa-star fa-flip fa-lg" style="color: #FFD43B"></i></h3>
                 <h4>{{item.disponible}}</h4>
                 <button class="lista-boton" (click)="goToContent(item.id)">Ver más</button>
             </div>

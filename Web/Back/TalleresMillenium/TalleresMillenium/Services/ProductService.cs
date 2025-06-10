@@ -138,5 +138,14 @@ namespace TalleresMillenium.Services
             await _unitOfWork.ProductRepository.InsertAsync(producto);
             await _unitOfWork.SaveAsync();
         }
+        public async Task<bool> GetExixtsProductName(string name)
+        {
+            Producto producto = await _unitOfWork.ProductRepository.GetExixtsProductName(name);
+            if (producto != null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

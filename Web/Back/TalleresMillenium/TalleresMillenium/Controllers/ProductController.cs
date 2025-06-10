@@ -62,19 +62,23 @@ namespace TalleresMillenium.Controllers
         }
         [Authorize]
         [HttpPut("change")]
-        public async Task PutProduct([FromForm] ChangeProductDto changeProductDto)
+        public async Task<IActionResult> PutProduct([FromForm] ChangeProductDto changeProductDto)
         {
             Usuario usuario = await GetCurrentUser();
             if (usuario == null || !usuario.Rol.Equals("Admin"))
             {
-                return;
+                return Unauthorized();
             }
-
-            Producto producto = await _productService.getProductByIdOnlyAsync(int.Parse(changeProductDto.Id));
+            bool existproductname = await _productService.GetExixtsProductName(changeProductDto.Nombre);
+            if (existproductname)
+            {
+                return Conflict();
+            }
+            Producto producto = await _productService.getProductByIdOnlyAsync(changeProductDto.Id);
 
             if (producto == null)
             {
-                return;
+                return BadRequest();
             }
             producto.Nombre = changeProductDto.Nombre;
             producto.Disponible= changeProductDto.Disponible;
@@ -86,15 +90,21 @@ namespace TalleresMillenium.Controllers
             }
 
             await _productService.UpdateProduct(producto);
+            return Ok();
         }
         [Authorize]
         [HttpPost("new")]
-        public async Task AddProduct([FromForm] NewProductDto newProductDto)
+        public async Task<IActionResult> AddProduct([FromForm] NewProductDto newProductDto)
         {
             Usuario usuario = await GetCurrentUser();
             if (usuario == null || !usuario.Rol.Equals("Admin"))
             {
-                return;
+                return Unauthorized();
+            }
+            bool existproductname = await _productService.GetExixtsProductName(newProductDto.Nombre);
+            if (existproductname)
+            {
+                return Conflict();
             }
             Producto producto = new Producto();
             producto.Nombre= newProductDto.Nombre;
@@ -104,6 +114,7 @@ namespace TalleresMillenium.Controllers
             producto.Imagen = "/" + await imageService.InsertAsync(newProductDto.Imagen);
 
             await _productService.InsertProduct(producto);
+            return Ok();
         }
         private async Task<Usuario> GetCurrentUser()
         {
