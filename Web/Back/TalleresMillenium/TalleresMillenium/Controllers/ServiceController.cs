@@ -41,19 +41,23 @@ namespace TalleresMillenium.Controllers
         }
         [Authorize]
         [HttpPut("change")]
-        public async Task PutService([FromForm] ChangeServiceDto changeServiceDto)
+        public async Task<IActionResult> PutService([FromForm] ChangeServiceDto changeServiceDto)
         {
             Usuario usuario = await GetCurrentUser();
             if (usuario == null || !usuario.Rol.Equals("Admin"))
             {
-                return;
+                return Unauthorized();
             }
-
+            bool existservicename = await _serviceService.GetExixtsServiceName(changeServiceDto.Nombre);
+            if (existservicename)
+            {
+                return Conflict();
+            }
             Servicio servicio = await _serviceService.getServiceByIdOnlyAsync(int.Parse(changeServiceDto.Id));
 
             if (servicio == null)
             {
-                return;
+                return BadRequest();
             }
             servicio.Nombre = changeServiceDto.Nombre;
             servicio.Descripcion = changeServiceDto.Descripcion;
@@ -64,15 +68,21 @@ namespace TalleresMillenium.Controllers
             }
 
             await _serviceService.UpdateService(servicio);
+            return Ok();
         }
         [Authorize]
         [HttpPost("new")]
-        public async Task AddService([FromForm] NewServiceDto newServiceDto)
+        public async Task<IActionResult> AddService([FromForm] NewServiceDto newServiceDto)
         {
             Usuario usuario = await GetCurrentUser();
             if (usuario == null || !usuario.Rol.Equals("Admin"))
             {
-                return;
+                return Unauthorized();
+            }
+            bool existservicename = await _serviceService.GetExixtsServiceName(newServiceDto.Nombre);
+            if (existservicename)
+            {
+                return Conflict();
             }
             Servicio servicio = new Servicio();
             servicio.Nombre = newServiceDto.Nombre;
@@ -81,6 +91,7 @@ namespace TalleresMillenium.Controllers
             servicio.Imagen = "/" + await imageService.InsertAsync(newServiceDto.Imagen);
 
             await _serviceService.InsertService(servicio);
+            return Ok();
         }
         private async Task<Usuario> GetCurrentUser()
         {

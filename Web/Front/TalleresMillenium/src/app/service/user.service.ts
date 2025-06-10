@@ -41,15 +41,19 @@ export class UserService {
   }
   async changeproduct(id:number,product:Product){
     const result=await this.api.putWithImage("Product/change",this.createform(id,product),'json')
+    return result;
   }
   async addproduct(newproduct:NewProduct){
     const result=await this.api.postWithImage("Product/new",this.createproduct(newproduct))
+    return result;
   }
   async changeservice(id:number,service:Service){
     const result=await this.api.putWithImage("Service/change",this.createformservice(id,service),'json')
+    return result
   }
   async addservice(newService:NewService){
     const result=await this.api.postWithImage("Service/new",this.createservice(newService))
+    return result
   }
   async acceptsolicitud(datos:AceptarSolicitud){
     const result= this.api.put("Coche_Servicio/aceptar",datos,'json')

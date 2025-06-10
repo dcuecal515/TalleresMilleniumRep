@@ -334,8 +334,7 @@ fun ShowProduct(
                     Text(
                         text = product.nombre,
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = 1
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     Box(
                         modifier = Modifier
@@ -505,8 +504,7 @@ fun ShowService(
                     Text(
                         text = service.nombre,
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = 1
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
                         text = service.descripcion,

@@ -10,12 +10,15 @@ export class ValoracionService {
 
   constructor(private api:ApiService) { }
 
-  async postvaloracion(valoracion:Enviovaloracion):Promise<void>{
+  async postvaloracion(valoracion:Enviovaloracion){
     console.log(valoracion)
     const result= await this.api.post<Result>("review/service",valoracion)
+    console.log("HOLA",result)
+    return result
   }
-  async postvaloracionProduct(valoracion:Enviovaloracion):Promise<void>{
+  async postvaloracionProduct(valoracion:Enviovaloracion){
     console.log(valoracion)
     const result= await this.api.post<Result>("review/product",valoracion)
+    return result
   }
 }
