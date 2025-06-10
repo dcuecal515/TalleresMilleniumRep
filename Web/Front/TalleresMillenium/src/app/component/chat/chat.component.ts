@@ -8,6 +8,7 @@ import { WebsocketMensaje } from '../../models/WebsocketMensaje';
 import { Chat } from '../../models/Chat';
 import { Mensaje } from '../../models/Mensaje';
 import { ChatService } from '../../service/chat.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-chat',
@@ -115,7 +116,11 @@ export class ChatComponent {
         }
         else {
           // No tiene que llegar aqui
-          alert("No estas en ningun chat")
+          Swal.fire({
+            icon: 'info',
+            title: 'Aviso',
+            text: "No estas en ningun chat"
+          });
         }
       } else {
         const mensajeWS: WebsocketMensaje = { TypeMessage: "mensaje a admin", Identifier: this.texto, Identifier2: null }
@@ -142,6 +147,7 @@ export class ChatComponent {
     if (localStorage.getItem("token") || sessionStorage.getItem("token")) {
       this.messageReceived$.unsubscribe();
       this.disconnected$.unsubscribe();
+      this.webSocketService.disconnectRxjs();
     }
   }
 }

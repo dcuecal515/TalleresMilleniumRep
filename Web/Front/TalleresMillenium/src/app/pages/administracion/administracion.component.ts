@@ -169,7 +169,11 @@ export class AdministracionComponent {
         if(resultado.success){
           this.getallproduct()
         }else{
-          alert("Este producto ya existe")
+          Swal.fire({
+                      icon: 'info',
+                      title: 'Aviso',
+                      text: "Este producto ya existe"
+                    });
         }
         
       }
@@ -219,7 +223,11 @@ export class AdministracionComponent {
         if(resultado.success){
           this.getallproduct()
         }else{
-          alert("Este producto ya existe")
+          Swal.fire({
+                      icon: 'info',
+                      title: 'Aviso',
+                      text: "Este producto ya existe"
+                    });
         }
         
       }
@@ -261,7 +269,11 @@ export class AdministracionComponent {
         if(resultado.success){
           this.getallservicios()
         }else{
-          alert("Este servicio ya existe")
+          Swal.fire({
+                      icon: 'info',
+                      title: 'Aviso',
+                      text: "Este servicio ya existe"
+                    });
         }
       }
     });
@@ -301,7 +313,11 @@ export class AdministracionComponent {
         if(resultado.success){
           this.getallservicios()
         }else{
-          alert("Este servicio ya existe")
+          Swal.fire({
+                      icon: 'info',
+                      title: 'Aviso',
+                      text: "Este servicio ya existe"
+                    });
         }
       }
     });

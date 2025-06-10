@@ -182,7 +182,11 @@ export class VistaProductoComponent {
           });
           await this.getservicioproducto(this.id, this.tipo)
         }else{
-          alert("Ya has comentado este servicio")
+          Swal.fire({
+            icon: 'info',
+            title: 'Aviso',
+            text: "Ya has comentado este servicio"
+          });
         }
       }else if(this.tipo == "producto"){
         const result=await this.valoracionService.postvaloracionProduct(valoracion)
@@ -193,11 +197,19 @@ export class VistaProductoComponent {
           });
           await this.getservicioproducto(this.id, this.tipo)
         }else{
-          alert("Ya has comentado este producto")
+          Swal.fire({
+                      icon: 'info',
+                      title: 'Aviso',
+                      text: "Ya has comentado este producto"
+                    });
         }
       }
     } else {
-      alert("MACACO ESCRIBE O PUNTUA")
+      Swal.fire({
+                  icon: 'info',
+                  title: 'Aviso',
+                  text: "Necesitas tanto rellenar el comentario como puntuar"
+                });
     }
   }
   delay(ms: number) {
