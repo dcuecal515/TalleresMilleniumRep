@@ -1,4 +1,4 @@
-@if(carrito){
+@if(existcarrito){
     @if(carrito.length > 0){
         @for(coche of carrito; track coche.matricula){
             @if(coche.servicios.length > 0){
@@ -21,4 +21,6 @@
     }@else{
         <h1>No tienes reservas a confirmar</h1>
     }
+}@else {
+    <h1>No puedes acceder puto</h1>
 }

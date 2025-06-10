@@ -21,5 +21,9 @@ namespace TalleresMillenium.Repositories
         {
             return await GetQueryable().OrderBy(p => p.Nombre) .ToListAsync();
         }
+        public async Task<Producto> GetExixtsProductName(string name)
+        {
+            return await GetQueryable().FirstOrDefaultAsync(p => p.Nombre == name);
+        }
     }
 }

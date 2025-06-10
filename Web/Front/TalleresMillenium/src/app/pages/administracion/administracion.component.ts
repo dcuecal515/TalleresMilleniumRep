@@ -166,7 +166,12 @@ export class AdministracionComponent {
       if (result.isConfirmed) {
         console.log('Datos finales del producto:', result.value);
         const resultado = await this.Userservice.changeproduct(producto.id, result.value);
-        this.getallproduct()
+        if(resultado.success){
+          this.getallproduct()
+        }else{
+          alert("Este producto ya existe")
+        }
+        
       }
     });
   }
@@ -211,7 +216,12 @@ export class AdministracionComponent {
       if (result.isConfirmed) {
         console.log('Datos finales del producto:', result.value);
         const resultado = await this.Userservice.addproduct(result.value);
-        this.getallproduct()
+        if(resultado.success){
+          this.getallproduct()
+        }else{
+          alert("Este producto ya existe")
+        }
+        
       }
     });
   }
@@ -248,7 +258,11 @@ export class AdministracionComponent {
       if (result.isConfirmed) {
         console.log('Datos finales del producto:', result.value);
         const resultado = await this.Userservice.changeservice(service.id, result.value);
-        this.getallservicios()
+        if(resultado.success){
+          this.getallservicios()
+        }else{
+          alert("Este servicio ya existe")
+        }
       }
     });
   }
@@ -284,7 +298,11 @@ export class AdministracionComponent {
       if (result.isConfirmed) {
         console.log('Datos finales del producto:', result.value);
         const resultado = await this.Userservice.addservice(result.value);
-        this.getallservicios()
+        if(resultado.success){
+          this.getallservicios()
+        }else{
+          alert("Este servicio ya existe")
+        }
       }
     });
   }

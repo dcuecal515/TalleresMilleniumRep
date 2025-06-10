@@ -17,8 +17,10 @@ namespace TalleresMillenium.Controllers
         private readonly CocheMapper _cocheMapper;
         private readonly Coche_ServicioMapper _cocheServicioMapper;
         private readonly Coche_ServicioService _coche_ServicioService;
+        private readonly ChatUsuarioService _chatUsuarioService;
+        private readonly ChatService _chatService;
 
-        public UserController(UserService userService, UserMapper userMapper, CocheMapper cocheMapper, Coche_ServicioMapper coche_ServicioMapper, CocheService cocheService, Coche_ServicioService coche_ServicioService)
+        public UserController(UserService userService, UserMapper userMapper, CocheMapper cocheMapper, Coche_ServicioMapper coche_ServicioMapper, CocheService cocheService, Coche_ServicioService coche_ServicioService,ChatUsuarioService chatUsuarioService, ChatService chatService)
         {
             _userMapper = userMapper;
             _userService = userService;
@@ -26,6 +28,8 @@ namespace TalleresMillenium.Controllers
             _cocheServicioMapper = coche_ServicioMapper;
             _cocheService = cocheService;
             _coche_ServicioService = coche_ServicioService;
+            _chatUsuarioService = chatUsuarioService;
+            _chatService = chatService;
         }
 
         [Authorize]
@@ -194,7 +198,13 @@ namespace TalleresMillenium.Controllers
             {
                 return;
             }
-
+            ICollection<ChatUsuario> chatUsuarios = await _chatUsuarioService.GetAllChatUser(id);
+            List<int> ids = new List<int>();
+            foreach (var chatUser in chatUsuarios)
+            {
+                ids.Add(chatUser.ChatId);
+            }
+            await _chatService.DeleteManyChats(ids);
             Usuario deletedUser = await _userService.getUserByIdOnlyAsync(id);
 
             if (deletedUser == null)

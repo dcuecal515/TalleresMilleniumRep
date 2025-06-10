@@ -56,6 +56,7 @@ namespace TalleresMillenium
             builder.Services.AddScoped<Coche_ServicioMapper>();
             builder.Services.AddScoped<CocheService>();
             builder.Services.AddScoped<Coche_ServicioService>();
+            builder.Services.AddScoped<ChatUsuarioService>();
 
 
             builder.Services.AddCors(

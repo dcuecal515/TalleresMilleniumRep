@@ -79,7 +79,7 @@ export class VistaProductoComponent {
         if(media>0){
           this.media = media/contador
         }else{
-          media=0
+          this.media=0
         }
         console.log("SERVICIO O PRODUCTO:", this.servicio)
       } else if (tipo == "producto") {
@@ -89,7 +89,11 @@ export class VistaProductoComponent {
         for (let i = 0; i < this.producto.valoracionesDto.length; i++) {
           media +=this.producto.valoracionesDto[i].puntuacion
         }
-        this.media = media
+        if(media>0){
+          this.media = media/contador
+        }else{
+          this.media=0
+        }
         console.log("MEDIA: " + this.media)
         console.log("SERVICIO O PRODUCTO:", this.producto)
       }
@@ -170,12 +174,28 @@ export class VistaProductoComponent {
       const valoracion: Enviovaloracion = { Texto: this.subidareview.value.texto.trim(), Puntuacion: parseInt(this.subidareview.value.puntuacion), ServicioId: parseInt(this.id) }
       console.log(valoracion)
       if(this.tipo=="servicio"){
-        await this.valoracionService.postvaloracion(valoracion)
+        const result=await this.valoracionService.postvaloracion(valoracion)
+        if(result.success){
+          this.subidareview.reset({
+          texto: '',
+          puntuacion: ''
+          });
+          await this.getservicioproducto(this.id, this.tipo)
+        }else{
+          alert("Ya has comentado este servicio")
+        }
       }else if(this.tipo == "producto"){
-        await this.valoracionService.postvaloracionProduct(valoracion)
+        const result=await this.valoracionService.postvaloracionProduct(valoracion)
+        if(result.success){
+          this.subidareview.reset({
+          texto: '',
+          puntuacion: ''
+          });
+          await this.getservicioproducto(this.id, this.tipo)
+        }else{
+          alert("Ya has comentado este producto")
+        }
       }
-      this.subidareview.reset();
-      await this.getservicioproducto(this.id, this.tipo)
     } else {
       alert("MACACO ESCRIBE O PUNTUA")
     }

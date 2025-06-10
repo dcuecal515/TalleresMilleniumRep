@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Xml.Linq;
 using TalleresMillenium.DTOs;
@@ -129,6 +130,15 @@ namespace TalleresMillenium.Services
         {
             await _unitOfWork.ServiceRepository.InsertAsync(servicio);
             await _unitOfWork.SaveAsync();
+        }
+        public async Task<bool> GetExixtsServiceName(string serviceName)
+        {
+            Servicio servicio=await _unitOfWork.ServiceRepository.GetExixtsServiceName(serviceName);
+            if (servicio != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

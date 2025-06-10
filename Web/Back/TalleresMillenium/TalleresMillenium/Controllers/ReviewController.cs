@@ -18,25 +18,36 @@ namespace TalleresMillenium.Controllers
         }
         [Authorize]
         [HttpPost("Service")]
-        public async Task  AddReview([FromBody] ReviewDto reviewDto)
+        public async Task<IActionResult>  AddReview([FromBody] ReviewDto reviewDto)
         {
             Usuario usuario = await GetAuthorizedUser();
             if (usuario == null)
             {
-                return;
+                return Unauthorized();
+            }
+            bool existreview = await _reviewService.GetExixtsServiceReview(reviewDto.ServicioId, usuario.Id);
+            if (existreview) {
+                return Conflict();
             }
             await _reviewService.InsertReview(reviewDto,usuario.Id);
+            return Ok();
         }
         [Authorize]
         [HttpPost("Product")]
-        public async Task AddReviewProduct([FromBody] ReviewDto reviewDto)
+        public async Task<IActionResult> AddReviewProduct([FromBody] ReviewDto reviewDto)
         {
             Usuario usuario = await GetAuthorizedUser();
             if (usuario == null)
             {
-                return;
+                return Unauthorized();
+            }
+            bool existreview = await _reviewService.GetExixtsProductReview(reviewDto.ServicioId, usuario.Id);
+            if (existreview)
+            {
+                return Conflict();
             }
             await _reviewService.InsertReviewProduct(reviewDto, usuario.Id);
+            return Ok();
         }
         private async Task<Usuario> GetAuthorizedUser()
         {

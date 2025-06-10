@@ -82,38 +82,41 @@ namespace TalleresMillenium.Services
                                 tasks.Add(handler.SendAsync(messageToSend));
                             }
                         }
-                    }
-                    if (user.Chats.Count == 0) 
-                    { 
-                        List<Usuario> usuarios = new List<Usuario>();
-                        usuarios.Add(user);
-                        usuarios.Add(user2);
-                        Chat chat = new Chat
+
+                        if (user.ChatUsuarios.Count == 0) 
                         {
-                            Usuarios = usuarios
-                        };
+                            Chat chat = new Chat
+                            {
+                                ChatUsuarios = new List<ChatUsuario>
+                                {
+                                    new ChatUsuario { UsuarioId = user.Id },
+                                    new ChatUsuario { UsuarioId = user2.Id }
+                                }
+                            };
 
                         chat = await _wsHelper.InsertChatAsync(chat);
 
-                        Mensaje mensaje = new Mensaje
-                        {
-                            UserId = user.Id,
-                            ChatId= chat.Id,
-                            Texto = mensajeRecivido.Identifier
-                        };
+
+                            Mensaje mensaje = new Mensaje
+                            {
+                                UsuarioId = user.Id,
+                                ChatId= chat.Id,
+                                Texto = mensajeRecivido.Identifier
+                            };
                             
-                            
+                 
                         await _wsHelper.InsertMensajeAsync(mensaje);
                     } else
                     {
-                        Chat chat = await _wsHelper.GetChatByUserId(user.Id);
-                        Mensaje mensaje = new Mensaje
-                        {
-                            UserId = user.Id,
-                            ChatId = chat.Id,
-                            Texto = mensajeRecivido.Identifier
-                        };
-                        await _wsHelper.InsertMensajeAsync(mensaje);
+                            Chat chat = await _wsHelper.GetChatByUserId(user.Id);
+                            Mensaje mensaje = new Mensaje
+                            {
+                                UsuarioId = user.Id,
+                                ChatId = chat.Id,
+                                Texto = mensajeRecivido.Identifier
+                            };
+                            await _wsHelper.InsertMensajeAsync(mensaje);
+                        }
                     }
                     
                 }
@@ -146,7 +149,7 @@ namespace TalleresMillenium.Services
                         Chat chat = await _wsHelper.GetChatByUserId(user2.Id);
                         Mensaje mensaje = new Mensaje
                         {
-                            UserId = user.Id,
+                            UsuarioId = user.Id,
                             ChatId = chat.Id,
                             Texto = mensajeRecivido.Identifier2
                         };
