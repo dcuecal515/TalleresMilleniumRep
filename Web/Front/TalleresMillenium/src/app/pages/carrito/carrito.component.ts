@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CarritoService } from '../../service/carrito.service';
 import { ElementoCarrito } from '../../models/ElementoCarrito';
 import { ServicioCarrito } from '../../models/ServicioCarrito';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-carrito',
@@ -40,7 +41,11 @@ export class CarritoComponent {
       });
       this.carrito = this.carrito.filter(e => e.servicios.length > 0);
     } else {
-      alert("Ocurrio un error inesperado")
+      Swal.fire({
+                  icon: 'error',
+                  title: 'Aviso',
+                  text: "Ocurrio un error inesperado"
+                });
     }
   }
 
@@ -49,9 +54,17 @@ export class CarritoComponent {
 
     if (result.success) {
       this.carrito = this.carrito.filter(c => c.matricula !== matricula)
-      alert("Reserva completada con exito")
+      Swal.fire({
+        icon: 'success',
+        title: 'Aviso',
+        text: "Reserva completada con exito"
+      });
     } else {
-      alert("Ocurrio un error inesperado")
+      Swal.fire({
+        icon: 'error',
+        title: 'Aviso',
+        text: "Ocurrio un error inesperado"
+      });
     }
   }
 }

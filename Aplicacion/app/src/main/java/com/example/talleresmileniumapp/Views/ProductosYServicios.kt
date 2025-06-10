@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -68,6 +67,7 @@ import com.example.talleresmileniumapp.Dialog.AlertDialog
 import com.example.talleresmileniumapp.Models.Product.ProductResponse
 import com.example.talleresmileniumapp.Models.Service.ServiceResponse
 import com.example.talleresmileniumapp.R
+import com.example.talleresmileniumapp.Themes.misFormas
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ViewModels.ProductViewModel
@@ -202,7 +202,7 @@ fun AllProductsScreen(navController: NavHostController,snackbarHostState:Snackba
             onClick = {
                 navController.navigate(Routes.AddProduct.route)
             },
-            shape = RoundedCornerShape(8.dp),
+            shape = misFormas.medium,
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
             Icon(
@@ -301,7 +301,7 @@ fun ShowProduct(
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        shape = RoundedCornerShape(16.dp),
+        shape = misFormas.large,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -318,12 +318,12 @@ fun ShowProduct(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 AsyncImage(
-                    model = "http://10.0.2.2:5151${product.imagen}",
+                    model = "https://talleresmilemiun.runasp.net${product.imagen}",
                     contentDescription = "Imagen del producto",
                     modifier = Modifier
                         .size(100.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+                        .clip(misFormas.large)
+                        .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
                     contentScale = ContentScale.Crop
                 )
 
@@ -363,7 +363,7 @@ fun ShowProduct(
             ) {
                 Button(
                     onClick = onClickAction1,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = misFormas.medium,
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Icon(
@@ -379,7 +379,7 @@ fun ShowProduct(
 
                 Button(
                     onClick = onClickAction2,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = misFormas.medium,
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
                 ) {
                     Icon(
@@ -415,7 +415,7 @@ fun AllServicesScreen(navController: NavHostController,snackbarHostState:Snackba
             onClick = {
                 navController.navigate(Routes.AddService.route)
             },
-            shape = RoundedCornerShape(8.dp),
+            shape = misFormas.medium,
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
             Icon(
@@ -467,11 +467,12 @@ fun ShowService(
     textButton: String,
     onClickAction: () -> Unit
 ) {
+    val scrollState = rememberScrollState()
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        shape = RoundedCornerShape(16.dp),
+        shape = misFormas.large,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -488,12 +489,12 @@ fun ShowService(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 AsyncImage(
-                    model = "http://10.0.2.2:5151${service.imagen}",
+                    model = "https://talleresmilemiun.runasp.net${service.imagen}",
                     contentDescription = "Imagen del producto",
                     modifier = Modifier
                         .size(100.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+                        .clip(misFormas.large)
+                        .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
                     contentScale = ContentScale.Crop
                 )
 
@@ -506,12 +507,18 @@ fun ShowService(
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
-                    Text(
-                        text = service.descripcion,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 3
-                    )
+                    Box(
+                        modifier = Modifier
+                            .height(60.dp)
+                            .verticalScroll(scrollState)
+                    ) {
+                        Text(
+                            text = service.descripcion,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+
                 }
             }
 
@@ -522,7 +529,7 @@ fun ShowService(
             ) {
                 Button(
                     onClick = onClickAction,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = misFormas.medium,
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Icon(

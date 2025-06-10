@@ -13,19 +13,6 @@ import { WebsocketService } from './service/websocket.service';
 })
 export class AppComponent{
   title = 'TalleresMillenium';
-  type:'rxjs';
-  constructor(private translate:LanguageService, private webSocketService:WebsocketService){
-    console.log("HOLA FUNCIONO");
-    if(localStorage.getItem("token") || sessionStorage.getItem("token")){
-      console.log("Entro si tengo sesion iniciada")
-      if(!this.webSocketService.isConnectedRxjs()){
-        console.log("Entro si no estoy conectado")
-        this.connectRxjs()
-      }
-    }
-  }
-  connectRxjs() {
-    this.type = 'rxjs';
-    this.webSocketService.connectRxjs();
-  }
+  constructor(private translate:LanguageService, private webSocketService:WebsocketService){}
+  
 }

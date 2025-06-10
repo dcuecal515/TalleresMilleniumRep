@@ -38,5 +38,10 @@ namespace TalleresMillenium
             await _unitOfWork.MensajeRepository.InsertAsync(mensaje);
             await _unitOfWork.SaveAsync();
         }
+
+        public async Task<Usuario[]> GetAllAdmins()
+        {
+            return await _unitOfWork.UserRepository.GetAllAdmins();
+        }
     }
 }

@@ -1,27 +1,21 @@
 package com.example.talleresmileniumapp.Views
 
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,9 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.talleresmileniumapp.Data.Routes
-import com.example.talleresmileniumapp.Models.Product.UpdateProduct
 import com.example.talleresmileniumapp.Models.Service.UpdateService
 import com.example.talleresmileniumapp.R
+import com.example.talleresmileniumapp.Themes.misFormas
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ViewModels.ServiceViewModel
@@ -106,7 +100,8 @@ fun EditService(navController: NavHostController, authViewModel: AuthViewModel, 
 
         Button(
             onClick = { imagePickerLauncher.launch("image/*") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            shape = misFormas.large
         ) {
             Text(context.getString(R.string.select_image_text))
         }
@@ -120,7 +115,7 @@ fun EditService(navController: NavHostController, authViewModel: AuthViewModel, 
                 contentDescription = context.getString(R.string.selected_image_text),
                 modifier = Modifier
                     .size(150.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(misFormas.large)
             )
         }
 
@@ -156,7 +151,8 @@ fun EditService(navController: NavHostController, authViewModel: AuthViewModel, 
                 navController.navigate(Routes.ProductosYServicios.route)
 
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            shape = misFormas.medium
         ) {
             Text(context.getString(R.string.save_text))
         }

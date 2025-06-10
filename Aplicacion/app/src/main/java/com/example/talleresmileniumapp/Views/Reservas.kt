@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,14 +21,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AllInbox
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -48,7 +44,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -68,18 +63,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import coil3.compose.AsyncImage
 import com.example.talleresmileniumapp.Data.Routes
 import com.example.talleresmileniumapp.Models.Product.ProductResponse
 import com.example.talleresmileniumapp.Models.Reservas.ReservaResponse
-import com.example.talleresmileniumapp.Models.Service.ServiceResponse
 import com.example.talleresmileniumapp.R
-import com.example.talleresmileniumapp.Repositories.ReservaRepository
+import com.example.talleresmileniumapp.Themes.misFormas
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
-import com.example.talleresmileniumapp.ViewModels.ProductViewModel
 import com.example.talleresmileniumapp.ViewModels.ReservaViewModel
-import com.example.talleresmileniumapp.ViewModels.ServiceViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Calendar
@@ -119,7 +110,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
     {
         Spacer(modifier = Modifier.height(90.dp))
 
-        Text(text = "Reservas", fontSize = 35.sp)
+        Text(text = context.getString(R.string.reservations_title), fontSize = 35.sp)
 
 
         val snackbarHostState = remember { SnackbarHostState() }
@@ -205,7 +196,6 @@ fun AllReservaEsperaScreen(
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     var fechaSeleccionada by remember { mutableStateOf<LocalDate?>(null) }
-
     var showDialog by remember { mutableStateOf(false) }
     var selectedServicioId by remember { mutableStateOf<String?>(null) }
     var selectedReserva by remember { mutableStateOf<ReservaResponse?>(null) }
@@ -267,6 +257,7 @@ fun AllReservaEsperaScreen(
                     )
                 }
             }
+
             if (showDialog && selectedReserva != null) {
                 AlertDialog(
                     onDismissRequest = { showDialog = false },
@@ -274,10 +265,10 @@ fun AllReservaEsperaScreen(
                         Button(onClick = {
                             showDialog = false
                             selectedServicioId?.let { servicioId ->
-                                    coroutineScope.launch {
-                                        reservaViewModel.deleteReserva(servicioId)
-                                        snackbarHostState.showSnackbar("Servicio eliminado")
-                                    }
+                                coroutineScope.launch {
+                                    reservaViewModel.deleteReserva(servicioId)
+                                    snackbarHostState.showSnackbar("Servicio eliminado")
+                                }
                             }
                         }) {
                             Text("Eliminar")
@@ -308,6 +299,7 @@ fun AllReservaEsperaScreen(
     }
 }
 
+
     @Composable
     fun ShowReserva(
         reserva: ReservaResponse,
@@ -324,7 +316,7 @@ fun AllReservaEsperaScreen(
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-            shape = RoundedCornerShape(16.dp),
+            shape = misFormas.large,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -346,12 +338,9 @@ fun AllReservaEsperaScreen(
                             contentDescription = "Imagen de coche",
                             modifier = Modifier
                                 .size(100.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .border(
-                                    1.dp,
-                                    MaterialTheme.colorScheme.outline,
-                                    RoundedCornerShape(12.dp)
-                                ),
+                                .clip(misFormas.large)
+                                .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
+
                             contentScale = ContentScale.Crop
                         )
                     }else if(reserva.tipo=="Camion"){
@@ -360,12 +349,9 @@ fun AllReservaEsperaScreen(
                             contentDescription = "Imagen de camion",
                             modifier = Modifier
                                 .size(100.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .border(
-                                    1.dp,
-                                    MaterialTheme.colorScheme.outline,
-                                    RoundedCornerShape(12.dp)
-                                ),
+                                .clip(misFormas.large)
+                                .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
+
                             contentScale = ContentScale.Crop
                         )
                     }else if(reserva.tipo=="Autobus"){
@@ -374,12 +360,9 @@ fun AllReservaEsperaScreen(
                             contentDescription = "Imagen de autobus",
                             modifier = Modifier
                                 .size(100.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .border(
-                                    1.dp,
-                                    MaterialTheme.colorScheme.outline,
-                                    RoundedCornerShape(12.dp)
-                                ),
+                                .clip(misFormas.large)
+                                .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
+
                             contentScale = ContentScale.Crop
                         )
                     }
@@ -424,7 +407,7 @@ fun AllReservaEsperaScreen(
                 ) {
                     Button(
                         onClick = onClickAction1,
-                        shape = RoundedCornerShape(8.dp),
+                        shape = misFormas.large,
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                     ) {
                         Icon(
@@ -440,7 +423,7 @@ fun AllReservaEsperaScreen(
 
                     Button(
                         onClick = onClickAction2,
-                        shape = RoundedCornerShape(8.dp),
+                        shape = misFormas.large,
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
                     ) {
                         Icon(
@@ -475,8 +458,8 @@ fun AllReservaEsperaScreen(
             if (reservaViewModel.reservasfinal.value == null) {
                 CircularProgressIndicator()
             }
-            else if (reservaViewModel.reservasfinal.value!!.isEmpty()) {
-                Text("No hay vehiculos en el taller")
+            else if (reservaViewModel.reservasespera.value!!.isEmpty()) {
+                Text(context.getString(R.string.no_vehicles))
             }
             else {
                 //Muestra todas las actividades
@@ -485,13 +468,14 @@ fun AllReservaEsperaScreen(
                         ShowReserva2(
                             reserva,
                             Icons.Default.Check,
-                            "Finalizado",
+                            context.getString(R.string.finished_text),
                             onClickAction1 = {
                                 coroutineScope.launch {
                                     coroutineScope.launch {
                                         snackbarHostState.showSnackbar(
-                                            "Vas a finliazar los servicios solicitados por el vehiculo con matricula: "+reserva.matricula ,
+                                            context.getString(R.string.finish_service_text)+": "+reserva.matricula ,
                                             duration = SnackbarDuration.Short
+
                                         )
                                         reservaViewModel.putFinalizado(reserva.fecha,reserva.matricula)
                                     }
@@ -520,7 +504,7 @@ fun ShowReserva2(
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        shape = RoundedCornerShape(16.dp),
+        shape = misFormas.large,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -542,12 +526,9 @@ fun ShowReserva2(
                         contentDescription = "Imagen de coche",
                         modifier = Modifier
                             .size(100.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .border(
-                                1.dp,
-                                MaterialTheme.colorScheme.outline,
-                                RoundedCornerShape(12.dp)
-                            ),
+                            .clip(misFormas.large)
+                            .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
+
                         contentScale = ContentScale.Crop
                     )
                 }else if(reserva.tipo=="Camion"){
@@ -556,12 +537,9 @@ fun ShowReserva2(
                         contentDescription = "Imagen de camion",
                         modifier = Modifier
                             .size(100.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .border(
-                                1.dp,
-                                MaterialTheme.colorScheme.outline,
-                                RoundedCornerShape(12.dp)
-                            ),
+                            .clip(misFormas.large)
+                            .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
+
                         contentScale = ContentScale.Crop
                     )
                 }else if(reserva.tipo=="Autobus"){
@@ -570,12 +548,9 @@ fun ShowReserva2(
                         contentDescription = "Imagen de autobus",
                         modifier = Modifier
                             .size(100.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .border(
-                                1.dp,
-                                MaterialTheme.colorScheme.outline,
-                                RoundedCornerShape(12.dp)
-                            ),
+                            .clip(misFormas.large)
+                            .border(1.dp, MaterialTheme.colorScheme.outline, misFormas.large),
+
                         contentScale = ContentScale.Crop
                     )
                 }
@@ -620,7 +595,7 @@ fun ShowReserva2(
             ) {
                 Button(
                     onClick = onClickAction1,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = misFormas.medium,
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Icon(

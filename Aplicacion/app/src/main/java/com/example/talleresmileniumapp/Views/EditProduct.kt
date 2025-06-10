@@ -6,9 +6,7 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -44,6 +41,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.talleresmileniumapp.Data.Routes
 import com.example.talleresmileniumapp.Models.Product.UpdateProduct
 import com.example.talleresmileniumapp.R
+import com.example.talleresmileniumapp.Themes.misFormas
 import com.example.talleresmileniumapp.ViewModels.AuthState
 import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 import com.example.talleresmileniumapp.ViewModels.ProductViewModel
@@ -140,7 +138,8 @@ fun EditProduct(navController: NavHostController, authViewModel: AuthViewModel, 
 
         Button(
             onClick = { imagePickerLauncher.launch("image/*") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            shape = misFormas.large
         ) {
             Text(context.getString(R.string.select_image_text))
         }
@@ -154,7 +153,7 @@ fun EditProduct(navController: NavHostController, authViewModel: AuthViewModel, 
                 contentDescription = context.getString(R.string.selected_image_text),
                 modifier = Modifier
                     .size(150.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(misFormas.large)
             )
         }
 
@@ -192,7 +191,8 @@ fun EditProduct(navController: NavHostController, authViewModel: AuthViewModel, 
                 navController.navigate(Routes.ProductosYServicios.route)
 
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            shape = misFormas.medium
         ) {
             Text(context.getString(R.string.save_text))
         }

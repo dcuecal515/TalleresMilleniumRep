@@ -31,7 +31,7 @@
     <string name="selected_image_text">Imagen seleccionada</string>
     <string name="complete_fields_text">Porfavor complete los campos</string>
     <string name="please_select_image_text">Porfavor selecciona una imagen</string>
-    <string name="add_service_text">Agregar servicio</string>
+    <string name="add_service_text">Añadir servicio</string>
     <string name="edit_product_text">Editar producto</string>
     <string name="edit_service_text">Editar servicio</string>
     <string name="no_products_text">No hay productos todavía</string>
@@ -47,4 +47,22 @@
     <string name="products_text">Productos</string>
     <string name="services_text">Servicios</string>
     <string name="task_list_text">Lista de tareas a realizar</string>
+    <string name="home_text">Inicio</string>
+    <string name="account_title">Cuenta</string>
+    <string name="users_title">Usuarios</string>
+    <string name="reservations_title">Reservas</string>
+    <string name="tasks_title">Tareas</string>
+    <string name="exit_text">Salir</string>
+    <string name="no_reservations_text">No hay reservas todavia</string>
+    <string name="accept_reservation_text">Vas a aceptar los servicios solicitados por el vehiculo con matricula</string>
+    <string name="selected_date_text">Fecha seleccionada para</string>
+    <string name="delete_reservation_text">Vas a eliminar un servicio solicitado por el vehiculo con matricula</string>
+    <string name="no_vehicles">No hay vehiculos en el taller</string>
+    <string name="finished_text">Finalizado</string>
+    <string name="finish_service_text">Vas a finalizar los servicios solicitados por el vehiculo con matricula</string>
+    <string name="no_users">No hay usuarios</string>
+    <string name="delete_user_title">¿Seguro que deseas eliminar el usuario?</string>
+    <string name="delete_user_description_text">El usuario va a ser borrado permanentemente</string>
+    <string name="make_admin_text">Hacer admin</string>
+    <string name="make_user_text">Hacer usuario</string>
 </resources>
