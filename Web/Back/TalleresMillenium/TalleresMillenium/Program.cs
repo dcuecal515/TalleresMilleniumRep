@@ -21,6 +21,10 @@ namespace TalleresMillenium
             // Add services to the container.
             builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
             builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<Settings>>().Value);
+
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+            builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailSettings>>().Value);
+
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -57,6 +61,7 @@ namespace TalleresMillenium
             builder.Services.AddScoped<CocheService>();
             builder.Services.AddScoped<Coche_ServicioService>();
             builder.Services.AddScoped<ChatUsuarioService>();
+            builder.Services.AddScoped<EmailService>();
 
 
             builder.Services.AddCors(
