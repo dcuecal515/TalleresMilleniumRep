@@ -8,6 +8,7 @@ import { Result } from '../../models/result';
 import { SignupCar } from '../../models/signupCar';
 import { SignupUser } from '../../models/signupUser';
 import { WebsocketService } from '../../service/websocket.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -108,27 +109,51 @@ export class InicioSesionComponent {
                   await this.rememberfunction()
                 }
               }else{
-                alert("Algún campo incorrecto")
+                Swal.fire({
+                            icon: 'error',
+                            title: 'Aviso',
+                            text: "Algún campo incorrecto"
+                          });
               }
             }
             else{
-              alert("Las contraseñas tienen que ser iguales")
+              Swal.fire({
+                icon: 'error',
+                title: 'Aviso',
+                text: "Las contraseñas tienen que ser iguales"
+              });
             }
           }
           else{
-            alert("El segundo campo contraseña no puede estar vacio")
+            Swal.fire({
+              icon: 'error',
+              title: 'Aviso',
+              text: "El segundo campo contraseña no puede estar vacio"
+            });
           }
         }
         else{
-          alert("El campo contraseña no puede estar vacio")
+          Swal.fire({
+            icon: 'error',
+            title: 'Aviso',
+            text: "El campo contraseña no puede estar vacio"
+          });
         }
       }
       else{
-        alert("El campo correo no es valido")
+        Swal.fire({
+          icon: 'error',
+          title: 'Aviso',
+          text: "El campo correo no es valido"
+        });
       }
     }
     else{
-      alert("El campo nombre no puede estar vacio")
+      Swal.fire({
+        icon: 'error',
+        title: 'Aviso',
+        text: "El campo nombre no puede estar vacio"
+      });
     }
   }
   async loginUser():Promise<void>{
@@ -139,10 +164,18 @@ export class InicioSesionComponent {
       if(this.apiService.jwt!="" && this.apiService.jwt!=null){
         await this.rememberfunction()
       }else{
-        alert("Este usuario no existe")//poner sweetalert2
+        Swal.fire({
+          icon: 'error',
+          title: 'Aviso',
+          text: "Este usuario no existe"
+        });
       }
     }else{
-      alert("Campos invalidos")//poner sweetalert2
+      Swal.fire({
+        icon: 'error',
+        title: 'Aviso',
+        text: "Campos invalidos"
+      });
     }
   }
 
