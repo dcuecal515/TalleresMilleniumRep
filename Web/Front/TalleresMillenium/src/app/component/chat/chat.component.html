@@ -14,8 +14,9 @@
                                 <div class="mensajes">
                                     @if(decoded.name == mensaje.userName){
                                         <p class="mio">{{mensaje.texto}}</p>
-                                    }@else {
-                                        <p class="suyo">{{mensaje.texto}}</p>
+                                    }
+                                    @else {
+                                        <p class="suyo">{{mensaje.userName}}: {{mensaje.texto}}</p>
                                     }
                                 </div>
                             }
@@ -55,7 +56,7 @@
                             @if(decoded.name == mensaje.userName){
                                 <p class="mio">{{mensaje.texto}}</p>
                             }@else {
-                                <p class="suyo">{{mensaje.texto}}</p>
+                                <p class="suyo">{{mensaje.userName}}: {{mensaje.texto}}</p>
                             }
                         </div>
                     }

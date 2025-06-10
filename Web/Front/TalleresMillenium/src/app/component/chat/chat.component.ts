@@ -17,15 +17,24 @@ import { ChatService } from '../../service/chat.service';
   styleUrl: './chat.component.css'
 })
 export class ChatComponent {
-  constructor(private webSocketService: WebsocketService, private chatService: ChatService) {
-    if (localStorage.getItem("token")) {
-      this.decoded = jwtDecode(localStorage.getItem("token"));
-    } else if (sessionStorage.getItem("token")) {
-      this.decoded = jwtDecode(sessionStorage.getItem("token"));
+  constructor(private webSocketService:WebsocketService, private chatService:ChatService){
+    console.log("HOLA FUNCIONO");
+    if(localStorage.getItem("token") || sessionStorage.getItem("token")){
+      console.log("Entro si tengo sesion iniciada")
+      if(!this.webSocketService.isConnectedRxjs()){
+        console.log("Entro si no estoy conectado")
+        this.connectRxjs()
+      }
+    }
+    if(localStorage.getItem("token")){
+      this.decoded=jwtDecode(localStorage.getItem("token"));
+    }else if(sessionStorage.getItem("token")){
+      this.decoded=jwtDecode(sessionStorage.getItem("token"));
     }
     this.obtenerChats();
   }
-  messageReceived$: Subscription;
+  type:'rxjs';
+  messageReceived$:Subscription;
   disconnected$: Subscription;
   decoded: User
   texto: string = ""
@@ -35,24 +44,32 @@ export class ChatComponent {
   chatAbierto: boolean = false
 
   ngOnInit(): void {
-    if (localStorage.getItem("token") || sessionStorage.getItem("token")) {
-      this.messageReceived$ = this.webSocketService.messageReceived.subscribe(async message => {
-        if (message.message == "Te llego un mensaje") {
-          const mensaje: Mensaje = { userName: message.userName, texto: message.texto }
 
+    if (localStorage.getItem("token") || sessionStorage.getItem("token")) {
+    this.messageReceived$ = this.webSocketService.messageReceived.subscribe(async message => {
+      if(message.message=="Te llego un mensaje"){
+        const mensaje:Mensaje={userName:message.userName,texto:message.texto}
+        if(this.chats.length == 0){
+          const mensajes:Mensaje[] = []
+          mensajes.push(mensaje)
+          const chat:Chat = {username:message.userName,mensajes:mensajes}
+          this.chats.push(chat)
+        }else{
           this.chats.forEach(chat => {
-            if (chat.username == message.userName) {
+            if(chat.username == message.userName){
               chat.mensajes.push(mensaje)
             }
           });
         }
-        if (message.message == "Te llego un mensaje de admin") {
-          const mensaje: Mensaje = { userName: message.userName, texto: message.texto }
-          this.chats[0].mensajes.push(mensaje)
-        }
-      });
-      this.disconnected$ = this.webSocketService.disconnected.subscribe(() => this.isConnected = false);
-      console.log("Rol: ", this.decoded.role)
+
+      }
+      if(message.message=="Te llego un mensaje de admin"){
+        const mensaje:Mensaje={userName:message.userName,texto:message.texto}
+        this.chats[0].mensajes.push(mensaje)
+      }
+    });
+    this.disconnected$ = this.webSocketService.disconnected.subscribe(() => this.isConnected = false);
+    console.log("Rol: ",this.decoded.role)
     }
   }
 
@@ -69,12 +86,19 @@ export class ChatComponent {
     }
   }
 
-  enviar() {
-    console.log("Mensaje: ", this.texto)
-    if (this.texto != "") {
-      if (this.decoded.role == "Admin") {
-        if (this.chatName != "") {
-          const mensajeWS: WebsocketMensaje = { TypeMessage: "mensaje a otro", Identifier: this.chatName, Identifier2: this.texto }
+
+  connectRxjs() {
+    this.type = 'rxjs';
+    this.webSocketService.connectRxjs();
+  }
+
+  enviar(){
+    console.log("Mensaje: ",this.texto)
+    if(this.texto!=""){
+      if(this.decoded.role == "Admin"){
+        if(this.chatName != ""){
+          const mensajeWS:WebsocketMensaje={TypeMessage:"mensaje a otro" ,Identifier: this.chatName,Identifier2:this.texto}
+
           // Convertir el objeto a JSON
           const jsonData = JSON.stringify(mensajeWS);
           console.log(JSON.stringify(mensajeWS));

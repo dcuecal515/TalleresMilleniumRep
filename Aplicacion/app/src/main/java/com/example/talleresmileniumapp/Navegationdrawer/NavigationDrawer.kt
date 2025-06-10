@@ -134,7 +134,7 @@ fun NavigationDrawer(
             route = Routes.TasksManager.route
         ),
         NavigationItems(
-            title = context.getString(R.string.exit_title),
+            title = context.getString(R.string.exit_text),
             selectedIcon = Icons.Filled.ExitToApp,
             unselectedIcon = Icons.Outlined.ExitToApp,
             route = null

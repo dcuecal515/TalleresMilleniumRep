@@ -231,7 +231,7 @@ fun TasksManager(navController: NavHostController,
                 }
 
                 Button(shape = misFormas.small,
-                    modifier = Modifier.width(150.dp),
+                    modifier = Modifier.width(160.dp),
                     onClick = {
                         viewModel.deleteAllTasks(taskList)
                         taskDescription = ""
@@ -241,9 +241,7 @@ fun TasksManager(navController: NavHostController,
                 }
             }
         }
-
     }
-
 
 }
 

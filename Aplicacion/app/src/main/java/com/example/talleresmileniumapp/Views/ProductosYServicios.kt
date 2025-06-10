@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -319,7 +318,7 @@ fun ShowProduct(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 AsyncImage(
-                    model = "http://10.0.2.2:5151${product.imagen}",
+                    model = "https://talleresmilemiun.runasp.net${product.imagen}",
                     contentDescription = "Imagen del producto",
                     modifier = Modifier
                         .size(100.dp)
@@ -490,7 +489,7 @@ fun ShowService(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 AsyncImage(
-                    model = "http://10.0.2.2:5151${service.imagen}",
+                    model = "https://talleresmilemiun.runasp.net${service.imagen}",
                     contentDescription = "Imagen del producto",
                     modifier = Modifier
                         .size(100.dp)
