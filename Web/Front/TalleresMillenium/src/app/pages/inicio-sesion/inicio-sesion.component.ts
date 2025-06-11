@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { Login } from '../../models/login';
 import { ApiService } from '../../service/api.service';
 import { AuthService } from '../../service/auth.service';
-import { Result } from '../../models/result';
-import { SignupCar } from '../../models/signupCar';
 import { SignupUser } from '../../models/signupUser';
 import { WebsocketService } from '../../service/websocket.service';
 import Swal from 'sweetalert2';

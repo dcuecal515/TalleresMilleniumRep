@@ -4,9 +4,12 @@
         <h3 class="logo-opciones" (click)="goToRoute('tienda/servicios')">{{'service' | translate}}</h3>
         <h3 class="logo-opciones" (click)="goToRoute('sobre-nosotros')">Sobre nosotros</h3>
         <h3 class="logo-opciones" (click)="goToRoute('tienda/productos')">{{'product' | translate}}</h3>
-        <h3 class="logo-opciones" (click)="changeoption()">{{'language' | translate}}</h3>
-        <h3 class="logo-opciones" (click)="goToRoute('carrito')"><i class="fa-solid fa-cart-shopping"></i></h3>
+        <div class="banderas">
+        <img src="/assets/Espana.webp" alt="Español" (click)="changelanguage('es')" class="bandera">
+        <img src="/assets/UK.webp" alt="English" (click)="changelanguage('en')" class="bandera">
+        </div>
         @if(decoded!=null){
+        <h3 class="logo-opciones" (click)="goToRoute('carrito')"><i class="fa-solid fa-cart-shopping"></i></h3>
         <h3 class="logo-opciones" (click)="cerrarSesion()">Cerrar Sesión</h3>
         }
     </div>
@@ -15,8 +18,9 @@
             <p>{{'bienvenido' | translate}} {{decoded.name}}</p>
         </div>
     }@else {
-        <div class="acceder" (click)="goToRoute('inicio-sesion')">
-            <i id="person-icon" class="fa-solid fa-user"></i>
+        <div class="acceder">
+            <i (click)="goToRoute('inicio-sesion')" id="person-icon" class="fa-solid fa-user"></i>
+            <i id="menu" (click)="showMenu()" class="fa-solid fa-bars"></i>
         </div>
     }
 </div>

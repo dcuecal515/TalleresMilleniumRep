@@ -114,21 +114,21 @@ namespace TalleresMillenium
                 {
                     var servicios = new List<Servicio>
                     {
-                        new Servicio{ Nombre="Cambio de aceite y filtro", Descripcion="Protege tu motor y mejora el rendimiento con un cambio de aceite profesional y filtro nuevo. �Tu auto te lo agradecera!", Imagen="/images/cambioaceite.jpg"},
+                        new Servicio{ Nombre="Cambio de aceite y filtro", Descripcion="Protege tu motor y mejora el rendimiento con un cambio de aceite profesional y filtro nuevo. ¡Tu auto te lo agradecera!", Imagen="/images/cambioaceite.jpg"},
                         new Servicio{ Nombre="Revision y cambio de frenos",Descripcion="Conduce seguro: revisamos y reemplazamos pastillas y discos de freno para maxima seguridad en el camino.", Imagen="/images/cambiofrenos.jpg"},
-                        new Servicio{ Nombre="Alineaci�n y balanceo",Descripcion="Evita el desgaste irregular de llantas y mejora la estabilidad de tu auto. �Viaja m�s c�modo y seguro!", Imagen="/images/alineacionbalanceo.webp"},
-                        new Servicio{ Nombre="Diagn�stico computarizado del motor",Descripcion="Detectamos fallas con precisi�n gracias a esc�neres avanzados. �Ah�rrate problemas y dinero!", Imagen="/images/diagnostico.webp"},
-                        new Servicio{ Nombre="Mantenimiento preventivo",Descripcion="Antic�pate a fallas mayores con revisiones peri�dicas. M�s vida �til para tu auto y menos gastos imprevistos.", Imagen="/images/mantenimientopreventivo.jpg"},
-                        new Servicio{ Nombre="Reparaci�n de suspensi�n y direcci�n",Descripcion="Soluciona ruidos, vibraciones y p�rdida de control. Tu auto volver� a sentirse como nuevo.", Imagen="/images/reparacionsuspension.png"},
-                        new Servicio{ Nombre="Cambio de amortiguadores",Descripcion="Mejora la estabilidad, reduce rebotes y aumenta la comodidad de manejo. �Amortiguadores nuevos, viaje m�s suave!", Imagen="/images/cambioamortiguadores.webp"},
-                        new Servicio{ Nombre="Servicio de aire acondicionado",Descripcion="Recupera el aire fr�o en tu veh�culo con nuestro servicio completo de A/C. Ideal para d�as calurosos.", Imagen="/images/servicioaire.jpg"},
-                        new Servicio{ Nombre="Revisi�n y reparaci�n del sistema el�ctrico",Descripcion="Solucionamos problemas con luces, arranque, tablero y m�s. �Todo conectado y funcionando como debe!", Imagen="/images/revisionsistemaelectrico.png"},
-                        new Servicio{ Nombre="Reparaci�n de transmisi�n",Descripcion="�Tu auto hace ruidos o no cambia bien? Reparamos transmisiones autom�ticas y manuales con garant�a.", Imagen="/images/reparaciontransmision.jpg"},
-                        new Servicio{ Nombre="Servicio de escaneo OBDII",Descripcion="Identificamos c�digos de falla y problemas ocultos en minutos. Precisi�n sin adivinanzas.", Imagen="/images/servicioobd.jpg"},
-                        new Servicio{ Nombre="Lavado de motor",Descripcion="Limpieza profunda para un motor impecable. Mejora la detecci�n de fugas y la est�tica del veh�culo.", Imagen="/images/ellavadodelmotor.jpg"},
-                        new Servicio{ Nombre="Revisi�n y cambio de bater�a",Descripcion="Evita quedarte varado. Verificamos el estado de tu bater�a y la reemplazamos si es necesario.", Imagen="/images/revisionbateria.jpg"},
-                        new Servicio{ Nombre="Servicio de inyectores y limpieza del sistema de combustible",Descripcion="Restaura el rendimiento y reduce el consumo limpiando los inyectores de tu motor. �M�s potencia, menos gasto!", Imagen="/images/servicioinyectores.jpg"},
-                        new Servicio{ Nombre="Revisi�n t�cnica pre-compra",Descripcion="Aseg�rate de hacer una buena compra. Inspeccionamos el veh�culo usado antes de que lo adquieras.", Imagen="/images/revisionpreventa.jpg"}
+                        new Servicio{ Nombre="Alineacion y balanceo",Descripcion="Evita el desgaste irregular de llantas y mejora la estabilidad de tu auto. ¡Viaja mas comodo y seguro!", Imagen="/images/alineacionbalanceo.webp"},
+                        new Servicio{ Nombre="Diagnostico computarizado del motor",Descripcion="Detectamos fallas con precision gracias a escaneres avanzados. ¡Ahorrate problemas y dinero!", Imagen="/images/diagnostico.webp"},
+                        new Servicio{ Nombre="Mantenimiento preventivo",Descripcion="Anticipate a fallas mayores con revisiones periodicas. Mas vida util para tu auto y menos gastos imprevistos.", Imagen="/images/mantenimientopreventivo.jpg"},
+                        new Servicio{ Nombre="Reparacion de suspension y direccion",Descripcion="Soluciona ruidos, vibraciones y perdida de control. Tu auto volvera a sentirse como nuevo.", Imagen="/images/reparacionsuspension.png"},
+                        new Servicio{ Nombre="Cambio de amortiguadores",Descripcion="Mejora la estabilidad, reduce rebotes y aumenta la comodidad de manejo. ¡Amortiguadores nuevos, viaje mas suave!", Imagen="/images/cambioamortiguadores.webp"},
+                        new Servicio{ Nombre="Servicio de aire acondicionado",Descripcion="Recupera el aire frio en tu vehiculo con nuestro servicio completo de A/C. Ideal para dias calurosos.", Imagen="/images/servicioaire.jpg"},
+                        new Servicio{ Nombre="Revision y reparacion del sistema electrico",Descripcion="Solucionamos problemas con luces, arranque, tablero y mas. ¡Todo conectado y funcionando como debe!", Imagen="/images/revisionsistemaelectrico.png"},
+                        new Servicio{ Nombre="Reparacion de transmision",Descripcion="¿Tu auto hace ruidos o no cambia bien? Reparamos transmisiones automaticas y manuales con garantia.", Imagen="/images/reparaciontransmision.jpg"},
+                        new Servicio{ Nombre="Servicio de escaneo OBDII",Descripcion="Identificamos codigos de falla y problemas ocultos en minutos. Precision sin adivinanzas.", Imagen="/images/servicioobd.jpg"},
+                        new Servicio{ Nombre="Lavado de motor",Descripcion="Limpieza profunda para un motor impecable. Mejora la deteccion de fugas y la estetica del vehiculo.", Imagen="/images/ellavadodelmotor.jpg"},
+                        new Servicio{ Nombre="Revision y cambio de bateria",Descripcion="Evita quedarte varado. Verificamos el estado de tu bateria y la reemplazamos si es necesario.", Imagen="/images/revisionbateria.jpg"},
+                        new Servicio{ Nombre="Servicio de inyectores y limpieza del sistema de combustible",Descripcion="Restaura el rendimiento y reduce el consumo limpiando los inyectores de tu motor. ¡Mas potencia, menos gasto!", Imagen="/images/servicioinyectores.jpg"},
+                        new Servicio{ Nombre="Revision tecnica pre-compra",Descripcion="Asegurate de hacer una buena compra. Inspeccionamos el vehiculo usado antes de que lo adquieras.", Imagen="/images/revisionpreventa.jpg"}
                     };
                     var productos = new List<Producto>
 {

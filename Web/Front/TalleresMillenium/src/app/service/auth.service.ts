@@ -9,6 +9,7 @@ import { FullUser } from '../models/FullUser';
 import { Image } from '../models/Image';
 import { Coche } from '../models/Coche';
 import { NewCoche } from '../models/NewCoche';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,11 @@ export class AuthService {
       console.log("Entró con accessToken: ",result.data.accessToken)
       this.api.jwt = result.data.accessToken;
     }else{
-      alert("Hubo un problema")
+        Swal.fire({
+                icon: 'error',
+                title: 'Aviso',
+                text: "Este correo ya esta enlazado con otra cuenta"
+                });
     }
     return result 
   }

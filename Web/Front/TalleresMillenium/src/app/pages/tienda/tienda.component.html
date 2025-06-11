@@ -1,17 +1,17 @@
 <div class="principal">
-    <div>
+    <header>
         <app-header></app-header>
-    </div>
+    </header>
     <div class="titulo">
         @if(tipo=="servicios"){
-        <h1>{{'service' | translate }}</h1>
+        <h1 class="estilo-titulo">{{'service' | translate }}</h1>
         }@else if (tipo=="productos") {
-        <h1>{{'product' | translate }}</h1>
+        <h1 class="estilo-titulo">{{'product' | translate }}</h1>
         }
-        <div class="buscador">
-            <form (ngSubmit)="search()">
-                <input type="text" name="busqueda" [(ngModel)]="busqueda" placeholder="Buscar" size="40">
-                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        <div>
+            <form class="buscador" (ngSubmit)="search()">
+                <input class="buscar" type="text" name="busqueda" [(ngModel)]="busqueda" placeholder="Buscar" size="40">
+                <button class="boton-search"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
         </div>
         @if (tipo == 'servicios') {
@@ -50,7 +50,7 @@
         <div class="games-history-btns">
             <button disabled (click)="firstPage()" id="firstBtn"><i class="fa-solid fa-angles-left"></i></button>
             <button disabled (click)="prevPage()" id="prevBtn"><i class="fa-solid fa-angle-left"></i></button>
-            <select id="games-per-page" (change)="changeNumberOfGames()" class="games-per-page">
+            <select id="games-per-page" (change)="changeNumberOfServiceProduct()" class="games-per-page">
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="15">15</option>
@@ -65,7 +65,8 @@
             }
         </div>
     </div>
-    <div>
+    <br>
+    <footer>
         <app-footer></app-footer>
-    </div>
+    </footer>
 </div>

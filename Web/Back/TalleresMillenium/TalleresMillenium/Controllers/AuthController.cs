@@ -28,12 +28,12 @@ namespace TalleresMillenium.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task<LoginResultDto> RegisterUser([FromForm] SignUpDto signUpDto)
+        public async Task<ActionResult<LoginResultDto>> RegisterUser([FromForm] SignUpDto signUpDto)
         {
             Boolean returnResult = await _userService.GetIfEmailExists(signUpDto.email);
             if (returnResult)
             {
-                return null;
+                return BadRequest();
             }
             string token = await _userService.RegisterUser(signUpDto);
             if (token == null)
