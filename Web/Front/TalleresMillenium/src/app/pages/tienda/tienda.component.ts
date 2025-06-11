@@ -54,11 +54,16 @@ export class TiendaComponent {
   }
   search() {
     sessionStorage.setItem("busqueda", this.busqueda);
+    this.actualPage=1
     if(this.tipo=="servicios"){
       this.getallservice({ busqueda: this.busqueda, ActualPage: this.actualPage, ServicePageSize: this.pageSize })
     } else if(this.tipo == "productos"){
       this.getallproduct({ busqueda: this.busqueda, ActualPage: this.actualPage, ServicePageSize: this.pageSize })
     }
+    const firstBtn = document.getElementById("firstBtn") as HTMLButtonElement
+    const prevBtn = document.getElementById("prevBtn") as HTMLButtonElement
+    firstBtn.disabled = true
+    prevBtn.disabled = true
   }
   goToContent(id: number) {
     if (this.tipo == "servicios") {
@@ -115,7 +120,7 @@ export class TiendaComponent {
     console.log("despues: ", this.listaproductosultima)
   }
 
-  async changeNumberOfGames() {
+  async changeNumberOfServiceProduct() {
     const pagesSelect = document.getElementById("games-per-page") as HTMLInputElement | HTMLSelectElement;
     if (pagesSelect) {
       this.pageSize = parseInt(pagesSelect.value)

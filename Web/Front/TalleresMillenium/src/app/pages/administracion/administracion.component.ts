@@ -11,6 +11,9 @@ import { ServicioCocheName } from '../../models/servicioCocheName';
 import { DatePipe } from '@angular/common';
 import { AceptarSolicitud } from '../../models/aceptarsolicitud';
 import { FinalizarSolicitud } from '../../models/finalizarsolicitud';
+import { jwtDecode } from 'jwt-decode';
+import { User } from '../../models/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-administracion',
@@ -22,9 +25,18 @@ import { FinalizarSolicitud } from '../../models/finalizarsolicitud';
 })
 export class AdministracionComponent {
 
-  constructor(private Userservice: UserService, private Listservice: ListService,private Datepipe:DatePipe) {
+  constructor(private Userservice: UserService, private Listservice: ListService,private Datepipe:DatePipe,private router:Router) {
+    if(localStorage.getItem("token")){
+      this.decoded=jwtDecode(localStorage.getItem("token"));
+    }else if(sessionStorage.getItem("token")){
+      this.decoded=jwtDecode(sessionStorage.getItem("token"));
+    }
+    if(this.decoded==null || this.decoded.role!="Admin"){
+      this.router.navigateByUrl('');
+    }
     this.getallUser()
   }
+  decoded:User
   listusers: Listuser[]
   verusuarios: boolean = true
   verproductos: boolean = false

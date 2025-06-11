@@ -50,6 +50,11 @@ namespace TalleresMillenium.Controllers
         [HttpGet("full")]
         public async Task<UsuarioDto> GetFullUsuario([FromQuery] int id)
         {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null)
+            {
+                return null;
+            }
             Usuario user = await _userService.GetFullUserById(id);
             UsuarioDto usuarioDto = _userMapper.toDto(user);
             List<CocheDto> cocheDtos = new List<CocheDto>();
@@ -76,10 +81,14 @@ namespace TalleresMillenium.Controllers
         [HttpPost("nombre")]
         public async Task<string> changeName([FromBody] NombreDto nombreDto)
         {
-            Usuario user = await GetCurrentUser();
-            user.Name = nombreDto.Nombre;
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null)
+            {
+                return null;
+            }
+            usuario.Name = nombreDto.Nombre;
 
-            Usuario userUpdated = await _userService.updateUser(user);
+            Usuario userUpdated = await _userService.updateUser(usuario);
             return userUpdated.Name;
         }
 
@@ -87,15 +96,20 @@ namespace TalleresMillenium.Controllers
         [HttpPost("email")]
         public async Task<IActionResult> changeEmail([FromBody] EmailDto emailDto)
         {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null)
+            {
+                return Unauthorized();
+            }
             Boolean returnResult = await _userService.GetIfEmailExists(emailDto.Email);
             if (returnResult)
             {
                 return Unauthorized();
             } else
             {
-                Usuario user = await GetCurrentUser();
-                user.Email = emailDto.Email;
-                Usuario userUpdated = await _userService.updateUser(user);
+
+                usuario.Email = emailDto.Email;
+                Usuario userUpdated = await _userService.updateUser(usuario);
                 return Ok();
             }
         }
@@ -104,13 +118,17 @@ namespace TalleresMillenium.Controllers
         [HttpPost("contrasena")]
         public async Task<IActionResult> changePassword([FromBody] ContrasenaDto contrasenaDto)
         {
-            Usuario user = await GetCurrentUser();
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null)
+            {
+                return Unauthorized();
+            }
             PasswordService passwordService = new PasswordService();
 
-            bool iscorrect = passwordService.IsPasswordCorrect(user.Password, contrasenaDto.OldContrasena);
+            bool iscorrect = passwordService.IsPasswordCorrect(usuario.Password, contrasenaDto.OldContrasena);
             if (iscorrect) {
-                user.Password = passwordService.Hash(contrasenaDto.NewContrasena);
-                Usuario userUpdated = await _userService.updateUser(user);
+                usuario.Password = passwordService.Hash(contrasenaDto.NewContrasena);
+                Usuario userUpdated = await _userService.updateUser(usuario);
                 return Ok();
             } else
             {
@@ -123,28 +141,36 @@ namespace TalleresMillenium.Controllers
         [HttpPut("image")]
         public async Task<ImageSendDto> changeimage([FromForm] ImageDto imageDto)
         {
-            Usuario user = await GetCurrentUser();
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null)
+            {
+                return null;
+            }
             if (imageDto.Image != null)
             {
                 ImageService imageService = new ImageService();
-                user.Imagen = "/" + await imageService.InsertAsync(imageDto.Image);
+                usuario.Imagen = "/" + await imageService.InsertAsync(imageDto.Image);
             } else
             {
-                user.Imagen = "/images/perfilDefect.webp";
+                usuario.Imagen = "/images/perfilDefect.webp";
             }
-            await _userService.updateUser(user);
-            return new ImageSendDto { Image = user.Imagen };
+            await _userService.updateUser(usuario);
+            return new ImageSendDto { Image = usuario.Imagen };
         }
 
         [Authorize]
         [HttpPost("coche")]
         public async Task<CocheDto> newCar([FromForm] NewCocheDto newCocheDto)
         {
-            Usuario user = await GetCurrentUser();
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null)
+            {
+                return null;
+            }
 
             bool matriculaExists = await _userService.GetIfMatriculaExists(newCocheDto.Matricula);
 
-            Usuario fullUser = await _userService.GetFullUserById(user.Id);
+            Usuario fullUser = await _userService.GetFullUserById(usuario.Id);
             if (matriculaExists)
             {
                 return null;

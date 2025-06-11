@@ -8,6 +8,7 @@ import { Coche } from '../../models/Coche';
 import { NewCoche } from '../../models/NewCoche';
 import { environment } from '../../../environments/environment';
 import Swal from 'sweetalert2';
+import { ApiService } from '../../service/api.service';
 
 @Component({
   selector: 'app-perfil',
@@ -17,11 +18,14 @@ import Swal from 'sweetalert2';
   styleUrl: './perfil.component.css'
 })
 export class PerfilComponent {
-  constructor(private authService:AuthService, public router:Router){
+  constructor(private authService:AuthService, private router:Router,private apiService:ApiService){
     if(localStorage.getItem("token")){
       this.decoded=jwtDecode(localStorage.getItem("token"));
     }else if(sessionStorage.getItem("token")){
       this.decoded=jwtDecode(sessionStorage.getItem("token"));
+    }
+    if(this.decoded==null){
+      this.router.navigateByUrl('');
     }
     this.getUser()
   }
@@ -207,8 +211,9 @@ export class PerfilComponent {
   
         const result2 = await this.authService.changeImage(selectedFile)
         this.user.imagen = environment.images+result2.data.image
-  
         Swal.fire('Imagen cargada', '', 'success');
+        this.apiService.deleteToken();
+        this.router.navigateByUrl("inicio-sesion");
       }
     });
   }
@@ -233,6 +238,8 @@ export class PerfilComponent {
         const result2 = await this.authService.changeName(result.value)
         this.user.name = result.value;
         Swal.fire(`Nombre actualizado a: ${result.value}`);
+        this.apiService.deleteToken();
+        this.router.navigateByUrl("inicio-sesion");
       }
     });
   }
@@ -258,6 +265,8 @@ export class PerfilComponent {
         if(result2.success){
           this.user.email = result.value;
           Swal.fire(`Email actualizado a: ${result.value}`);
+          this.apiService.deleteToken();
+          this.router.navigateByUrl("inicio-sesion");
         }else{
           Swal.fire("El correo ya esta registrado")
         }
@@ -295,6 +304,8 @@ export class PerfilComponent {
         const result2 = await this.authService.changeContrasena(oldPassword,newPassword)
         if(result2.success){
           Swal.fire('Contraseña actualizada', '', 'success');
+          this.apiService.deleteToken();
+          this.router.navigateByUrl("inicio-sesion");
         }else{
           Swal.fire('Contraseña incorrecta','','error')
         }

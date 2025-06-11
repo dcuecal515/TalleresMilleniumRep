@@ -23,12 +23,17 @@ namespace TalleresMillenium.Controllers
         [HttpGet("all")]
         public async Task<List<ChatDto>> GetAllChats([FromQuery] bool isAdmin)
         {
+            Usuario user = await GetCurrentUser();
+            if (user == null)
+            {
+                return null;
+            }
             if (isAdmin) 
             {
                 return await _chatService.GetAllChatsAdmin();
             } else
             {
-                Usuario user = await GetCurrentUser();
+                
                 return await _chatService.GetAllChatsUser(user.Id);
             }
         }

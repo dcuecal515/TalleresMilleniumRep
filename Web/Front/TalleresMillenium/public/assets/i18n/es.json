@@ -1,7 +1,21 @@
 {
-    "language":"Español",
     "service":"Servicios",
     "title-home":"Expertos en diagnosis, reparación y una buena pre-ITV",
     "welcome":"Bienvenido",
-    "product":"Productos"
+    "product":"Productos",
+    "timetable":"Horario",
+    "monday":"lunes",
+    "tuesday":"martes",
+    "wednesday":"miercoles",
+    "thursday":"jueves",
+    "friday":"viernes",
+    "saturday":"sabado",
+    "sunday":"domingo",
+    "close":"Cerrado",
+    "mark":"Marcas con las que trabajamos",
+    "site":"¿Donde nos encontramos?",
+    "email":"Correo",
+    "phone":"Móvil",
+    "contact":"Nuestro contacto",
+    "about-us":"Sobre nosotros"
 }

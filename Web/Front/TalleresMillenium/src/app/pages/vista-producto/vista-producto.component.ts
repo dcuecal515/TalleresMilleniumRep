@@ -15,6 +15,7 @@ import { CarritoService } from '../../service/carrito.service';
 import { CocheR } from '../../models/CocheR';
 import Swal from 'sweetalert2';
 import { Reserva } from '../../models/Reserva';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-vista-producto',
@@ -72,6 +73,7 @@ export class VistaProductoComponent {
         console.log("Hola", this.servicio.valoracionesDto.length)
         console.log("Media antes del bucle:"+media)
         for (let i = 0; i < this.servicio.valoracionesDto.length; i++) {
+          this.servicio.valoracionesDto[i].imagen=environment.images+this.servicio.valoracionesDto[i].imagen
           media += this.servicio.valoracionesDto[i].puntuacion
           contador++
         }
@@ -87,7 +89,9 @@ export class VistaProductoComponent {
         console.log(this.producto)
         console.log("Hola", this.producto.valoracionesDto.length)
         for (let i = 0; i < this.producto.valoracionesDto.length; i++) {
+          this.producto.valoracionesDto[i].imagen=environment.images+this.producto.valoracionesDto[i].imagen
           media +=this.producto.valoracionesDto[i].puntuacion
+          contador++
         }
         if(media>0){
           this.media = media/contador

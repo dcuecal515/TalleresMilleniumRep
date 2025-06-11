@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CarritoService } from '../../service/carrito.service';
 import { ElementoCarrito } from '../../models/ElementoCarrito';
 import { ServicioCarrito } from '../../models/ServicioCarrito';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,8 +13,12 @@ import Swal from 'sweetalert2';
   styleUrl: './carrito.component.css'
 })
 export class CarritoComponent {
-  constructor(private carritoService: CarritoService) {
-    this.getCarrito()
+  constructor(private carritoService: CarritoService,private router:Router) {
+    if (localStorage.getItem("token") || sessionStorage.getItem("token")) {
+      this.getCarrito()
+    } else {
+      this.router.navigateByUrl('')
+    }
   }
 
   carrito: ElementoCarrito[]
@@ -42,10 +47,10 @@ export class CarritoComponent {
       this.carrito = this.carrito.filter(e => e.servicios.length > 0);
     } else {
       Swal.fire({
-                  icon: 'error',
-                  title: 'Aviso',
-                  text: "Ocurrio un error inesperado"
-                });
+        icon: 'error',
+        title: 'Aviso',
+        text: "Ocurrio un error inesperado"
+      });
     }
   }
 
