@@ -1,4 +1,6 @@
-<p class="go-back" (click)="this.router.navigateByUrl('')"><i class="fa-sharp fa-solid fa-left-long" style="color: #ff0000;"></i></p>
+<div>
+    <app-header></app-header>
+</div>
 @if(user){
     <div class="container">
     
@@ -12,7 +14,7 @@
                 <p (click)="cambiar_email()"><strong>{{user.email}}</strong> <span class="edit" >Cambiar</span></p>
                 <p (click)="cambiar_contrasena()"><strong>Contraseña</strong> <span class="edit">Cambiar</span></p>
                 @if(decoded.role=="Admin"){
-                    <button (click)="goToRoute('admistracion')">Administración</button>
+                    <button class="btn-administracion" (click)="goToRoute('admistracion')">Administración</button>
                 }
             </div>
         </div>
@@ -54,7 +56,7 @@
                         }</p>
                         <div class="ficha-tecnica">
                             <p>Ver ficha tecnica </p>@if(user.coches.length > 0){
-                                <button (click)="ver_ficha(coche_actual.imagen)"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-ficha" (click)="ver_ficha(coche_actual.imagen)"><i class="fa-regular fa-eye icon-eye"></i></button>
                             }
                         </div>
                         

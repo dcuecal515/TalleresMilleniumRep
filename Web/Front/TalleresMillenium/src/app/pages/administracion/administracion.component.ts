@@ -11,11 +11,12 @@ import { ServicioCocheName } from '../../models/servicioCocheName';
 import { DatePipe } from '@angular/common';
 import { AceptarSolicitud } from '../../models/aceptarsolicitud';
 import { FinalizarSolicitud } from '../../models/finalizarsolicitud';
+import { HeaderComponent } from '../../component/header/header.component';
 
 @Component({
   selector: 'app-administracion',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, HeaderComponent],
   providers:[DatePipe],
   templateUrl: './administracion.component.html',
   styleUrl: './administracion.component.css'

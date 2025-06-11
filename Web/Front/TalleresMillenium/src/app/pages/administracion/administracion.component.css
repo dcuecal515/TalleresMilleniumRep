@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
 }
 
 .botones {
@@ -14,30 +15,37 @@
     font-size: 16px;
     border: none;
     border-radius: 8px;
-    background-color: #007bff;
+    background-color: #808080;
     color: white;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 
 .botones button:hover {
-    background-color: #0056b3;
+    background-color: #5E3F3F;
 }
 
 .cuadro {
-    background-color: grey;
+    background-color: #808080;
     width: 600px;
     min-height: 300px;
     border-radius: 16px;
     padding: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
+}
+
+.titulosPagina {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 48px;
+    color: #ffffff;
 }
 
 .fila {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #B63D3D;
     padding: 10px 0;
 }
 
@@ -51,21 +59,23 @@
     margin-right: 15px;
     border-radius: 8px;
     object-fit: cover;
-    background-color: #eee;
+    background-color: #362D2D;
 }
 
 .info {
     flex: 1;
 }
 
-.texto{
+.texto {
     margin: 4px 0 0;
-    color: white;
+    color: #ffffff;
     font-size: 14px;
 }
-.titulo{
+
+.titulo {
     margin: 0;
     font-size: 16px;
+    color: #ffffff;
 }
 
 .acciones {
@@ -74,17 +84,30 @@
 }
 
 .editar {
-    background-color: #ffc107;
-    color: #000;
+    background-color: #8B4646;
+    color: white;
     padding: 6px 12px;
     font-size: 14px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    text-align: center;
+}
+
+.agregarNuevo {
+    background-color: #5E3F3F;
+    color: white;
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    justify-self: center;
+    display: flex;
 }
 
 .eliminar {
-    background-color: #dc3545;
+    background-color: #E02525;
     color: #fff;
     padding: 6px 12px;
     font-size: 14px;
@@ -92,6 +115,92 @@
     border-radius: 6px;
     cursor: pointer;
 }
-.titulo1{
+
+.titulo1 {
     text-align: center;
+    color: white;
+}
+
+
+@media (max-width: 768px) {
+    .cuadro {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .titulosPagina {
+        font-size: 32px;
+    }
+
+    .fila {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .imagen {
+        margin-bottom: 10px;
+    }
+
+    .acciones {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .acciones button {
+        width: 100px;
+        padding: 6px;
+        font-size: 13px;
+    }
+
+    .titulo {
+        font-size: 15px;
+    }
+
+    .texto {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 520px) {
+    .botones {
+        display: flex;
+        align-items: center;
+    }
+
+    .botones button {
+        width: 80%;
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    .cuadro {
+        padding: 10px;
+    }
+
+    .titulosPagina {
+        font-size: 24px;
+    }
+
+    .acciones button {
+        width: 100%;
+        font-size: 12px;
+    }
+
+    .titulo {
+        font-size: 14px;
+    }
+
+    .texto {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 375px) {
+    .botones button {
+        width: 70%;
+        font-size: 10px;
+        padding: 10px;
+    }
 }

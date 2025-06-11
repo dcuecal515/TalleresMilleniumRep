@@ -7,6 +7,7 @@ import { Result } from '../models/result';
 import { ServicioCarrito } from '../models/ServicioCarrito';
 import { ElementoCarrito } from '../models/ElementoCarrito';
 import { environment } from '../../environments/environment';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,11 @@ export class CarritoService {
 
     if(result.data == null || result.data.length == 0){
       this.router.navigateByUrl("perfil")
-      alert("No tienes coches registra alguno")
+      Swal.fire({
+                  icon: 'info',
+                  title: 'Aviso',
+                  text: "No tienes vehiculos registra alguno"
+                });
       return null
     }
 
@@ -32,13 +37,29 @@ export class CarritoService {
     console.log("Result: ",result)
 
     if(result.success){
-      alert("Reserva realizada con exito")
+      Swal.fire({
+        icon: 'success',
+        title: 'Aviso',
+        text: "Reserva realizada con exito"
+      });
     }else if(result.statusCode == 409){
-      alert("Ya se agrego este servicio antes")
+      Swal.fire({
+        icon: 'info',
+        title: 'Aviso',
+        text: "Este servicio ya esta agregado al carrito"
+      });
     }else if(result.statusCode == 401){
-      alert("No existe el coche seleccionado")
+      Swal.fire({
+        icon: 'info',
+        title: 'Aviso',
+        text: "No existe el vehiculo seleccionado"
+      });
     }else{
-      alert("Error desconocido")
+      Swal.fire({
+        icon: 'error',
+        title: 'Aviso',
+        text: "Error desconocido"
+      });
     }
   }
 

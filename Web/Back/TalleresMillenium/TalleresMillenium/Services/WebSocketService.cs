@@ -58,16 +58,17 @@ namespace TalleresMillenium.Services
 
             if(mensajeRecivido.TypeMessage.Equals("mensaje a admin"))
             {
-                string nombre_admin = "Pepe";
+                int idAdmin = 1;
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var _wsHelper = scope.ServiceProvider.GetRequiredService<WSHelper>();
                     Usuario user = await _wsHelper.GetUserById(userHandler.Id);
-                    Usuario user2 = await _wsHelper.GetUserByNombre(nombre_admin);
+                    Usuario user2 = await _wsHelper.GetUserById(idAdmin);
 
                     Usuario[] admins = await _wsHelper.GetAllAdmins();
 
-                    foreach (var admin in admins) {
+                    foreach (var admin in admins)
+                    {
                         foreach (WebSocketHandler handler in handlers)
                         {
                             if (handler.Id == admin.Id)
@@ -82,27 +83,28 @@ namespace TalleresMillenium.Services
                                 tasks.Add(handler.SendAsync(messageToSend));
                             }
                         }
+                    }
 
-                        if (user.ChatUsuarios.Count == 0) 
+                    if (user.ChatUsuarios.Count == 0) 
+                    {
+                        Chat chat = new Chat
                         {
-                            Chat chat = new Chat
+                            ChatUsuarios = new List<ChatUsuario>
                             {
-                                ChatUsuarios = new List<ChatUsuario>
-                                {
-                                    new ChatUsuario { UsuarioId = user.Id },
-                                    new ChatUsuario { UsuarioId = user2.Id }
-                                }
-                            };
+                                new ChatUsuario { UsuarioId = user.Id },
+                                new ChatUsuario { UsuarioId = user2.Id }
+                            }
+                        };
 
                         chat = await _wsHelper.InsertChatAsync(chat);
 
 
-                            Mensaje mensaje = new Mensaje
-                            {
-                                UsuarioId = user.Id,
-                                ChatId= chat.Id,
-                                Texto = mensajeRecivido.Identifier
-                            };
+                        Mensaje mensaje = new Mensaje
+                        {
+                            UsuarioId = user.Id,
+                            ChatId= chat.Id,
+                            Texto = mensajeRecivido.Identifier
+                        };
                             
                  
                         await _wsHelper.InsertMensajeAsync(mensaje);
@@ -119,7 +121,7 @@ namespace TalleresMillenium.Services
                         }
                     }
                     
-                }
+                
             }
 
             if (mensajeRecivido.TypeMessage.Equals("mensaje a otro"))
