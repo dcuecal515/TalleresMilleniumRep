@@ -20,10 +20,11 @@
 }
 
 .imagen-taller {
-    max-height: 300px;
-    max-width: 300px;
+    max-height: 350px;
+    max-width: 550px;
     height: 100%;
     width: 100%;
+    border: #808080 2px solid;
 }
 
 .principal-horario {
@@ -49,13 +50,13 @@ table {
 th,
 td {
     padding: 20px;
-    border-bottom: 1px solid #74a9e6;
+    border-bottom: 1px solid #aaaaaa;
     height: 40px;
     font-size: 1.2em;
 }
 
 th {
-    background-color: #4a90e2;
+    background-color: #808080;
     color: white;
     font-size: 16px;
     text-transform: uppercase;
@@ -65,38 +66,182 @@ tr:last-child td {
     border-bottom: none;
     color: white;
     font-weight: 500;
-    background-color: #74a9e6;
+    background-color: #aaaaaa;
 }
-.principal-marcas{
+
+.principal-marcas {
     text-align: center;
     display: flex;
     flex-direction: column;
     margin-bottom: 8%;
 }
-.principal-marcas-imagenes{
+
+.principal-marcas-imagenes {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     margin-bottom: 50px;
 }
-.imagenes-marcas{
+
+.imagenes-marcas {
     width: 100%;
     height: 100%;
     max-width: 300px;
     max-height: 300px;
 }
-.principal-marcas-imagenes-dos{
+
+.principal-marcas-imagenes-dos {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 }
-.principal-mapa{
+
+.principal-mapa {
     text-align: center;
-    
 }
-.chat{
+
+.mapa-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding-top: 56.25%;
+}
+
+.iframe-mapa {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.tabla-responsive {
+    display: none;
+}
+
+.chat {
     position: fixed;
     bottom: 5%;
     width: 100%;
+}
+
+@media (max-width: 905px) {
+    .principal-cabecera {
+        min-height: 180px;
+        padding: 1rem;
+        font-size: 1.2rem;
+        margin-bottom: 15%;
+    }
+
+    .principal-fotos {
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 15%;
+    }
+
+    .imagen-taller {
+        width: 90%;
+        max-width: none;
+        height: auto;
+    }
+
+    table {
+        width: 95%;
+        font-size: 0.9rem;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        font-size: 1em;
+    }
+
+    .principal-marcas-imagenes {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .imagenes-marcas {
+        width: 70%;
+        max-width: 250px;
+        margin: 0 auto;
+    }
+
+    .principal-marcas-imagenes-dos {
+        flex-direction: column;
+    }
+
+    .principal-mapa iframe {
+        width: 100%;
+        height: 300px;
+    }
+
+    .principal-mapa h2 {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+
+    .chat {
+        bottom: 10%;
+    }
+}
+
+@media (max-width: 600px) {
+    .principal-horario table {
+        width: 100%;
+        white-space: nowrap;
+    }
+
+    .principal-horario table thead,
+    .principal-horario table tbody,
+    .principal-horario table th,
+    .principal-horario table td,
+    .principal-horario table tr {
+        display: inline-block;
+    }
+
+    .principal-horario table th,
+    .principal-horario table td {
+        min-width: 120px;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .principal-horario {
+        padding: 0 1rem;
+    }
+
+    .tabla {
+        display: none;
+    }
+
+    .tabla-responsive {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        padding: 0 1rem;
+    }
+
+    .dia {
+        background-color: #f4f4f4;
+        padding: 12px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        font-size: 1rem;
+    }
+
+    .titulo-dia {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .hora-dia {
+        color: #808080;
+    }
 }

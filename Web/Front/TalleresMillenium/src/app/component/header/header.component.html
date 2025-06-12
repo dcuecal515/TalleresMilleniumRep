@@ -14,13 +14,41 @@
         }
     </div>
     @if(decoded!=null){
-        <div class="acceder" (click)="goToRoute('perfil')">
-            <p>{{'bienvenido' | translate}} {{decoded.name}}</p>
+        <div class="acceder">
+            <div class="person-icon" (click)="goToRoute('perfil')" title="Ir a perfil">
+                <p class="bienvenido">{{'Bienvenido' | translate}} {{decoded.name}}</p>
+            </div>
+            <i (click)="showMenu()" class="fa-solid fa-bars menu"></i>
         </div>
     }@else {
         <div class="acceder">
-            <i (click)="goToRoute('inicio-sesion')" id="person-icon" class="fa-solid fa-user"></i>
-            <i id="menu" (click)="showMenu()" class="fa-solid fa-bars"></i>
+            <div class="person-icon" (click)="goToRoute('inicio-sesion')">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <i (click)="showMenu()" class="fa-solid fa-bars menu"></i>
         </div>
     }
 </div>
+@if(menuVisible){
+    <div class="dropdown-menu">
+        @if(decoded!=null){
+            <h3 class="dropdown-item" (click)="goToRoute('perfil')">Perfil</h3>
+        }@else {
+            <h3 class="dropdown-item" (click)="goToRoute('inicio-sesion')">Iniciar sesión</h3>
+        }
+        
+        <h3 class="dropdown-item" (click)="goToRoute('tienda/servicios')">{{'service' | translate}}</h3>
+        <h3 class="dropdown-item" (click)="goToRoute('sobre-nosotros')">Sobre nosotros</h3>
+        <h3 class="dropdown-item" (click)="goToRoute('tienda/productos')">{{'product' | translate}}</h3>
+        <div class="dropdown-item banderas-dropdown">
+            <img src="/assets/Espana.webp" alt="Español" (click)="changelanguage('es')" class="bandera-dropdown">
+            <img src="/assets/UK.webp" alt="English" (click)="changelanguage('en')" class="bandera-dropdown">
+        </div>
+      @if(decoded != null){
+        <h3 class="dropdown-item" (click)="goToRoute('carrito')">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </h3>
+        <h3 class="dropdown-item" (click)="cerrarSesion()">Cerrar Sesión</h3>
+      }
+    </div>
+}
