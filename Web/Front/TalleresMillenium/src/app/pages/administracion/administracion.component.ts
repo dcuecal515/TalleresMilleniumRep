@@ -11,6 +11,7 @@ import { ServicioCocheName } from '../../models/servicioCocheName';
 import { DatePipe } from '@angular/common';
 import { AceptarSolicitud } from '../../models/aceptarsolicitud';
 import { FinalizarSolicitud } from '../../models/finalizarsolicitud';
+import { HeaderComponent } from '../../component/header/header.component';
 import { jwtDecode } from 'jwt-decode';
 import { User } from '../../models/user';
 import { Router } from '@angular/router';
@@ -18,7 +19,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-administracion',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, HeaderComponent],
   providers:[DatePipe],
   templateUrl: './administracion.component.html',
   styleUrl: './administracion.component.css'

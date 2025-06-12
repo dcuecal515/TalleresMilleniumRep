@@ -4,11 +4,12 @@ import { ElementoCarrito } from '../../models/ElementoCarrito';
 import { ServicioCarrito } from '../../models/ServicioCarrito';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { HeaderComponent } from '../../component/header/header.component';
 
 @Component({
   selector: 'app-carrito',
   standalone: true,
-  imports: [],
+  imports: [HeaderComponent],
   templateUrl: './carrito.component.html',
   styleUrl: './carrito.component.css'
 })
@@ -21,16 +22,13 @@ export class CarritoComponent {
     }
   }
 
-  carrito: ElementoCarrito[]
-  existcarrito: boolean = false
+  carrito: ElementoCarrito[] = []
 
   async getCarrito() {
-    console.log(this.existcarrito)
     const result = await this.carritoService.getCarrito()
     if (result.success) {
       console.log("HOLA")
       this.carrito = result.data
-      this.existcarrito = true
     }
 
   }
