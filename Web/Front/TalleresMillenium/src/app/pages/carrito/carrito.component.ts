@@ -1,25 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CarritoService } from '../../service/carrito.service';
 import { ElementoCarrito } from '../../models/ElementoCarrito';
 import { ServicioCarrito } from '../../models/ServicioCarrito';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { HeaderComponent } from '../../component/header/header.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageService } from '../../service/language.service';
 
 @Component({
   selector: 'app-carrito',
   standalone: true,
-  imports: [HeaderComponent],
+  imports: [HeaderComponent,TranslateModule],
   templateUrl: './carrito.component.html',
   styleUrl: './carrito.component.css'
 })
-export class CarritoComponent {
-  constructor(private carritoService: CarritoService,private router:Router) {
+export class CarritoComponent implements OnInit{
+  constructor(private carritoService: CarritoService,private router:Router,private translate:LanguageService) {
     if (localStorage.getItem("token") || sessionStorage.getItem("token")) {
       this.getCarrito()
     } else {
       this.router.navigateByUrl('')
     }
+  }
+  ngOnInit(){
+      this.translate.initLanguage()
   }
 
   carrito: ElementoCarrito[] = []
@@ -46,8 +51,8 @@ export class CarritoComponent {
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Aviso',
-        text: "Ocurrio un error inesperado"
+        title: this.translate.instant('warning'),
+        text: this.translate.instant('error')
       });
     }
   }
@@ -59,14 +64,14 @@ export class CarritoComponent {
       this.carrito = this.carrito.filter(c => c.matricula !== matricula)
       Swal.fire({
         icon: 'success',
-        title: 'Aviso',
-        text: "Reserva completada con exito"
+        title: this.translate.instant('good'),
+        text: this.translate.instant('well-booking')
       });
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Aviso',
-        text: "Ocurrio un error inesperado"
+        title: this.translate.instant('warning'),
+        text: this.translate.instant('error')
       });
     }
   }

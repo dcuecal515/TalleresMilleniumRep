@@ -23,17 +23,16 @@
                 <div class="servicio-item">
                   <img class="servicio-img" [src]="servicio.imagen" alt="{{servicio.nombre}}">
                   <h4>{{servicio.nombre}}</h4>
-                  <button class="btn-eliminar" (click)="eliminar(coche.matricula, servicio.nombre)">Eliminar</button>
+                  <button class="btn-eliminar" (click)="eliminar(coche.matricula, servicio.nombre)">{{'delete'| translate }}</button>
                 </div>
               }
             </div>
-  
-            <button class="btn-reserva" (click)="completarReserva(coche.matricula)">Completar Reserva</button>
+            <button class="btn-reserva" (click)="completarReserva(coche.matricula)">{{'complete-booking' | translate }}</button>
           </div>
         }
       }
     }@else{
-      <h1 class="no-reservas">No tienes reservas a confirmar</h1>
+      <h1 class="no-reservas">{{'not-booking'|translate}}</h1>
     }
 </div>  
 
