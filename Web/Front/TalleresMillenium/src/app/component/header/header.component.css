@@ -1,43 +1,64 @@
-.principal{
+.principal {
     background-color: #808080;
     height: 75px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    color: white;
 }
-.logo{
+
+.logo {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    width: 50%;
+    width: 65%;
+    gap: 2%;
     align-items: center;
+    color: white;
 }
-.logo-opciones{
+
+.logo-opciones {
     color: white;
     cursor: pointer;
 }
-.acceder{
+
+.acceder {
     height: 100%;
-    width: 5%;
-    background-color: rgb(175, 170, 170);
+    background-color: #B63D3D;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    width: 80px;
+    color: white;
 }
-.logo-imagen{
+
+.acceder:hover{
+    background-color: #E02525;
+}
+
+.logo-imagen {
     height: 100%;
     width: 100%;
     max-width: 75px;
     max-height: 75px;
     cursor: pointer;
 }
-#person-icon{
+
+.person-icon {
     color: white;
     margin: 0;
     padding: 0;
     font-size: 30px;
+    width: 100%;
+    height: 100%;
 }
+
+.bienvenido {
+    font-size: 16px;
+    text-align: center;
+    color: white;
+}
+
 .banderas {
     display: flex;
     gap: 1rem;
@@ -56,23 +77,66 @@
 .bandera:hover {
     transform: scale(1.1);
 }
-#menu{
+
+.menu {
     display: none;
+    color: white;
 }
+
+.dropdown-menu {
+    display: none;
+    flex-direction: column;
+    background-color: #808080;
+    padding: 1rem;
+    position: absolute;
+    top: 75px;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    color: white;
+}
+
+.dropdown-item {
+    color: white;
+    margin: 10px 0;
+    cursor: pointer;
+    text-align: center;
+}
+
+.banderas-dropdown {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.bandera-dropdown {
+    width: 32px;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.bandera-dropdown:hover {
+    transform: scale(1.1);
+}
+
 @media(max-width:756px){
-    .logo-opciones{
-        display:none;
+    .dropdown-menu {
+        display: flex;
     }
-    .banderas{
+    .logo-opciones {
         display: none;
     }
-    .bandera{
+    .banderas {
         display: none;
     }
-    #person-icon{
+    .bandera {
         display: none;
     }
-    #menu{
+    .person-icon {
+        display: none;
+    }
+    .menu {
         display: flex;
         color: white;
     }

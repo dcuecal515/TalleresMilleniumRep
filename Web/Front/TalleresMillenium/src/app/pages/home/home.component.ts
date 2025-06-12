@@ -17,16 +17,19 @@ export class HomeComponent implements OnInit {
   constructor(private translate: LanguageService){
 
   }
-  mostrarChat = true;
-
-  cerrarChat() {
-    this.mostrarChat = false;
-  }
+  
+  dias = [
+    { nombre: 'Lunes', horario: '9h-19h' },
+    { nombre: 'Martes', horario: '9h-19h' },
+    { nombre: 'Miércoles', horario: '9h-19h' },
+    { nombre: 'Jueves', horario: '9h-19h' },
+    { nombre: 'Viernes', horario: '9h-19h' },
+    { nombre: 'Sábado', horario: 'Cerrado' },
+    { nombre: 'Domingo', horario: 'Cerrado' }
+  ];
   ngOnInit() {
         this.translate.initLanguage()
     }
 
-  ngOnDestroy(){
-    this.cerrarChat()
-  }
+  ngOnDestroy(){}
 }
