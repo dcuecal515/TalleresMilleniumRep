@@ -10,7 +10,7 @@
         }
         <div>
             <form class="buscador" (ngSubmit)="search()">
-                <input class="buscar" type="text" name="busqueda" [(ngModel)]="busqueda" placeholder="Buscar" size="40">
+                <input class="buscar" type="text" name="busqueda" [(ngModel)]="busqueda" [placeholder]="'search'|translate" size="40">
                 <button class="boton-search"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
         </div>
@@ -21,13 +21,13 @@
             <div class="lista-carta">
                 <img class="lista-image" [src]="item.imagen" alt="Fotos servicios" />
                 <h2>{{ item.nombre }}</h2>
-                <h3>valoracion: {{ item.valoracion | number:'1.1-1' }}<i class="fa-regular fa-star fa-flip fa-lg" style="color: #FFD43B"></i></h3>
-                <button class="lista-boton" (click)="goToContent(item.id)">Ver más</button>
+                <h3>{{'rating' | translate}}: {{ item.valoracion | number:'1.1-1' }}<i class="fa-regular fa-star fa-flip fa-lg" style="color: #FFD43B"></i></h3>
+                <button class="lista-boton" (click)="goToContent(item.id)">{{"show-more" | translate}}</button>
             </div>
             }
         </div>
         } @else {
-        <h2>Ha habido un problema al cargar los servicios</h2>
+        <h2>>{{'text-problem-service' | translate}}</h2>
         }
         }
         @if (tipo == 'productos') {
@@ -37,14 +37,18 @@
             <div class="lista-carta">
                 <img class="lista-image" [src]="item.imagen" alt="Fotos productos" />
                 <h2>{{ item.nombre }}</h2>
-                <h3>valoracion: {{ item.valoracion | number:'1.1-1' }}<i class="fa-regular fa-star fa-flip fa-lg" style="color: #FFD43B"></i></h3>
-                <h4>{{item.disponible}}</h4>
+                <h3>{{'rating' | translate}}: {{ item.valoracion | number:'1.1-1' }}<i class="fa-regular fa-star fa-flip fa-lg" style="color: #FFD43B"></i></h3>
+                @if(item.disponible=="Disponible"){
+                    <h4>{{'available'|translate}}</h4>
+                }@else if (item.disponible=="No disponible") {
+                    <h4>{{'not available'|translate}}</h4>
+                }
                 <button class="lista-boton" (click)="goToContent(item.id)">Ver más</button>
             </div>
             }
         </div>
         } @else {
-        <h2>Ha habido un problema al cargar los productos</h2>
+        <h2>{{'text-problem-product' | translate}}</h2>
         }
         }
         <div class="games-history-btns">

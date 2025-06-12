@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
@@ -10,16 +10,18 @@ import { environment } from '../../../environments/environment';
 import { HeaderComponent } from '../../component/header/header.component';
 import Swal from 'sweetalert2';
 import { ApiService } from '../../service/api.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageService } from '../../service/language.service';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [HeaderComponent],
+  imports: [HeaderComponent,TranslateModule],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
 })
-export class PerfilComponent {
-  constructor(private authService:AuthService, private router:Router,private apiService:ApiService){
+export class PerfilComponent implements OnInit{
+  constructor(private authService:AuthService, private router:Router,private apiService:ApiService,private translate:LanguageService){
     if(localStorage.getItem("token")){
       this.decoded=jwtDecode(localStorage.getItem("token"));
     }else if(sessionStorage.getItem("token")){
@@ -29,6 +31,10 @@ export class PerfilComponent {
       this.router.navigateByUrl('');
     }
     this.getUser()
+  }
+
+  ngOnInit(){
+      this.translate.initLanguage()
   }
 
   decoded:User
@@ -67,14 +73,14 @@ export class PerfilComponent {
 
   async anadir_coche(){
     const { value: tipoRaw } = await Swal.fire({
-      title: 'Selecciona el tipo de vehículo',
+      title: this.translate.instant('select-type'),
       input: 'radio',
       inputOptions: {
-        coche: 'Coche',
-        autobus: 'Autobús',
-        camion: 'Camión'
+        coche: this.translate.instant('car'),
+        autobus: this.translate.instant('bus'),
+        camion: this.translate.instant('truck')
       },
-      inputValidator: value => !value && 'Debes seleccionar un tipo'
+      inputValidator: value => !value && this.translate.instant('select-type-error')
     });
   
     if (!tipoRaw) return;
@@ -82,7 +88,7 @@ export class PerfilComponent {
     const tipo = tipoRaw.charAt(0).toUpperCase() + tipoRaw.slice(1);
   
     const { value: matricula } = await Swal.fire({
-      title: 'Introduce la matrícula',
+      title: this.translate.instant('title-matricula'),
       input: 'text',
       inputAttributes: {
         pattern: '\\d{4}[A-Z]{3}',
@@ -90,7 +96,7 @@ export class PerfilComponent {
       },
       inputValidator: value => {
         if (!/^\d{4}[A-Z]{3}$/.test(value)) {
-          return 'Formato incorrecto. Usa 4 números y 3 letras mayúsculas (ej: 1234ABC)';
+          return this.translate.instant('error-matricula');
         }
         return null;
       }
@@ -99,20 +105,20 @@ export class PerfilComponent {
     if (!matricula) return;
   
     const { value: fecha_itv } = await Swal.fire({
-      title: 'Fecha de la última ITV',
+      title: this.translate.instant('title-fecha'),
       input: 'date',
-      inputValidator: value => !value && 'Debes seleccionar una fecha'
+      inputValidator: value => !value && this.translate.instant('error-fecha')
     });
   
     if (!fecha_itv) return;
   
     const { value: combustibleRaw } = await Swal.fire({
-      title: 'Selecciona el tipo de combustible',
+      title: this.translate.instant('select-type-fuel'),
       input: 'radio',
       inputOptions: {
-        diesel: 'Diésel',
-        gasolina: 'Gasolina',
-        electrico: 'Eléctrico'
+        diesel: this.translate.instant('select-type-diesel'),
+        gasolina: this.translate.instant('select-type-gasolina'),
+        electrico: this.translate.instant('select-type-electrico')
       },
       inputValidator: value => !value && 'Debes seleccionar un tipo de combustible'
     });
@@ -323,7 +329,7 @@ export class PerfilComponent {
       },
       html: `
         <img src=${src}
-             style="width: 100%; height: auto; object-fit: contain;" />
+            style="width: 100%; height: auto; object-fit: contain;" />
       `,
       width: '600px',
       padding: '0',

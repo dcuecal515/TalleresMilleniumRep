@@ -10,11 +10,11 @@
                 <img class="image" [src]="user.imagen">
             </div>
             <div class="user-data">
-                <p (click)="cambiar_nombre()"><strong>{{user.name}}</strong> <span class="edit" >Cambiar</span></p>
-                <p (click)="cambiar_email()"><strong>{{user.email}}</strong> <span class="edit" >Cambiar</span></p>
-                <p (click)="cambiar_contrasena()"><strong>Contraseña</strong> <span class="edit">Cambiar</span></p>
+                <p (click)="cambiar_nombre()"><strong>{{user.name}}</strong> <span class="edit" >{{ 'change' | translate }}</span></p>
+                <p (click)="cambiar_email()"><strong>{{user.email}}</strong> <span class="edit" >{{ 'change' | translate }}</span></p>
+                <p (click)="cambiar_contrasena()"><strong>{{ 'password' | translate }}</strong> <span class="edit">{{ 'change' | translate }}</span></p>
                 @if(decoded.role=="Admin"){
-                    <button class="btn-administracion" (click)="goToRoute('admistracion')">Administración</button>
+                    <button class="btn-administracion" (click)="goToRoute('admistracion')">{{ 'admin' | translate }}</button>
                 }
             </div>
         </div>
@@ -45,17 +45,17 @@
                     </div>
                     <div class="car-details">
                         
-                        <p>Fecha_itv: @if(user.coches.length > 0){
+                        <p>{{ 'itv' | translate }} @if(user.coches.length > 0){
                             {{coche_actual.fecha_itv}}
                         }</p>
-                        <p>Tipo de combustible: @if(user.coches.length > 0){
+                        <p>{{ 'combustible' | translate }} @if(user.coches.length > 0){
                             {{coche_actual.combustible}}
                         }</p>
-                        <p>Kilometraje: @if(user.coches.length > 0){
+                        <p>{{ 'mileage' | translate }} @if(user.coches.length > 0){
                             {{coche_actual.kilometraje}}
                         }</p>
                         <div class="ficha-tecnica">
-                            <p>Ver ficha tecnica </p>@if(user.coches.length > 0){
+                            <p>{{ 'technical-sheet' | translate }} </p>@if(user.coches.length > 0){
                                 <button class="btn-ficha" (click)="ver_ficha(coche_actual.imagen)"><i class="fa-regular fa-eye icon-eye"></i></button>
                             }
                         </div>
@@ -63,14 +63,14 @@
                     </div>
                 </div>
                 <div class="services">
-                    <h3>Servicios recibidos:</h3>
+                    <h3>{{ 'services-received' | translate }}</h3>
                     <table>
                         <thead>
                             <tr>
-                                <th>Estado</th>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Fecha</th>
+                                <th>{{ 'state' | translate }}</th>
+                                <th>{{ 'name-profile' | translate }}</th>
+                                <th>{{ 'description' | translate }}</th>
+                                <th>{{ 'date' | translate }}</th>
                             </tr>
                         </thead>
                         <tbody>

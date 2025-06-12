@@ -19,4 +19,7 @@ export class LanguageService {
     this.translate.setDefaultLang(lang);
     this.translate.use(lang);
   }
+  instant(key: string){
+    return this.translate.instant(key);
+  }
 }

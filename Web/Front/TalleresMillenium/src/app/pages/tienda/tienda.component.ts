@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { Productlistproduct } from '../../models/productlistproduct';
 import { Productlist2 } from '../../models/productlist2';
 import { CommonModule } from '@angular/common';
+import { LanguageService } from '../../service/language.service';
 
 @Component({
   selector: 'app-tienda',
@@ -21,7 +22,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './tienda.component.css'
 })
 export class TiendaComponent {
-  constructor(private route: ActivatedRoute, private router: Router, private Listservice: ListService) {
+  constructor(private route: ActivatedRoute, private router: Router, private Listservice: ListService,private translate:LanguageService) {
   }
   tipo: string
   id: number
@@ -48,9 +49,10 @@ export class TiendaComponent {
         }
         this.getallproduct({ busqueda: this.busqueda, ActualPage: this.actualPage, ServicePageSize: this.pageSize })
       } else {
-        this.router.navigateByUrl("error")
+        this.router.navigateByUrl('')
       }
     });
+    this.translate.initLanguage()
   }
   search() {
     sessionStorage.setItem("busqueda", this.busqueda);
