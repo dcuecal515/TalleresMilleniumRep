@@ -7,13 +7,14 @@ import { FullUser } from '../../models/FullUser';
 import { Coche } from '../../models/Coche';
 import { NewCoche } from '../../models/NewCoche';
 import { environment } from '../../../environments/environment';
+import { HeaderComponent } from '../../component/header/header.component';
 import Swal from 'sweetalert2';
 import { ApiService } from '../../service/api.service';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [],
+  imports: [HeaderComponent],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
 })

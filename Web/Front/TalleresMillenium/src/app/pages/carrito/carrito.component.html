@@ -1,26 +1,39 @@
-@if(existcarrito){
+<div>
+    <app-header></app-header>
+</div>
+<div class="carrito-container">
     @if(carrito.length > 0){
-        @for(coche of carrito; track coche.matricula){
-            @if(coche.servicios.length > 0){
-                @if(coche.tipo == "Coche"){
-                    <img class="image" src="assets/coche2.webp">
-                }@else if (coche.tipo == "Camion") {
-                    <img class="image" src="assets/camion2.webp">
-                }@else {
-                    <img class="image" src="assets/autobus2.webp">
-                }
-                <h3>{{coche.matricula}}</h3>
-                @for(servicio of coche.servicios; track servicio.nombre){
-                    <p><img [src]="servicio.imagen" alt=""></p>
-                    <h3>{{servicio.nombre}}</h3>
-                    <button (click)="eliminar(coche.matricula,servicio.nombre)">Eliminar</button>
-                }
-                <button (click)="completarReserva(coche.matricula)">Completar Reserva</button>
-            }
+      @for(coche of carrito; track coche.matricula){
+        @if(coche.servicios.length > 0){
+          <div class="coche-card">
+            <div class="coche-info">
+              @if(coche.tipo == "Coche"){
+                <img class="image" src="assets/coche2.webp">
+              }@else if (coche.tipo == "Camion") {
+                <img class="image" src="assets/camion2.webp">
+              }@else {
+                <img class="image" src="assets/autobus2.webp">
+              }
+  
+              <h3 class="matricula">{{coche.matricula}}</h3>
+            </div>
+  
+            <div class="servicios-lista">
+              @for(servicio of coche.servicios; track servicio.nombre){
+                <div class="servicio-item">
+                  <img class="servicio-img" [src]="servicio.imagen" alt="{{servicio.nombre}}">
+                  <h4>{{servicio.nombre}}</h4>
+                  <button class="btn-eliminar" (click)="eliminar(coche.matricula, servicio.nombre)">Eliminar</button>
+                </div>
+              }
+            </div>
+  
+            <button class="btn-reserva" (click)="completarReserva(coche.matricula)">Completar Reserva</button>
+          </div>
         }
+      }
     }@else{
-        <h1>No tienes reservas a confirmar</h1>
+      <h1 class="no-reservas">No tienes reservas a confirmar</h1>
     }
-}@else {
-    <h1>No puedes acceder puto</h1>
-}
+</div>  
+

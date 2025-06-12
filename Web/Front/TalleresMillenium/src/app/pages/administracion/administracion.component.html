@@ -1,3 +1,6 @@
+<div>
+    <app-header></app-header>
+</div>
 <div class="principal">
     <h1 class="titulo1">Administración</h1>
     <div class="panel-container">
@@ -11,7 +14,7 @@
 
         @if(verusuarios==true){
         <div class="cuadro">
-            <h1>Usuarios</h1>
+            <h1 class="titulosPagina">Usuarios</h1>
             @for(item of listusers; track $index){
                 <div class="fila">
                 <img class="imagen" [src]="item.imagen" alt="imagen de usuarios">
@@ -35,8 +38,8 @@
         }
         @if(verproductos==true){
         <div class="cuadro">
-            <h1>Productos</h1>
-            <button class="editar" (click)="addproduct()">Añadir producto</button>
+            <h1 class="titulosPagina">Productos</h1>
+            <button class="agregarNuevo" (click)="addproduct()">Añadir producto</button>
             @for(item of listproducts; track $index){
                 <div class="fila">
                 <img class="imagen" [src]="item.imagen" alt="imagen de productos">
@@ -55,8 +58,8 @@
         }
         @if(verservicios==true){
         <div class="cuadro">
-            <h1>Servicios</h1>
-            <button class="editar" (click)="addservice()">Añadir Servicio</button>
+            <h1 class="titulosPagina">Servicios</h1>
+            <button class="agregarNuevo" (click)="addservice()">Añadir Servicio</button>
             @for(item of listservice; track $index){
                 <div class="fila">
                 <img class="imagen" [src]="item.imagen" alt="Imagen de servicios">
@@ -73,7 +76,7 @@
         }
         @if(vercocheservicio==true){
         <div class="cuadro">
-            <h1>Solicitudes por confirmar</h1>
+            <h1 class="titulosPagina">Solicitudes por confirmar</h1>
             @for(item of listcocheserviciosespera; track $index){
                 <div class="fila">
                 @if(item.tipo == "Coche"){
@@ -98,8 +101,8 @@
             }
         </div>
         <div class="cuadro">
-            <h1>Solicitudes que estan en el taller</h1>
-            <h3>Dia:{{hoy |  date: 'dd/MM/yyyy'}}</h3>
+            <h1 class="titulosPagina">Solicitudes que estan en el taller</h1>
+            <h3 class="titulo">Dia: {{hoy |  date: 'dd / MM / yyyy'}}</h3>
             @for(item of listcocheserviciosfinal; track $index){
                 <div class="fila">
                 @if(item.tipo == "Coche"){
