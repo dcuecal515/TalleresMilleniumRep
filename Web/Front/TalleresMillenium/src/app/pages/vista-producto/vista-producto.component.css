@@ -21,10 +21,12 @@
     flex-direction: column;
     align-items: center;
     max-width: 500px;
+    text-align: center;
 }
 
 .principal-datos-caracteristicas-descripcion {
     text-align: justify;
+    word-wrap: break-word;
 }
 
 .principal-datos-caracteristicas-descripcion-titulo {
@@ -132,7 +134,6 @@
 .contenedor {
     display: flex;
     justify-content: center;
-    padding: 20px;
 }
 
 .vista-comentario {
@@ -156,7 +157,6 @@
     align-items: center;
     text-align: center;
     flex: 1;
-    min-width: 150px;
 }
 
 .vista-comentario-datos-imagen {
@@ -176,7 +176,7 @@
     font-size: 15px;
     line-height: 1.5;
     min-width: 250px;
-    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .vista-comentario-nombre {
@@ -194,9 +194,19 @@
 .titulo-comentario {
     text-align: center;
 }
-
-@media(max-width: 426px) {
+@media(max-width:756px){
+    .imagen{
+        max-width: 300px;
+        max-height: 300px;
+    }
+}
+@media(max-width: 465px) {
     .principal-datos {
         flex-direction: column;
+    }
+}
+@media(max-width:360px){
+    .principal-datos-caracteristicas-descripcion-titulo{
+        font-size: 15px;
     }
 }

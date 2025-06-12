@@ -218,14 +218,16 @@ export class AdministracionComponent implements OnInit{
         const estadoInput = document.querySelector('input[name="estado"]:checked') as HTMLInputElement | null;
         const imagenInput = document.getElementById('imagen') as HTMLInputElement | null;
 
+        if (!nombreInput || !descripcionInput || !estadoInput || !imagenInput || !nombreInput.value.trim() || !descripcionInput.value.trim() ||!estadoInput.value || !imagenInput.files || imagenInput.files.length === 0) {
+          Swal.showValidationMessage(this.translate.instant('input-invalid'));
+          return false;
+        }
+
         const nombre = nombreInput.value
         const descripcion = descripcionInput.value
         const estado = estadoInput.value
         const imagen = imagenInput.files[0]
-        if (!nombre || !descripcion || !estado || !imagen) {
-          Swal.showValidationMessage(this.translate.instant('input-invalid'));
-          return false;
-        }
+        
 
         return {
           nombre,

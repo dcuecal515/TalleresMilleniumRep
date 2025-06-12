@@ -152,6 +152,7 @@ export class VistaProductoComponent {
           html: htmlRadios,
           showCancelButton: true,
           confirmButtonText: this.translate.instant('select'),
+          cancelButtonText: this.translate.instant('cancel'),
           preConfirm: () => {
             const selected = (document.querySelector('input[name="coche"]:checked') as HTMLInputElement)?.value;
             if (!selected) {

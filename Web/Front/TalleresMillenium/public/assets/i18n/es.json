@@ -128,7 +128,7 @@
     "request-password":"Debes completar ambos campos",
     "update-password":"Contraseña actualizada",
     "bad-password":"Contraseña incorrecta",
-    "users":"usuarios",
+    "users":"Usuarios",
     "requests":"Solicitudes",
     "change-admin":"Hacer admin",
     "change-user":"Hacer usuario",
@@ -152,5 +152,8 @@
     "confirm-day":"Has confirmado el día:",
     "select-service-delete":"Seleccione el servicio que quiere rechazar",
     "select-option":"Debes seleccionar una opción",
-    "service-delete":"Eliminado el servicio:"
+    "service-delete":"Eliminado el servicio:",
+    "logout":"Cerrar sesion",
+    "profile":"Profile",
+    "booking":"Reservar"
 }

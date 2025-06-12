@@ -11,10 +11,11 @@
         <div class="principal-datos-caracteristicas">
             <h1>{{servicio.nombre}}</h1>
             <h2>{{'rating'|translate}}:{{ media | number:'1.1-1' }}</h2>
-            <p class="principal-datos-caracteristicas-descripcion"><b
-                    class="principal-datos-caracteristicas-descripcion-titulo">Descripcion:</b>{{servicio.descripcion}}
+            <p class="principal-datos-caracteristicas-descripcion"><b class="principal-datos-caracteristicas-descripcion-titulo">{{'description' | translate}}: </b>{{servicio.descripcion}}
             </p>
-            <button class="principal-datos-caracteristicas-descripcion-boton" (click)="reservar()">Reservar</button>
+            @if(decoded!=null){
+                <button class="principal-datos-caracteristicas-descripcion-boton" (click)="reservar()">{{'booking' | translate}}</button>
+            }
         </div>
     </div>
     }
@@ -27,7 +28,7 @@
             <h1>{{producto.nombre}}</h1>
             <h2>{{'rating'|translate}}:{{ media | number:'1.1-1' }}</h2>
             <p class="principal-datos-caracteristicas-descripcion"><b
-                    class="principal-datos-caracteristicas-descripcion-titulo">Descripcion:</b>{{producto.descripcion}}
+                    class="principal-datos-caracteristicas-descripcion-titulo">{{'description' | translate}}: </b>{{producto.descripcion}}
             </p>
             @if(producto.disponible=="Disponible"){
                 <h3>{{'available'|translate}}</h3>
