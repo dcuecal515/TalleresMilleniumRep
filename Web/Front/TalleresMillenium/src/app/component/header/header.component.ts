@@ -23,6 +23,11 @@ export class HeaderComponent implements OnInit {
     }
   }
   decoded:User
+  menuVisible = false;
+
+  showMenu() {
+    this.menuVisible = !this.menuVisible;
+  }
 
   ngOnInit() {
       this.translate.initLanguage()
@@ -39,8 +44,5 @@ export class HeaderComponent implements OnInit {
 
   changelanguage(lang:string){
     this.translate.changeLanguage(lang);
-  }
-  showMenu(){
-    
   }
 }

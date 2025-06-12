@@ -10,14 +10,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid #ddd;
+    border: 1px solid #5E3F3F;
     border-radius: 8px;
     padding: 16px;
     text-decoration: none;
-    color: black;
+    color: #FFFFFF;
     margin-bottom: 15px;
     min-height: 350px;
-    background-color: grey;
+    background-color: #808080;
     justify-content: space-between;
 }
 .lista{
@@ -35,15 +35,16 @@
 .lista-boton{
     width: 50%;
     padding: 1%;
-    background-color: white;
+    background-color: #808080;
     cursor: pointer;
-    border-color: white;
+    border-color: #808080;
     border-radius: 4px;
-    color: black;
-    border: 2px solid black;
+    color: #FFFFFF;
+    border: 2px solid #362D2D;
 }
 .lista-boton:hover{
-    background-color: #bbbbbb;
+    background-color: #B63D3D;
+    color: white;
 }
 .games-history-btns {
     width: 100%;
@@ -56,14 +57,14 @@
 .games-history-btns button {
     padding: 20px;
     border: none;
-    background-color: #333;
+    background-color: #362D2D;
     color: white;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .games-history-btns button:disabled {
-    background-color: #777;
+    background-color: #5E3F3F;
     cursor: not-allowed;
 }
 .games-per-page{
@@ -73,7 +74,8 @@
 .buscar{
     height: 30px;
     font-size: 15px;
-    border: 1px solid black;
+    border: 1px solid #362D2D;
+    color: #362D2D;
 }
 .boton-search{
     height: 35px;
