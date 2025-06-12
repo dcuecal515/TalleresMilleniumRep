@@ -38,3 +38,42 @@
     padding: 0;
     font-size: 30px;
 }
+.banderas {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 10px;
+}
+
+.bandera {
+    width: 32px;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.bandera:hover {
+    transform: scale(1.1);
+}
+#menu{
+    display: none;
+}
+@media(max-width:756px){
+    .logo-opciones{
+        display:none;
+    }
+    .banderas{
+        display: none;
+    }
+    .bandera{
+        display: none;
+    }
+    #person-icon{
+        display: none;
+    }
+    #menu{
+        display: flex;
+        color: white;
+    }
+}

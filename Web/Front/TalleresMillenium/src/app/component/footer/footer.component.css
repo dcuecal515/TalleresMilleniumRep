@@ -6,3 +6,8 @@
     align-items: center;
     color: white;
 }
+@media(max-width:545px){
+    .principal{
+        flex-direction: column;
+    }
+}

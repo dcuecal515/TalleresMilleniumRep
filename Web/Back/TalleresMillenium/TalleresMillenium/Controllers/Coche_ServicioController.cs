@@ -14,11 +14,13 @@ namespace TalleresMillenium.Controllers
         private readonly Coche_ServicioService _coche_ServicioService;
         private readonly CocheService _cocheService;
         private readonly UserService _userService;
+        private readonly EmailService _emailService;
 
-        public Coche_ServicioController(Coche_ServicioService coche_ServicioService, CocheService cocheService, UserService userService) {
+        public Coche_ServicioController(Coche_ServicioService coche_ServicioService, CocheService cocheService, UserService userService,EmailService emailService) {
             _coche_ServicioService = coche_ServicioService;
             _cocheService = cocheService;
             _userService = userService;
+            _emailService = emailService;
         }
 
         [Authorize]
@@ -26,6 +28,10 @@ namespace TalleresMillenium.Controllers
         public async Task<List<CocheRDto>> GetCocheRDtos()
         {
             Usuario user = await GetCurrentUser();
+            if (user == null)
+            {
+                return null;
+            }
             Usuario fullUser = await _userService.GetFullUserById(user.Id);
 
             if (fullUser.Coches.Count > 0)
@@ -51,6 +57,11 @@ namespace TalleresMillenium.Controllers
         [HttpPost("reserva")]
         public async Task<IActionResult> ReservarServicio([FromBody] ReservarDto reservarDto)
         {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null)
+            {
+                return Unauthorized();
+            }
             Coche coche = await _cocheService.GetCocheByMatricula(reservarDto.Matricula);
 
             if (coche == null)
@@ -83,6 +94,10 @@ namespace TalleresMillenium.Controllers
         public async Task<List<ElementoCarritoDto>> GetServiciosEnEspera()
         {
             Usuario user = await GetCurrentUser();
+            if (user == null)
+            {
+                return null;
+            }
             Usuario fullUser = await _userService.GetFullUserById(user.Id);
 
             if (fullUser != null && fullUser.Coches.Count > 0)
@@ -130,6 +145,11 @@ namespace TalleresMillenium.Controllers
         [HttpDelete("eliminarServicio")]
         public async Task<IActionResult> EliminarServicioCarrito([FromQuery] Coche_ServicioEliminarDto coche_Servicio)
         {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null)
+            {
+                return Unauthorized();
+            }
             Coche_Servicio coche_Servicio1 = _coche_ServicioService.GetCoche_ServicioByMYN(coche_Servicio.Matricula, coche_Servicio.NombreServicio);
             if (coche_Servicio1 == null) {
                 return Unauthorized();
@@ -144,6 +164,10 @@ namespace TalleresMillenium.Controllers
         [HttpPost("completarReserva")]
         public async Task<IActionResult> CompletarReserva([FromBody] MatriculaDto matriculaDto)
         {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null) {
+                return Unauthorized();
+            }
             Coche coche = await _cocheService.GetCocheByMatricula(matriculaDto.Matricula);
 
             if (coche == null)
@@ -165,6 +189,8 @@ namespace TalleresMillenium.Controllers
                             await _coche_ServicioService.UpdateCoche_Servicio(coche_Servicio);
                         }
                     }
+                    await _emailService.CreateEmailUser(usuario.Email,coche.coche_Servicios, matriculaDto.Matricula);
+
                     return Ok();
                 }
             }
@@ -225,9 +251,10 @@ namespace TalleresMillenium.Controllers
             Usuario usuario = await GetCurrentUser();
             if (usuario == null || !usuario.Rol.Equals("Admin"))
             {
-                return null;
+                return Unauthorized();
             }
             ICollection<Coche_Servicio> coche_Servicio = await _coche_ServicioService.getAllCoche_ServicioByMatriculaFecha(coche_ServicioReserva.fechaantigua,coche_ServicioReserva.matricula);
+            Coche cocheusuario = await _cocheService.GetCocheByMatriculaForEmail(coche_ServicioReserva.matricula);
             List<Coche_Servicio> coche_Servicios = new List<Coche_Servicio>();
             foreach (var cocheservicio in coche_Servicio)
             {
@@ -235,36 +262,41 @@ namespace TalleresMillenium.Controllers
                 cocheservicio.Fecha = DateOnly.Parse(coche_ServicioReserva.fechanueva);
                 coche_Servicios.Add(cocheservicio);
             }
+            await _emailService.CreateEmailAceptarUser(cocheusuario.Usuario.Email, coche_Servicios,coche_ServicioReserva.fechanueva, coche_ServicioReserva.matricula);
             await _coche_ServicioService.UpdatemanyCoche_Servicio(coche_Servicios);
             return Ok();
         }
         [Authorize]
         [HttpDelete]
-        public async Task Eliminarsolicitud([FromQuery] int id)
+        public async Task<IActionResult> Eliminarsolicitud([FromQuery] int id)
         {
 
             Usuario usuario = await GetCurrentUser();
             if (usuario == null || !usuario.Rol.Equals("Admin"))
             {
-                return;
+                return Unauthorized();
             }
             Coche_Servicio deletecoche_Servicio = await _coche_ServicioService.GetCoche_ServicioById(id);
+            Coche cocheusuario = await _cocheService.GetCocheByMatriculaForEmail(deletecoche_Servicio.coche.Matricula);
             if (deletecoche_Servicio == null)
             {
-                return;
+                return BadRequest();
             }
+            await _emailService.CreateDeleteEmail(cocheusuario.Usuario.Email, deletecoche_Servicio.servicio,deletecoche_Servicio.coche.Matricula);
             await _coche_ServicioService.DeleteCoche_Servicio(deletecoche_Servicio);
+            return Ok();
         }
         [Authorize]
         [HttpPut("finalizar")]
-        public async Task Finalizarsolicitud([FromBody] Coche_ServicioFinalizarDto coche_ServicioFinalizarDto)
+        public async Task<IActionResult> Finalizarsolicitud([FromBody] Coche_ServicioFinalizarDto coche_ServicioFinalizarDto)
         {
             Usuario usuario = await GetCurrentUser();
             if (usuario == null || !usuario.Rol.Equals("Admin"))
             {
-                return;
+                return Unauthorized();
             }
             ICollection<Coche_Servicio> coche_Servicios = await _coche_ServicioService.getAllCoche_ServicioByMatriculaFechaFinalizar(coche_ServicioFinalizarDto.matricula, coche_ServicioFinalizarDto.fechaantigua);
+            Coche cocheusuario = await _cocheService.GetCocheByMatriculaForEmail(coche_ServicioFinalizarDto.matricula);
             List<Coche_Servicio> coche_Servicioslista = new List<Coche_Servicio>();
             foreach (var cocheservicio in coche_Servicios)
             {
@@ -272,7 +304,9 @@ namespace TalleresMillenium.Controllers
                 cocheservicio.Fecha = DateOnly.FromDateTime(DateTime.Now);
                 coche_Servicioslista.Add(cocheservicio);
             }
+            await _emailService.CreateEmailFinalizarUser(cocheusuario.Usuario.Email,coche_Servicioslista,coche_ServicioFinalizarDto.matricula);
             await _coche_ServicioService.UpdatemanyCoche_Servicio(coche_Servicioslista);
+            return Ok();
         }
 
         private async Task<Usuario> GetCurrentUser()

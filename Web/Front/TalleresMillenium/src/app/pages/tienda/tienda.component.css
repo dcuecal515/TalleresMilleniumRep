@@ -1,3 +1,8 @@
+.principal{
+    display: grid;
+    min-height: 100dvh;
+    grid-template-rows: auto 1fr auto;
+}
 .titulo{
     text-align: center;
 }
@@ -44,12 +49,12 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 1px;
     margin-top: 20px; 
 }
 
 .games-history-btns button {
-    padding: 10px;
+    padding: 20px;
     border: none;
     background-color: #333;
     color: white;
@@ -60,4 +65,45 @@
 .games-history-btns button:disabled {
     background-color: #777;
     cursor: not-allowed;
+}
+.games-per-page{
+    font-size: 20px;
+    text-align: center;
+}
+.buscar{
+    height: 30px;
+    font-size: 15px;
+    border: 1px solid black;
+}
+.boton-search{
+    height: 35px;
+    font-size: 15px;
+    background-color: #8B4646;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid #8B4646;
+}
+.estilo-titulo{
+    margin-bottom: 25px;
+}
+.buscador{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1px;
+}
+@media(max-width:769px){
+    .lista{
+        grid-template-columns:1fr;
+        display: grid;
+        justify-items: center;
+    }
+    .lista-carta{
+        width: 50%;
+    }
+}
+@media(max-width:535px){
+    .lista-carta{
+        width: 90%;
+    }
 }

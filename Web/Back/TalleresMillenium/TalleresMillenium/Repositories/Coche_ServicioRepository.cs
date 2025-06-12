@@ -35,16 +35,20 @@ namespace TalleresMillenium.Repositories
         public async Task<ICollection<Coche_Servicio>> getAllCoche_ServicioByMatriculaFecha(string fechaantigua,string matricula)
         {
             DateOnly fecha = DateOnly.Parse(fechaantigua);
-            return await GetQueryable().Where(cs => cs.Estado == "Reservado" && cs.Fecha == fecha && cs.coche.Matricula == matricula).ToListAsync();
+            return await GetQueryable().Where(cs => cs.Estado == "Reservado" && cs.Fecha == fecha && cs.coche.Matricula == matricula).Include(cs=>cs.servicio).ToListAsync();
         }
         public async Task<ICollection<Coche_Servicio>> getAllCoche_ServicioByMatriculaFechaFinalizar(string matricula, string fechaantigua)
         {
             DateOnly fecha = DateOnly.Parse(fechaantigua);
-            return await GetQueryable().Where(cs => cs.Estado == "Aceptado" && cs.Fecha == fecha && cs.coche.Matricula == matricula).ToListAsync();
+            return await GetQueryable().Where(cs => cs.Estado == "Aceptado" && cs.Fecha == fecha && cs.coche.Matricula == matricula).Include(cs => cs.servicio).ToListAsync();
         }
         public void UpdateRange(IEnumerable<Coche_Servicio> coche_Servicios)
         {
             _context.Coche_Servicios.UpdateRange(coche_Servicios);
+        }
+        public async Task<Coche_Servicio> GetCoche_ServicioById(int id)
+        {
+            return await GetQueryable().Include(x => x.servicio).Include(x=>x.coche).FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

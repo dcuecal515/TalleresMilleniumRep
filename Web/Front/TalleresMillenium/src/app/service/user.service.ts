@@ -56,7 +56,7 @@ export class UserService {
     return result
   }
   async acceptsolicitud(datos:AceptarSolicitud){
-    const result= this.api.put("Coche_Servicio/aceptar",datos,'json')
+    const result=await this.api.put("Coche_Servicio/aceptar",datos,'json')
   }
   async deletesolicitud(id:number){
     await this.api.delete("Coche_Servicio",{id})

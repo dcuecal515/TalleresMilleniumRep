@@ -1,7 +1,21 @@
 {
-    "language":"English",
     "service":"Service",
     "title-home":"Experts in diagnostics, repair and a good pre-ITV",
     "welcome":"Welcome",
-    "product":"Product"
+    "product":"Product",
+    "timetable":"Timetable",
+    "monday":"monday",
+    "tuesday":"tuesday",
+    "wednesday":"wednesday",
+    "thursday":"thursday",
+    "friday":"friday",
+    "saturday":"saturday",
+    "sunday":"sunday",
+    "close":"Close",
+    "mark":"Brands we work with",
+    "site":"Where do we meet?",
+    "email":"Email",
+    "phone":"Phone",
+    "contact":"Our contact",
+    "about-us":"About us"
 }

@@ -13,7 +13,7 @@ namespace TalleresMillenium.Services
 
         public async Task<Coche_Servicio> GetCoche_ServicioById(int id)
         {
-            return await _unitOfWork.Coche_ServicioRepository.GetByIdAsync(id);
+            return await _unitOfWork.Coche_ServicioRepository.GetCoche_ServicioById(id);
         }
 
         public bool GetIfExistsCoche_Sevicio(int cocheId, int serviceId)

@@ -1,7 +1,8 @@
 <div class="principal">
-    <div>
+    <header>
         <app-header></app-header>
-    </div>
+    </header>
+    <br>
     @if(this.tipo=="servicio" && servicio!=null){
     <div class="principal-datos">
         <div class="principal-datos-imagen">
@@ -34,7 +35,7 @@
     }
     <div class="comentarios">
         @if(decoded!=null){
-        <h2>Comentarios</h2>
+        <h2>Caja de comentarios</h2>
         <div class="comentarios-casilla">
             <form [formGroup]="subidareview" class="comentario-casilla-texto">
                 <textarea class="comentario-casilla-texto-escrito" rows="5" cols="50" placeholder="Danos tu opinion"
@@ -52,19 +53,21 @@
                     <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                 </div>
             </form>
+            <br>
             <button class="boton-enviar" (click)="postreview()">Enviar comentario</button>
         </div>
         <br>
         }
     </div>
     @if(servicio != null && servicio.valoracionesDto?.length > 0 ){
+    <h1 class="titulo-comentario">Comentarios</h1>
     @for(item of servicio.valoracionesDto; track $index){
     <div class="contenedor">
         <div class="vista-comentario">
             <div class="vista-comentario-datos">
-                <img class="vista-comentario-datos-imagen" src="assets/paisaje1.webp" alt="imagen perfil">
-                <h4>{{item.nombre}}</h4>
-                <h4>valoracion: {{item.puntuacion}}</h4>
+                <img class="vista-comentario-datos-imagen" [src]="item.imagen" alt="imagen perfil">
+                <p class="vista-comentario-nombre">{{item.nombre}}</p>
+                <p class="vista-comentario-puntuacion">valoracion: {{item.puntuacion}}</p>
             </div>
             <div class="vista-comentario-texto">
                 <p>{{item.texto}}</p>
@@ -75,10 +78,11 @@
     }
     }@else if( producto != null && producto.valoracionesDto?.length > 0){
     @for(item of producto.valoracionesDto; track $index){
+    <h1 class="titulo-comentario">Comentarios</h1>
     <div class="contenedor">
         <div class="vista-comentario">
             <div class="vista-comentario-datos">
-                <img class="vista-comentario-datos-imagen" src="assets/paisaje1.webp" alt="imagen perfil">
+                <img class="vista-comentario-datos-imagen" [src]="item.imagen" alt="imagen perfil">
                 <h4>{{item.nombre}}</h4>
                 <h4>valoracion: {{item.puntuacion}}</h4>
             </div>
@@ -90,7 +94,7 @@
     <br>
     }
     }
-    <div class="footer">
+    <footer>
         <app-footer></app-footer>
-    </div>
+    </footer>
 </div>

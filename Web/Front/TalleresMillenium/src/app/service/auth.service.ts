@@ -33,10 +33,10 @@ export class AuthService {
       console.log("Entró con accessToken: ",result.data.accessToken)
       this.api.jwt = result.data.accessToken;
     }else{
-      Swal.fire({
-                  icon: 'info',
-                  title: 'Aviso',
-                  text: "Hubo un problema"
+        Swal.fire({
+                icon: 'error',
+                title: 'Aviso',
+                text: "Este correo ya esta enlazado con otra cuenta"
                 });
     }
     return result 
