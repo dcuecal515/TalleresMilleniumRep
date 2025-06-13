@@ -163,5 +163,6 @@
     "error-vehicule":"The selected vehicle does not exist",
     "error-unknow":"Unknown error",
     "vehicule-delete":"Vehicle was successfully removed",
-    "not-permision":"You are not allowed to delete"
+    "not-permision":"You are not allowed to delete",
+    "submit-comment":"Send comment"
 }
