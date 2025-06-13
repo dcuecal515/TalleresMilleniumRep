@@ -85,7 +85,7 @@ fun Reservas(navController: NavHostController, authViewModel: AuthViewModel,rese
     val coroutineScope = rememberCoroutineScope()
     val reservasespera by reservaViewModel.reservasespera.collectAsState()
     val reservasacpetadas by reservaViewModel.reservasfinal.collectAsState()
-    val tabs = listOf("En espera","Aceptadas")
+    val tabs = listOf(context.getString(R.string.waiting),context.getString(R.string.accepted_text))
 
     LaunchedEffect(authState.value) {
         when (authState.value) {
@@ -219,7 +219,7 @@ fun AllReservaEsperaScreen(
                         Icons.Default.Check,
                         context.getString(R.string.accept_text),
                         Icons.Default.Delete,
-                        "Eliminar",
+                        context.getString(R.string.delete_text),
                         onClickAction1 = {
                             coroutineScope.launch {
                                 snackbarHostState.showSnackbar(
