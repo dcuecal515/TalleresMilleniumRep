@@ -2,7 +2,9 @@
     <header>
         <app-header></app-header>
     </header>
-    <br>
+    @if(decoded!=null || (servicio != null && servicio.valoracionesDto?.length > 0 ) || (producto != null && producto.valoracionesDto?.length > 0)){
+        <br>
+    }
     @if(this.tipo=="servicio" && servicio!=null){
     <div class="principal-datos">
         <div class="principal-datos-imagen">
@@ -82,8 +84,8 @@
     <br>
     }
     }@else if( producto != null && producto.valoracionesDto?.length > 0){
-    @for(item of producto.valoracionesDto; track $index){
     <h1 class="titulo-comentario">{{'comments' | translate}}</h1>
+    @for(item of producto.valoracionesDto; track $index){
     <div class="contenedor">
         <div class="vista-comentario">
             <div class="vista-comentario-datos">
