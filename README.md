@@ -49,6 +49,48 @@ https://drive.google.com/file/d/1w_uf3H3mT0pK61x4p5AY0ap7_-ELO2bY/view?usp=shari
 - Url back: https://talleresmilemiun.runasp.net/
 - Descargar apk : https://drive.google.com/drive/folders/1klUqXZJAmyjw1bTVWil16eYa6yUD09JD?usp=sharing
 
+# Bitacora
+## Semana 17-23 de marzo
+### Daniel
+- 23 de marzo -> Creación del repositorio
+### Fran 
+- 23 de marzo -> Creación del readme
+## Semana 24-30 de marzo
+### Daniel
+- 30 de marzo -> Creacion del figma y realización de algunos templates
+### Fran 
+- 30 de marzo -> Realización de algunos templates
+## Semana 31-06 de abril
+### Daniel
+- 5 de abril -> Creacion del proyecto web
+- 6 de abril -> Creacion de los componentes del front
+## Semana 14-20 de abril
+### Daniel
+- 14 de abril -> Realización del sobre nosostros
+- 19 de abril -> Finalización del sobre nosostros creacion del inicio sesion
+- 20 de abril -> Cambio de imegens en sobre nosotros, Implementacion de rutas para home y sobre nosotros
+### Fran 
+- 14 de abril -> Actualización de readme para poner los idiomas disponibles y comienzo de home
+- 15 de abril -> Avances en el home y creacion del componente header
+- 18 de abril -> Finalización del componente home
+- 20 de abril -> Creación del footer,cambios en css de home,Creacion del back
+## Semana 21-27 de abril
+### Daniel
+- 21 de abril -> Realización del componente inicio de sesion y css
+- 22 de abril -> Mejoras del incio de sesion
+- 24 de abril -> Mejoras del inicio sesion en general
+- 27 de abril -> Arreglos de css de inicio de sesion 
+### Fran 
+- 23 de abril -> Conexion del front con el back,realización del login
+## Semana 28-04 de mayo
+### Daniel
+- 21 de abril -> Realización del componente inicio de sesion y css
+- 22 de abril -> Mejoras del incio de sesion
+- 24 de abril -> Mejoras del inicio sesion en general
+- 27 de abril -> Arreglos de css de inicio de sesion 
+### Fran 
+- 29 de abril -> Funcionamiento del login
+
 # Bibliografia
 ## Videos:
 - Video traducción de angular: https://www.youtube.com/watch?v=IEaroZtbieQ 
