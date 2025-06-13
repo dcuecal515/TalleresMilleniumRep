@@ -43,3 +43,15 @@ https://www.figma.com/design/mTFExJCn6NjFzF9NwDLIZV/Untitled?node-id=0-1&t=w3YqP
 
 # Video de Resumen de Punto de Control
 https://drive.google.com/file/d/1w_uf3H3mT0pK61x4p5AY0ap7_-ELO2bY/view?usp=sharing
+
+# Bibliografia
+## Videos:
+- Video traducción de angular: https://www.youtube.com/watch?v=IEaroZtbieQ 
+- Video de mapa en Power By Desktop: https://www.youtube.com/watch?v=yZ7XeJwC6uY&t=0s
+- Video para emails: https://www.youtube.com/watch?v=Yv_Wh0zjMw4
+- Video para cambiar logo en android studio: https://youtu.be/bJjHgWjiAKw?si=eh25GKM_hji2PW8W
+## Documentacion:
+- Documentacion android utilizada para compose: https://www.jetpackcompose.pro/home/guide/
+- Para crear los estilos en android: https://material-foundation.github.io/material-theme-builder/
+- Documentacion utilizada en la parte web : Pdfs proporcionados por el profesor Jose
+- Documentacion de Sweet alert: https://sweetalert2.github.io/
