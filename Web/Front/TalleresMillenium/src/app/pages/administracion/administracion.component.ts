@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../service/user.service';
 import { Listuser } from '../../models/listuser';
 import { ListService } from '../../service/list.service';
@@ -15,18 +15,20 @@ import { HeaderComponent } from '../../component/header/header.component';
 import { jwtDecode } from 'jwt-decode';
 import { User } from '../../models/user';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageService } from '../../service/language.service';
 
 @Component({
   selector: 'app-administracion',
   standalone: true,
-  imports: [DatePipe, HeaderComponent],
+  imports: [DatePipe, HeaderComponent,TranslateModule],
   providers:[DatePipe],
   templateUrl: './administracion.component.html',
   styleUrl: './administracion.component.css'
 })
-export class AdministracionComponent {
+export class AdministracionComponent implements OnInit{
 
-  constructor(private Userservice: UserService, private Listservice: ListService,private Datepipe:DatePipe,private router:Router) {
+  constructor(private Userservice: UserService, private Listservice: ListService,private Datepipe:DatePipe,private router:Router,private translate:LanguageService) {
     if(localStorage.getItem("token")){
       this.decoded=jwtDecode(localStorage.getItem("token"));
     }else if(sessionStorage.getItem("token")){
@@ -36,6 +38,9 @@ export class AdministracionComponent {
       this.router.navigateByUrl('');
     }
     this.getallUser()
+  }
+  ngOnInit(){
+      this.translate.initLanguage()
   }
   decoded:User
   listusers: Listuser[]
@@ -140,18 +145,18 @@ export class AdministracionComponent {
 
   editproduct(producto: Product) {
     Swal.fire({
-      title: 'Editar Producto',
+      title: this.translate.instant('edit-product'),
       html:
-        `<input type="text" id="nombre" class="swal2-input" placeholder="Nombre" value="${producto.nombre}">
-  <textarea id="descripcion" class="swal2-textarea" placeholder="Descripción">${producto.descripcion}</textarea>
+        `<input type="text" id="nombre" class="swal2-input" placeholder="${this.translate.instant('name')}" value="${producto.nombre}">
+  <textarea id="descripcion" class="swal2-textarea" placeholder="${this.translate.instant('description')}">${producto.descripcion}</textarea>
 
   <div style="text-align: left; margin-top:10px;">
-    <label><input type="radio" name="estado" value="Disponible" ${producto.disponible == "Disponible" ? 'checked' : ''}> Disponible</label><br>
-    <label><input type="radio" name="estado" value="No disponible" ${producto.disponible == "No disponible" ? 'checked' : ''}> No disponible</label>
+    <label><input type="radio" name="estado" value="Disponible" ${producto.disponible == "Disponible" ? 'checked' : ''}> ${this.translate.instant('available')}</label><br>
+    <label><input type="radio" name="estado" value="No disponible" ${producto.disponible == "No disponible" ? 'checked' : ''}> ${this.translate.instant('not available')}</label>
     </div>
 
     <input type="file" id="imagen" accept="image/*" class="swal2-file"><br>`,
-      confirmButtonText: 'Guardar',
+      confirmButtonText: this.translate.instant('save'),
       focusConfirm: false,
       preConfirm: () => {
         const nombreInput = document.getElementById('nombre') as HTMLInputElement | null;
@@ -164,7 +169,7 @@ export class AdministracionComponent {
         const estado = estadoInput.value
         const imagen = imagenInput.files[0]
         if (!nombre || !descripcion) {
-          Swal.showValidationMessage('Nombre y descripción son obligatorios');
+          Swal.showValidationMessage(this.translate.instant('namedescription'));
           return false;
         }
 
@@ -184,8 +189,8 @@ export class AdministracionComponent {
         }else{
           Swal.fire({
                       icon: 'info',
-                      title: 'Aviso',
-                      text: "Este producto ya existe"
+                      title: this.translate.instant('warning'),
+                      text: this.translate.instant('product-exist')
                     });
         }
         
@@ -194,18 +199,18 @@ export class AdministracionComponent {
   }
   addproduct() {
     Swal.fire({
-      title: 'Añadir Producto',
+      title: this.translate.instant('add-product'),
       html:
-        `<input type="text" id="nombre" class="swal2-input" placeholder="Nombre">
-  <textarea id="descripcion" class="swal2-textarea" placeholder="Descripción"></textarea>
+        `<input type="text" id="nombre" class="swal2-input" placeholder="${this.translate.instant('name')}">
+  <textarea id="descripcion" class="swal2-textarea" placeholder="${this.translate.instant('description')}"></textarea>
 
   <div style="text-align: left; margin-top:10px;">
-    <label><input type="radio" name="estado" value="Disponible"> Disponible</label><br>
-    <label><input type="radio" name="estado" value="No disponible"> No disponible</label>
+    <label><input type="radio" name="estado" value="Disponible">  ${this.translate.instant('available')}</label><br>
+    <label><input type="radio" name="estado" value="No disponible">  ${this.translate.instant('not-available')}</label>
     </div>
 
     <input type="file" id="imagen" accept="image/*" class="swal2-file"><br>`,
-      confirmButtonText: 'Guardar',
+      confirmButtonText: this.translate.instant('save'),
       focusConfirm: false,
       preConfirm: () => {
         const nombreInput = document.getElementById('nombre') as HTMLInputElement | null;
@@ -213,14 +218,16 @@ export class AdministracionComponent {
         const estadoInput = document.querySelector('input[name="estado"]:checked') as HTMLInputElement | null;
         const imagenInput = document.getElementById('imagen') as HTMLInputElement | null;
 
+        if (!nombreInput || !descripcionInput || !estadoInput || !imagenInput || !nombreInput.value.trim() || !descripcionInput.value.trim() ||!estadoInput.value || !imagenInput.files || imagenInput.files.length === 0) {
+          Swal.showValidationMessage(this.translate.instant('input-invalid'));
+          return false;
+        }
+
         const nombre = nombreInput.value
         const descripcion = descripcionInput.value
         const estado = estadoInput.value
         const imagen = imagenInput.files[0]
-        if (!nombre || !descripcion || !estado || !imagen) {
-          Swal.showValidationMessage('Falta por introducir algun campo');
-          return false;
-        }
+        
 
         return {
           nombre,
@@ -238,8 +245,8 @@ export class AdministracionComponent {
         }else{
           Swal.fire({
                       icon: 'info',
-                      title: 'Aviso',
-                      text: "Este producto ya existe"
+                      title: this.translate.instant('warning'),
+                      text: this.translate.instant('product-exist')
                     });
         }
         
@@ -248,13 +255,13 @@ export class AdministracionComponent {
   }
   editservice(service: Service) {
     Swal.fire({
-      title: 'Editar Servicio',
+      title: this.translate.instant('edit-service'),
       html:
-        `<input type="text" id="nombre" class="swal2-input" placeholder="Nombre" value="${service.nombre}">
-  <textarea id="descripcion" class="swal2-textarea" placeholder="Descripción">${service.descripcion}</textarea>
+        `<input type="text" id="nombre" class="swal2-input" placeholder="${this.translate.instant('name')}" value="${service.nombre}">
+  <textarea id="descripcion" class="swal2-textarea" placeholder="${this.translate.instant('description')}">${service.descripcion}</textarea>
 
     <input type="file" id="imagen" accept="image/*" class="swal2-file"><br>`,
-      confirmButtonText: 'Guardar',
+      confirmButtonText: this.translate.instant('save'),
       focusConfirm: false,
       preConfirm: () => {
         const nombreInput = document.getElementById('nombre') as HTMLInputElement | null;
@@ -265,7 +272,7 @@ export class AdministracionComponent {
         const descripcion = descripcionInput.value
         const imagen = imagenInput.files[0]
         if (!nombre || !descripcion) {
-          Swal.showValidationMessage('Nombre y descripción son obligatorios');
+          Swal.showValidationMessage(this.translate.instant('namedescription'));
           return false;
         }
 
@@ -284,8 +291,8 @@ export class AdministracionComponent {
         }else{
           Swal.fire({
                       icon: 'info',
-                      title: 'Aviso',
-                      text: "Este servicio ya existe"
+                      title: this.translate.instant('warning'),
+                      text: this.translate.instant('service-exist')
                     });
         }
       }
@@ -293,12 +300,12 @@ export class AdministracionComponent {
   }
   addservice() {
     Swal.fire({
-      title: 'Añadir Servicio',
+      title: this.translate.instant('add-service'),
       html:
-        `<input type="text" id="nombre" class="swal2-input" placeholder="Nombre">
-  <textarea id="descripcion" class="swal2-textarea" placeholder="Descripción"></textarea>
+        `<input type="text" id="nombre" class="swal2-input" placeholder="${this.translate.instant('name')}">
+  <textarea id="descripcion" class="swal2-textarea" placeholder="${this.translate.instant('description')}"></textarea>
     <input type="file" id="imagen" accept="image/*" class="swal2-file"><br>`,
-      confirmButtonText: 'Guardar',
+      confirmButtonText: this.translate.instant('save'),
       focusConfirm: false,
       preConfirm: () => {
         const nombreInput = document.getElementById('nombre') as HTMLInputElement | null;
@@ -309,7 +316,7 @@ export class AdministracionComponent {
         const descripcion = descripcionInput.value
         const imagen = imagenInput.files[0]
         if (!nombre || !descripcion || !imagen) {
-          Swal.showValidationMessage('Falta por introducir algun campo');
+          Swal.showValidationMessage(this.translate.instant('input-invalid'));
           return false;
         }
 
@@ -328,8 +335,8 @@ export class AdministracionComponent {
         }else{
           Swal.fire({
                       icon: 'info',
-                      title: 'Aviso',
-                      text: "Este servicio ya existe"
+                      title: this.translate.instant('warning'),
+                      text: this.translate.instant('service-exist')
                     });
         }
       }
@@ -337,18 +344,18 @@ export class AdministracionComponent {
   }
   acceptsolicitud(matricula:string,fecha:string){
     Swal.fire({
-    title: 'Confirma el día para que el coche sea llevado al taller',
+    title: this.translate.instant('day-taller'),
     input: 'date',
-    inputLabel: 'Selecciona una fecha',
+    inputLabel: this.translate.instant('select-day'),
     inputAttributes: {
       min: new Date().toISOString().split('T')[0],
     },
     showCancelButton: true,
-    confirmButtonText: 'Confirmar',
-    cancelButtonText: 'Cancelar',
+    confirmButtonText: this.translate.instant('confirm'),
+    cancelButtonText: this.translate.instant('cancel'),
     inputValidator: (value) => {
       if (!value) {
-        return 'Por favor, selecciona una fecha';
+        return this.translate.instant('date-error');
       }
       return null;
     }
@@ -359,7 +366,7 @@ export class AdministracionComponent {
       const aceptarsolicitud:AceptarSolicitud={fechanueva:result.value,fechaantigua:fecha,matricula:matricula}
       console.log("Mi solicitud: ",aceptarsolicitud)
       await this.Userservice.acceptsolicitud(aceptarsolicitud)
-      Swal.fire(`Has confirmado el día: ${ this.Datepipe.transform(fechaSeleccionada, 'dd/MM/yyyy')}`);
+      Swal.fire(`${this.translate.instant('confirm-day')} ${ this.Datepipe.transform(fechaSeleccionada, 'dd/MM/yyyy')}`);
       this.getallcocheservicio()
     }
   });
@@ -375,15 +382,15 @@ export class AdministracionComponent {
   `).join('');
 
   Swal.fire({
-    title: 'Seleccione el servicio que quiere rechazar',
+    title: this.translate.instant('select-service-delete'),
     html: radiosHTML,
     showCancelButton: true,
-    confirmButtonText: 'Eliminar',
-    cancelButtonText: 'Cancelar',
+    confirmButtonText: this.translate.instant('delete'),
+    cancelButtonText:this.translate.instant('cancel'),
     preConfirm: () => {
       const selected = document.querySelector('input[name="opcion"]:checked')  as HTMLInputElement | null;
       if (!selected) {
-        Swal.showValidationMessage('Debes seleccionar una opción');
+        Swal.showValidationMessage(this.translate.instant('select-option'));
         return false;
       }
       return parseInt(selected.value);
@@ -392,7 +399,7 @@ export class AdministracionComponent {
     if (result.isConfirmed && result.value != undefined) {
       const indexToRemove = result.value;
       await this.Userservice.deletesolicitud(indexToRemove)
-      Swal.fire(`Eliminado el servicio: ${indexToRemove}`);
+      Swal.fire(`${this.translate.instant('service-delete')} ${indexToRemove}`);
       this.getallcocheservicio()
     }
   });

@@ -84,6 +84,7 @@
     color: white;
     border-radius: 5px;
     border: 1px solid #8B4646;
+    cursor: pointer;
 }
 .estilo-titulo{
     margin-bottom: 25px;
@@ -102,6 +103,9 @@
     }
     .lista-carta{
         width: 50%;
+    }
+    .buscar{
+        width: 80%;
     }
 }
 @media(max-width:535px){

@@ -168,7 +168,8 @@ namespace TalleresMillenium.Controllers
             if (usuario == null) {
                 return Unauthorized();
             }
-            Coche coche = await _cocheService.GetCocheByMatricula(matriculaDto.Matricula);
+            Coche coche = await _cocheService.GetByMatriculaWithoutServiceAsync(matriculaDto.Matricula);
+            Coche coche2 = await _cocheService.GetCocheByMatricula(matriculaDto.Matricula);
 
             if (coche == null)
             {
@@ -180,16 +181,26 @@ namespace TalleresMillenium.Controllers
                     return Conflict();
                 } else
                 {
+                    List<Coche_Servicio> coche_Servicios = new List<Coche_Servicio>();
+                    List<Coche_Servicio> coche_Servicios1 = new List<Coche_Servicio>();
+                    foreach (var coche_Servicio in coche2.coche_Servicios)
+                    {
+                        if (coche_Servicio.Estado == "Espera")
+                        {
+                            coche_Servicios.Add(coche_Servicio);
+                        }
+                    }
                     foreach (var coche_Servicio in coche.coche_Servicios)
                     {
                         if (coche_Servicio.Estado=="Espera")
                         {
                             coche_Servicio.Estado = "Reservado";
                             coche_Servicio.Fecha = DateOnly.FromDateTime(DateTime.Now);
-                            await _coche_ServicioService.UpdateCoche_Servicio(coche_Servicio);
+                            coche_Servicios1.Add(coche_Servicio);
                         }
                     }
-                    await _emailService.CreateEmailUser(usuario.Email,coche.coche_Servicios, matriculaDto.Matricula);
+                    await _coche_ServicioService.UpdatemanyCoche_Servicio(coche_Servicios1);
+                    await _emailService.CreateEmailUser(usuario.Email,coche_Servicios, matriculaDto.Matricula);
 
                     return Ok();
                 }

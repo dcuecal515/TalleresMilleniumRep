@@ -9,16 +9,18 @@ import { Chat } from '../../models/Chat';
 import { Mensaje } from '../../models/Mensaje';
 import { ChatService } from '../../service/chat.service';
 import Swal from 'sweetalert2';
+import { LanguageService } from '../../service/language.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,TranslateModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
 export class ChatComponent {
-  constructor(private webSocketService:WebsocketService, private chatService:ChatService){
+  constructor(private webSocketService:WebsocketService, private chatService:ChatService,private translate:LanguageService){
     console.log("HOLA FUNCIONO");
     if(localStorage.getItem("token") || sessionStorage.getItem("token")){
       console.log("Entro si tengo sesion iniciada")
@@ -45,8 +47,8 @@ export class ChatComponent {
   chatAbierto: boolean = false
 
   ngOnInit(): void {
-
     if (localStorage.getItem("token") || sessionStorage.getItem("token")) {
+    this.translate.initLanguage()
     this.messageReceived$ = this.webSocketService.messageReceived.subscribe(async message => {
       if(message.message=="Te llego un mensaje"){
         const mensaje:Mensaje={userName:message.userName,texto:message.texto}
@@ -118,8 +120,8 @@ export class ChatComponent {
           // No tiene que llegar aqui
           Swal.fire({
             icon: 'info',
-            title: 'Aviso',
-            text: "No estas en ningun chat"
+            title: this.translate.instant('warning'),
+            text: this.translate.instant('not-chat')
           });
         }
       } else {

@@ -1,5 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: title;
+    src: url('/assets/fonts/playfair-display.regular.ttf');
+}
+@font-face {
+    font-family: body;
+    src: url('/assets/fonts/montserrat.regular.ttf');
+}
 body{
     margin: 0;
     padding: 0;
+}
+h1,h2{
+    font-family: title;
+}
+h3,h4,p{
+    font-family: body;
 }

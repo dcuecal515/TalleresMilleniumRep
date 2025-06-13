@@ -9,6 +9,15 @@
     justify-content: center;
     margin-bottom: 8%;
 }
+h1{
+    font-family: title;
+}
+th{
+    font-family: body;
+}
+td{
+    font-family: body;
+}
 
 .principal-fotos {
     display: flex;

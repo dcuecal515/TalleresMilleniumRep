@@ -22,6 +22,11 @@ namespace TalleresMillenium.Services
             Coche coche = await _unitOfWork.CocheRepository.GetByMatriculaAsync(matricula);
             return coche;
         }
+        public async Task<Coche> GetByMatriculaWithoutServiceAsync(string matricula)
+        {
+            Coche coche = await _unitOfWork.CocheRepository.GetByMatriculaWithoutServiceAsync(matricula);
+            return coche;
+        }
         public async Task<Coche> GetCocheByMatriculaForEmail(string matricula)
         {
             Coche coche = await _unitOfWork.CocheRepository.GetCocheByMatriculaForEmail(matricula);

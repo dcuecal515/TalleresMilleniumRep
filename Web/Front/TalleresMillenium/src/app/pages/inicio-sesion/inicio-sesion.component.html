@@ -1,19 +1,19 @@
 <div class="fondo-principal">
     @if(tieneCuenta){
         <div class="contenido">
-            <p class="titulo">Bienvenido de vuelta a Talleres Milenium</p>
-            <p class="subtitulo">El taller donde reparamos cualquier problema</p>
-            <p class="titulo-seccion">Inicio sesion</p>
+            <p class="titulo">{{'title-login'|translate}}</p>
+            <p class="subtitulo">{{'title-login2'|translate}}</p>
+            <p class="titulo-seccion">{{'login'|translate}}</p>
             <form class="formulario-login" [formGroup]="loginForm">
-            <input type="text" placeholder="Correo electrónico" class="inputs" [(ngModel)]="email" formControlName="email">
-            <input type="password" placeholder="Contraseña" class="inputs" [(ngModel)]="password" formControlName="password">
+            <input type="text" [placeholder]="'email'|translate" class="inputs" [(ngModel)]="email" formControlName="email">
+            <input type="password" [placeholder]="'password'| translate" class="inputs" [(ngModel)]="password" formControlName="password">
             <div class="recuerdame-div-login">
-                <p class="recuerdame-txt">Recuérdame</p>
+                <p class="recuerdame-txt">{{'remenber'|translate}}</p>
                 <input type="checkbox" class="recuerdame-CB" (click)="rememberUser = !rememberUser">
             </div>
             <div class="botones-login">
-                <p (click)="tieneCuenta=false" class="ir-a-RE">¿No tienes cuenta? create una aqui</p>
-                <button class="boton-registro" (click)="loginUser()">Iniciar Sesion</button>
+                <p (click)="tieneCuenta=false" class="ir-a-RE">{{'change-register'|translate}}</p>
+                <button class="boton-registro" (click)="loginUser()">{{'login'|translate}}</button>
             </div>
             </form>
         </div>
@@ -21,29 +21,29 @@
     }@else {
         
         <div class="contenido">
-            <p class="titulo">¡Gracias por elegirnos!</p>
-            <p class="subtitulo">Por favor rellene los campos sobre usted</p>
+            <p class="titulo">{{'title-register'|translate}}</p>
+            <p class="subtitulo">{{'title-register2'|translate}}</p>
             <form [formGroup]="signupForm1" class="formulario-login">
-                <input type="text" placeholder="Nombre y apellidos" class="inputs" id="nomYape" [(ngModel)]="nYApellido" formControlName="nYApellido">
-                <input type="text" placeholder="Dirección de correo electrónico" class="inputs" id="correo" [(ngModel)]="correo" formControlName="correo">
+                <input type="text" [placeholder]="'name'|translate" class="inputs" id="nomYape" [(ngModel)]="nYApellido" formControlName="nYApellido">
+                <input type="text" [placeholder]="'email'|translate" class="inputs" id="correo" [(ngModel)]="correo" formControlName="correo">
                 <div class="contenedor-subida-archivo inputs">
                     @if(imagenPerfil==null){
-                        <label>Imagen de perfil</label>
+                        <label>{{'image-perfil'|translate}}</label>
                     }@else if(imagenPerfil!=null){
                         <label>{{imagenPerfil_nombre}}</label>
                     }
                     <input type="file" id="imagenPerfil" accept="image/png, image/jpeg, image/jpg" (change)="alSeleccionarArchivoPerfil($event)" hidden>
-                    <button type="button" (click)="abrirSelectorArchivoPerfil()">Seleccionar una imagen</button>
+                    <button type="button" (click)="abrirSelectorArchivoPerfil()">{{'select-image' | translate }}</button>
                 </div>
-                <input type="password" placeholder="Nueva contraseña" class="inputs" id="contrasena" [(ngModel)]="contrasena" formControlName="contrasena">
-                <input type="password" placeholder="Repetir la contraseña" class="inputs" id="contrasena2" [(ngModel)]="contrasena2" formControlName="contrasena2">
+                <input type="password" [placeholder]="'password'| translate" class="inputs" id="contrasena" [(ngModel)]="contrasena" formControlName="contrasena">
+                <input type="password" [placeholder]="'password-repet'| translate" class="inputs" id="contrasena2" [(ngModel)]="contrasena2" formControlName="contrasena2">
             </form>
             <div class="recuerdame-div">
-                <p class="recuerdame-txt">Recuérdame</p>
+                <p class="recuerdame-txt">{{'remenber'|translate}}</p>
                 <input type="checkbox" class="recuerdame-CB" (click)="rememberUser = !rememberUser">
             </div>
-            <p (click)="tieneCuenta=true" class="ir-a-IS">Ya tienes cuenta inicia sesión ahora</p>
-            <button class="boton-C" (click)="registrarse()">Registrarse</button>
+            <p (click)="tieneCuenta=true" class="ir-a-IS">{{'change-login'|translate}}</p>
+            <button class="boton-C" (click)="registrarse()">{{'register'|translate}} </button>
         </div>
         <img src="/assets/logo-Taller.webp" class="logo-Taller">
         

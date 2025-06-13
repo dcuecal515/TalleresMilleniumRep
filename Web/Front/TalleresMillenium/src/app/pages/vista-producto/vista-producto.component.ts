@@ -16,16 +16,18 @@ import { CocheR } from '../../models/CocheR';
 import Swal from 'sweetalert2';
 import { Reserva } from '../../models/Reserva';
 import { environment } from '../../../environments/environment';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageService } from '../../service/language.service';
 
 @Component({
   selector: 'app-vista-producto',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, FormsModule, ReactiveFormsModule,CommonModule],
+  imports: [HeaderComponent, FooterComponent, FormsModule, ReactiveFormsModule,CommonModule,TranslateModule],
   templateUrl: './vista-producto.component.html',
   styleUrl: './vista-producto.component.css'
 })
 export class VistaProductoComponent {
-  constructor(private route: ActivatedRoute, private list: ListService, private formBuilder: FormBuilder, private valoracionService: ValoracionService, private carritoService: CarritoService) {
+  constructor(private route: ActivatedRoute, private list: ListService, private formBuilder: FormBuilder, private valoracionService: ValoracionService, private carritoService: CarritoService,private translate:LanguageService) {
     this.subidareview = this.formBuilder.group({
       texto: ['', [Validators.required]],
       puntuacion: ['', [Validators.required]]
@@ -54,6 +56,7 @@ export class VistaProductoComponent {
     } else if (sessionStorage.getItem("token")) {
       this.decoded = jwtDecode(sessionStorage.getItem("token"));
     }
+    this.translate.initLanguage()
   }
   async getservicioproducto(id: string, tipo: string) {
     console.log(tipo)
@@ -145,14 +148,15 @@ export class VistaProductoComponent {
         `;
     
         Swal.fire({
-          title: 'Selecciona un coche',
+          title: this.translate.instant('select-car'),
           html: htmlRadios,
           showCancelButton: true,
-          confirmButtonText: 'Seleccionar',
+          confirmButtonText: this.translate.instant('select'),
+          cancelButtonText: this.translate.instant('cancel'),
           preConfirm: () => {
             const selected = (document.querySelector('input[name="coche"]:checked') as HTMLInputElement)?.value;
             if (!selected) {
-              Swal.showValidationMessage('¡Debes seleccionar un coche!');
+              Swal.showValidationMessage(this.translate.instant('select-error-vehicule'));
               return null;
             }
             return selected;
@@ -188,8 +192,8 @@ export class VistaProductoComponent {
         }else{
           Swal.fire({
             icon: 'info',
-            title: 'Aviso',
-            text: "Ya has comentado este servicio"
+            title: this.translate.instant('warning'),
+            text: this.translate.instant('warning-comment-service')
           });
         }
       }else if(this.tipo == "producto"){
@@ -203,16 +207,16 @@ export class VistaProductoComponent {
         }else{
           Swal.fire({
                       icon: 'info',
-                      title: 'Aviso',
-                      text: "Ya has comentado este producto"
+                      title: this.translate.instant('warning'),
+                      text: this.translate.instant('warning-comment-product')
                     });
         }
       }
     } else {
       Swal.fire({
                   icon: 'info',
-                  title: 'Aviso',
-                  text: "Necesitas tanto rellenar el comentario como puntuar"
+                  title: this.translate.instant('warning'),
+                  text: this.translate.instant('warning-comment-null')
                 });
     }
   }

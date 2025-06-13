@@ -34,7 +34,6 @@
 }
 .titulo-seccion{
     color: white;
-    -webkit-text-stroke: black 1px;
     font-size: 25px;
     font-weight: bold;
     text-align: center;
