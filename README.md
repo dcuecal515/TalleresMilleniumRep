@@ -44,6 +44,11 @@ https://www.figma.com/design/mTFExJCn6NjFzF9NwDLIZV/Untitled?node-id=0-1&t=w3YqP
 # Video de Resumen de Punto de Control
 https://drive.google.com/file/d/1w_uf3H3mT0pK61x4p5AY0ap7_-ELO2bY/view?usp=sharing
 
+# URLS Y APK
+- Url front: https://talleres-millenium.vercel.app/
+- Url back: https://talleresmilemiun.runasp.net/
+- Descargar apk : https://drive.google.com/drive/folders/1klUqXZJAmyjw1bTVWil16eYa6yUD09JD?usp=sharing
+
 # Bibliografia
 ## Videos:
 - Video traducción de angular: https://www.youtube.com/watch?v=IEaroZtbieQ 
