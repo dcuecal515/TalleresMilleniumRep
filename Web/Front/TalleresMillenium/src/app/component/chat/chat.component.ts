@@ -57,12 +57,17 @@ export class ChatComponent {
           mensajes.push(mensaje)
           const chat:Chat = {username:message.userName,mensajes:mensajes}
           this.chats.push(chat)
-        }else{
+        }else if(this.chats.some(c=>c.username==message.userName)){
           this.chats.forEach(chat => {
             if(chat.username == message.userName){
               chat.mensajes.push(mensaje)
             }
           });
+        }else{
+          const mensajes:Mensaje[] = []
+          mensajes.push(mensaje)
+          const chat:Chat = {username:message.userName,mensajes:mensajes}
+          this.chats.push(chat)
         }
 
       }
