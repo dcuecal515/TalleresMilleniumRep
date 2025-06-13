@@ -152,7 +152,7 @@ export class AdministracionComponent implements OnInit{
 
   <div style="text-align: left; margin-top:10px;">
     <label><input type="radio" name="estado" value="Disponible" ${producto.disponible == "Disponible" ? 'checked' : ''}> ${this.translate.instant('available')}</label><br>
-    <label><input type="radio" name="estado" value="No disponible" ${producto.disponible == "No disponible" ? 'checked' : ''}> ${this.translate.instant('not available')}</label>
+    <label><input type="radio" name="estado" value="No disponible" ${producto.disponible == "No disponible" ? 'checked' : ''}> ${this.translate.instant('not-available')}</label>
     </div>
 
     <input type="file" id="imagen" accept="image/*" class="swal2-file"><br>`,
