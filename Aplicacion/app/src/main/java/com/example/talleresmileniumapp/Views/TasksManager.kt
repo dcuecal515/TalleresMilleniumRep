@@ -52,14 +52,18 @@ import androidx.navigation.NavHostController
 import com.example.talleresmileniumapp.Room.TasksViewModel
 import kotlinx.coroutines.delay
 import androidx.compose.foundation.lazy.items
+import com.example.talleresmileniumapp.Data.Routes
 import com.example.talleresmileniumapp.Themes.misFormas
+import com.example.talleresmileniumapp.ViewModels.AuthState
+import com.example.talleresmileniumapp.ViewModels.AuthViewModel
 
 @Composable
-fun TasksManager(navController: NavHostController,
+fun TasksManager(navController: NavHostController,authViewModel: AuthViewModel,
                  viewModel: TasksViewModel = viewModel(factory = TasksViewModel.Factory)
 ) {
 
     val context = LocalContext.current
+    val authState = authViewModel.authState.collectAsState()
 
     val taskList by viewModel.getAll().collectAsState(initial = emptyList())
     var taskDescription by remember { mutableStateOf("") }
@@ -70,6 +74,12 @@ fun TasksManager(navController: NavHostController,
     val mediumPriorityColor = Color(0xFF0E2059)
     val highPriorityColor = Color(0xFFE30B1F)
 
+    LaunchedEffect(authState.value) {
+        when (authState.value) {
+            is AuthState.Unauthenticated, is AuthState.Error -> navController.navigate(Routes.Login.route)
+            else -> Unit
+        }
+    }
 
     Column (
         modifier = Modifier

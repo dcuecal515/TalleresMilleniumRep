@@ -90,7 +90,7 @@ class AuthViewModel( application: Application) : AndroidViewModel(application){
             return
         }
         viewModelScope.launch {
-            _authState.value = AuthState.Loading
+            loading()
 
             val response = auth.login(email,password)
 
@@ -112,6 +112,12 @@ class AuthViewModel( application: Application) : AndroidViewModel(application){
             _authState.value = AuthState.Unauthenticated
         }
 
+    }
+
+    fun loading(){
+        viewModelScope.launch{
+            _authState.value = AuthState.Loading
+        }
     }
 
     suspend fun getUserDataAndSave(accessToken: String) {
