@@ -55,3 +55,4 @@ https://drive.google.com/file/d/1w_uf3H3mT0pK61x4p5AY0ap7_-ELO2bY/view?usp=shari
 - Para crear los estilos en android: https://material-foundation.github.io/material-theme-builder/
 - Documentacion utilizada en la parte web : Pdfs proporcionados por el profesor Jose
 - Documentacion de Sweet alert: https://sweetalert2.github.io/
+- Documentacion utilizada para retrofit: https://medium.com/@dheerubhadoria/jetpack-compose-android-app-with-mvvm-architecture-and-retrofit-api-integration-4eb61ca6fbf2
