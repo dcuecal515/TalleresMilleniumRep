@@ -91,6 +91,38 @@ export class AuthService {
     return result
   }
 
+  async deleteCar(matricula:string){
+    const result = await this.api.delete<Result>('User/coche',{matricula:matricula})
+
+    if(result.success){
+      Swal.fire({
+        icon: 'success',
+        title: 'Aviso',
+        text: "Se eliminó el coche con exito"
+      });
+    }else if(result.statusCode == 409){
+      Swal.fire({
+        icon: 'info',
+        title: 'Aviso',
+        text: "No existe el vehiculo seleccionado"
+      });
+    }else if(result.statusCode == 401){
+      Swal.fire({
+        icon: 'info',
+        title: 'Aviso',
+        text: "No tienes permiso de eliminar"
+      });
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Aviso',
+        text: "Error desconocido"
+      });
+    }
+
+    return result
+  }
+
   createFormImage(image:File):FormData{
     console.log(image)
     const formdata = new FormData()
