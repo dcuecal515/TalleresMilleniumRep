@@ -458,7 +458,7 @@ fun AllReservaEsperaScreen(
             if (reservaViewModel.reservasfinal.value == null) {
                 CircularProgressIndicator()
             }
-            else if (reservaViewModel.reservasespera.value!!.isEmpty()) {
+            else if (reservaViewModel.reservasfinal.value!!.isEmpty()) {
                 Text(context.getString(R.string.no_vehicles))
             }
             else {
