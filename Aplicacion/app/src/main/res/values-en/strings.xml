@@ -69,4 +69,6 @@
     <string name="accept_text">Accept</string>
     <string name="deleted_service">Deleted service</string>
     <string name="select_service">Select a service</string>
+    <string name="waiting">Waiting</string>
+    <string name="accepted_text">Accepted</string>
 </resources>
