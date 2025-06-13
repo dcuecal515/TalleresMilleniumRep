@@ -12,11 +12,12 @@ import Swal from 'sweetalert2';
 import { ApiService } from '../../service/api.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from '../../service/language.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [HeaderComponent,TranslateModule],
+  imports: [DatePipe,HeaderComponent,TranslateModule],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
 })

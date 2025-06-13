@@ -59,7 +59,9 @@
                                 <button class="btn-ficha" (click)="ver_ficha(coche_actual.imagen)"><i class="fa-regular fa-eye icon-eye"></i></button>
                             }
                         </div>
-                        <button class="btn-eliminar" (click)="eliminarCoche(coche_actual.matricula)">Eliminar</button>
+                        @if(user.coches.length > 0){
+                        <button class="btn-eliminar" (click)="eliminarCoche(coche_actual.matricula)">{{'delete' | translate }}</button>
+                        }
                     </div>
                 </div>
                 <div class="services">
@@ -80,7 +82,7 @@
                                         <td>{{servicio.estado}}</td>
                                         <td>{{servicio.nombre}}</td>
                                         <td>{{servicio.descripcion}}</td>
-                                        <td>{{servicio.fecha}}</td>
+                                        <td>{{servicio.fecha | date: 'dd/MM/yyyy'}}</td>
                                     </tr>
                                 }
                             }

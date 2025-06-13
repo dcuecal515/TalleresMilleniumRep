@@ -10,13 +10,14 @@ import { Image } from '../models/Image';
 import { Coche } from '../models/Coche';
 import { NewCoche } from '../models/NewCoche';
 import Swal from 'sweetalert2';
+import { LanguageService } from './language.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private api:ApiService) { }
+  constructor(private api:ApiService,private translate:LanguageService) { }
 
   async login(login:Login):Promise<Result<Token>> {
     const result=await this.api.post<Token>('Auth/login',login)
@@ -35,8 +36,8 @@ export class AuthService {
     }else{
         Swal.fire({
                 icon: 'error',
-                title: 'Aviso',
-                text: "Este correo ya esta enlazado con otra cuenta"
+                title: this.translate.instant('warning'),
+                text: this.translate.instant('error-email')
                 });
     }
     return result 
@@ -97,26 +98,26 @@ export class AuthService {
     if(result.success){
       Swal.fire({
         icon: 'success',
-        title: 'Aviso',
-        text: "Se eliminó el coche con exito"
+        title:  this.translate.instant('good'),
+        text: this.translate.instant('"vehicule-delete')
       });
     }else if(result.statusCode == 409){
       Swal.fire({
         icon: 'info',
-        title: 'Aviso',
-        text: "No existe el vehiculo seleccionado"
+        title:  this.translate.instant('warning'),
+        text: this.translate.instant('error-vehicule')
       });
     }else if(result.statusCode == 401){
       Swal.fire({
         icon: 'info',
-        title: 'Aviso',
-        text: "No tienes permiso de eliminar"
+        title:  this.translate.instant('warning'),
+        text: this.translate.instant('not-permision')
       });
     }else{
       Swal.fire({
         icon: 'error',
-        title: 'Aviso',
-        text: "Error desconocido"
+        title:  this.translate.instant('warning'),
+        text:  this.translate.instant('error-unknow')
       });
     }
 

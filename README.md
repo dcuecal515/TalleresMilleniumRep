@@ -36,10 +36,28 @@ Realizar una web y una aplicación móvil que sean realistas y funcionales para 
 - Mysql
 
 # Base de datos
-![image](https://github.com/user-attachments/assets/8484c72a-34f1-4a9f-9389-4c79e48ccc6e)
+![Base de datos](https://github.com/user-attachments/assets/4688dfc9-94d6-4eaf-98f6-751e77fdbd5b)
 
 # Figma
 https://www.figma.com/design/mTFExJCn6NjFzF9NwDLIZV/Untitled?node-id=0-1&t=w3YqPoKl8HtcZTwb-1
 
 # Video de Resumen de Punto de Control
 https://drive.google.com/file/d/1w_uf3H3mT0pK61x4p5AY0ap7_-ELO2bY/view?usp=sharing
+
+# URLS Y APK
+- Url front: https://talleres-millenium.vercel.app/
+- Url back: https://talleresmilemiun.runasp.net/
+- Descargar apk : https://drive.google.com/drive/folders/1klUqXZJAmyjw1bTVWil16eYa6yUD09JD?usp=sharing
+
+# Bibliografia
+## Videos:
+- Video traducción de angular: https://www.youtube.com/watch?v=IEaroZtbieQ 
+- Video de mapa en Power By Desktop: https://www.youtube.com/watch?v=yZ7XeJwC6uY&t=0s
+- Video para emails: https://www.youtube.com/watch?v=Yv_Wh0zjMw4
+- Video para cambiar logo en android studio: https://youtu.be/bJjHgWjiAKw?si=eh25GKM_hji2PW8W
+## Documentacion:
+- Documentacion android utilizada para compose: https://www.jetpackcompose.pro/home/guide/
+- Para crear los estilos en android: https://material-foundation.github.io/material-theme-builder/
+- Documentacion utilizada en la parte web : Pdfs proporcionados por el profesor Jose
+- Documentacion de Sweet alert: https://sweetalert2.github.io/
+- Documentacion utilizada para retrofit: https://medium.com/@dheerubhadoria/jetpack-compose-android-app-with-mvvm-architecture-and-retrofit-api-integration-4eb61ca6fbf2
