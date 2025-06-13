@@ -52,6 +52,10 @@ https://drive.google.com/file/d/1w_uf3H3mT0pK61x4p5AY0ap7_-ELO2bY/view?usp=shari
 - Url back: https://talleresmilemiun.runasp.net/
 - Descargar apk : https://drive.google.com/drive/folders/1klUqXZJAmyjw1bTVWil16eYa6yUD09JD?usp=sharing
 
+# Presentacion del proyecto
+
+pdf: [Realizado por Francisco SIles España Daniel Cuenca Calderon.pdf](https://github.com/user-attachments/files/20730281/Realizado.por.Francisco.SIles.Espana.Daniel.Cuenca.Calderon.pdf)
+
 # Bitacora
 ## Semana 17-23 de marzo
 ### Daniel
