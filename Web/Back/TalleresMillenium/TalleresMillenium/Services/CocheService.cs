@@ -32,5 +32,10 @@ namespace TalleresMillenium.Services
             Coche coche = await _unitOfWork.CocheRepository.GetCocheByMatriculaForEmail(matricula);
             return coche;
         }
+        public async Task DeleteCoche(Coche coche)
+        {
+            _unitOfWork.CocheRepository.Delete(coche);
+            await _unitOfWork.SaveAsync();
+        }
     }
 }
