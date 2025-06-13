@@ -6,9 +6,9 @@ Francisco Siles España
 Daniel Cuenca Calderón
 
 # Descripción
-Queremos elaborar una web y una aplicación móvil para un taller de vehículos, donde los usuarios, al iniciar sesión, deban ingresar su vehículo y los datos de este para recibir avisos sobre cuándo deben asistir al taller para una revisión.
+Queremos elaborar una web y una aplicación móvil para un taller de vehículos.
 Además, los usuarios podrán registrar más coches que estén a su nombre y visualizar los servicios disponibles que pueden realizarles. También tendrán acceso a un chat con el taller para mantenerse en contacto.
-El taller contará con una lista de espera de clientes para poder contactarlos a través de su correo electrónico. A los usuarios les llegará un correo con la fecha para llevar su vehículo y, si no pueden asistir en esa fecha, podrán cambiarla a través de un enlace incluido en el mismo correo.
+El taller contará con una lista de espera de clientes para poder contactarlos a través de su correo electrónico. A los usuarios les llegará un correo con la fecha para llevar su vehículo.
 
 # Objetivos del Proyecto
 
