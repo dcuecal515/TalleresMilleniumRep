@@ -98,26 +98,26 @@ export class AuthService {
     if(result.success){
       Swal.fire({
         icon: 'success',
-        title: 'Aviso',
-        text: "Se eliminó el coche con exito"
+        title:  this.translate.instant('good'),
+        text: this.translate.instant('"vehicule-delete')
       });
     }else if(result.statusCode == 409){
       Swal.fire({
         icon: 'info',
-        title: 'Aviso',
-        text: "No existe el vehiculo seleccionado"
+        title:  this.translate.instant('warning'),
+        text: this.translate.instant('error-vehicule')
       });
     }else if(result.statusCode == 401){
       Swal.fire({
         icon: 'info',
-        title: 'Aviso',
-        text: "No tienes permiso de eliminar"
+        title:  this.translate.instant('warning'),
+        text: this.translate.instant('not-permision')
       });
     }else{
       Swal.fire({
         icon: 'error',
-        title: 'Aviso',
-        text: "Error desconocido"
+        title:  this.translate.instant('warning'),
+        text:  this.translate.instant('error-unknow')
       });
     }
 

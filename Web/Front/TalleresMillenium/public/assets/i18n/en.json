@@ -161,5 +161,7 @@
     "reserve-good":"Successful booking",
     "error-service":"This service is already added to your cart",
     "error-vehicule":"The selected vehicle does not exist",
-    "error-unknow":"Unknown error"
+    "error-unknow":"Unknown error",
+    "vehicule-delete":"Vehicle was successfully removed",
+    "not-permision":"You are not allowed to delete"
 }

@@ -161,5 +161,7 @@
     "reserve-good":"Reserva realizada con exito",
     "error-service":"Este servicio ya esta agregado al carrito",
     "error-vehicule":"No existe el vehiculo seleccionado",
-    "error-unknow":"Error desconocido"
+    "error-unknow":"Error desconocido",
+    "vehicule-delete":"Se eliminó el vehiculo con exito",
+    "not-permision":"No tienes permiso de eliminar"
 }
