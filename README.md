@@ -175,3 +175,6 @@ pdf: [Realizado por Francisco SIles España Daniel Cuenca Calderon.pdf](https://
 - Documentacion utilizada en la parte web : Pdfs proporcionados por el profesor Jose
 - Documentacion de Sweet alert: https://sweetalert2.github.io/
 - Documentacion utilizada para retrofit: https://medium.com/@dheerubhadoria/jetpack-compose-android-app-with-mvvm-architecture-and-retrofit-api-integration-4eb61ca6fbf2
+
+# Video final 
+- URL: https://drive.google.com/file/d/1Re4J_80TBQ6eo3BZbc2F2bKVrKJWjJlI/view?usp=sharing
