@@ -210,20 +210,20 @@ fun AllReservaEsperaScreen(
         if (reservaViewModel.reservasespera.value == null) {
             CircularProgressIndicator()
         } else if (reservaViewModel.reservasespera.value!!.isEmpty()) {
-            Text("No hay reservas todavía")
+            Text(context.getString(R.string.no_reservations_text))
         } else {
             LazyColumn {
                 items(reservas!!) { reserva ->
                     ShowReserva(
                         reserva,
                         Icons.Default.Check,
-                        "Aceptar",
+                        context.getString(R.string.accept_text),
                         Icons.Default.Delete,
                         "Eliminar",
                         onClickAction1 = {
                             coroutineScope.launch {
                                 snackbarHostState.showSnackbar(
-                                    "Vas a aceptar los servicios solicitados por el vehículo con matrícula: ${reserva.matricula}",
+                                    context.getString(R.string.accept_reservation_text)+": ${reserva.matricula}",
                                     duration = SnackbarDuration.Short
                                 )
                                 val calendar = Calendar.getInstance()
@@ -234,7 +234,7 @@ fun AllReservaEsperaScreen(
                                         fechaSeleccionada = selectedDate
                                         coroutineScope.launch {
                                             snackbarHostState.showSnackbar(
-                                                "Fecha seleccionada para ${reserva.matricula}: $selectedDate"
+                                                context.getString(R.string.selected_date_text)+" ${reserva.matricula}: $selectedDate"
                                             )
                                             reservaViewModel.putAceptada(reserva.fecha, reserva.matricula, selectedDate.toString())
                                         }
@@ -267,19 +267,19 @@ fun AllReservaEsperaScreen(
                             selectedServicioId?.let { servicioId ->
                                 coroutineScope.launch {
                                     reservaViewModel.deleteReserva(servicioId)
-                                    snackbarHostState.showSnackbar("Servicio eliminado")
+                                    snackbarHostState.showSnackbar(context.getString(R.string.deleted_service))
                                 }
                             }
                         }) {
-                            Text("Eliminar")
+                            Text(context.getString(R.string.delete_text))
                         }
                     },
                     dismissButton = {
                         Button(onClick = { showDialog = false }) {
-                            Text("Cancelar")
+                            Text(context.getString(R.string.exit_cancel))
                         }
                     },
-                    title = { Text("Selecciona un servicio") },
+                    title = { Text(context.getString(R.string.select_service)) },
                     text = {
                         Column {
                             selectedReserva?.servicios?.forEach { servicio ->

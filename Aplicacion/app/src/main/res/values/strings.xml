@@ -65,4 +65,7 @@
     <string name="delete_user_description_text">El usuario va a ser borrado permanentemente</string>
     <string name="make_admin_text">Hacer admin</string>
     <string name="make_user_text">Hacer usuario</string>
+    <string name="accept_text">Aceptar</string>
+    <string name="deleted_service">Servicio eliminado</string>
+    <string name="select_service">Selecciona un servicio</string>
 </resources>
