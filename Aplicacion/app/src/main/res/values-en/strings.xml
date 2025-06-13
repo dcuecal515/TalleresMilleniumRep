@@ -66,4 +66,7 @@
     <string name="delete_user_description_text">This user will be permanently deleted</string>
     <string name="make_admin_text">Make admin</string>
     <string name="make_user_text">Make user</string>
+    <string name="accept_text">Accept</string>
+    <string name="deleted_service">Deleted service</string>
+    <string name="select_service">Select a service</string>
 </resources>
