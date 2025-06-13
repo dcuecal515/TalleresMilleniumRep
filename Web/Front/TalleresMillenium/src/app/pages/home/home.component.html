@@ -6,20 +6,20 @@
         <h1>{{'title-home' | translate}}</h1>
     </div>
     <div class="principal-fotos">
-        <img class="imagen-taller" src="assets/paisaje1.webp" alt="">
-        <img class="imagen-taller" src="assets/paisaje2.webp" alt="">
+        <img class="imagen-taller" src="assets/imagen1.webp" alt="">
+        <img class="imagen-taller" src="assets/imagen2.webp" alt="">
     </div>
     <div class="principal-horario">
-        <h1>Horarios</h1>
-        <table>
+        <h1>{{'timetable' | translate}}</h1>
+        <table class="tabla">
             <tr>
-                <th>Lunes</th>
-                <th>Martes</th>
-                <th>Miércoles</th>
-                <th>Jueves</th>
-                <th>Viernes</th>
-                <th>Sabado</th>
-                <th>Domingo</th>
+                <th>{{'monday' | translate}}</th>
+                <th>{{'tuesday' | translate}}</th>
+                <th>{{'wednesday' | translate}}</th>
+                <th>{{'thursday' | translate}}</th>
+                <th>{{'friday' | translate}}</th>
+                <th>{{'saturday' | translate}}</th>
+                <th>{{'sunday' | translate}}</th>
             </tr>
             <tr>
                 <td>9h-19h</td>
@@ -27,13 +27,19 @@
                 <td>9h-19h</td>
                 <td>9h-19h</td>
                 <td>9h-19h</td>
-                <td>cerrado</td>
-                <td>cerrado</td>
+                <td>{{'close' | translate}}</td>
+                <td>{{'close' | translate}}</td>
             </tr>
         </table>
+        <div class="tabla-responsive">
+            <div class="dia" *ngFor="let dia of dias">
+              <span class="titulo-dia">{{ dia.nombre }}</span>
+              <span class="hora-dia">{{ dia.horario }}</span>
+            </div>
+        </div>
     </div>
     <div class="principal-marcas">
-        <h1>Marcas con las que trabajamos</h1>
+        <h1>{{'mark' | translate}}</h1>
         <div class="principal-marcas-imagenes">
             <img class="imagenes-marcas" src="assets/knorr.webp" alt="">
             <img class="imagenes-marcas" src="assets/jaltest.webp" alt="">
@@ -44,16 +50,22 @@
         </div>
     </div>
     <div class="principal-mapa">
-        <h1>¿Donde nos encontramos?</h1>
+        <h1>{{'site' | translate}}</h1>
         <h2>C. Casares, 26, Poligono Azucarera, 29004 Málaga</h2>
-        <iframe
+        <div class="mapa-wrapper">
+          <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1599.8420138842348!2d-4.4645283288668285!3d36.68209747656104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd72f9040e359045%3A0x5502c653c08ed1ce!2sTalleres%20Milenium%20VI%20S.L.!5e0!3m2!1ses!2ses!4v1745000245342!5m2!1ses!2ses"
-            width="1500" height="600" style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
+            class="iframe-mapa"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
     </div>
     <div class="chat">
         <app-chat></app-chat>
     </div>
+    
     <div>
         <app-footer></app-footer>
     </div>

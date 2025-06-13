@@ -1,17 +1,20 @@
+<div>
+    <app-header></app-header>
+</div>
 <div class="principal">
     <h1 class="titulo1">Administración</h1>
     <div class="panel-container">
 
         <div class="botones">
-            <button (click)="getallUser()">Usuarios</button>
-            <button (click)="getallproduct()">Productos</button>
-            <button (click)="getallservicios()">Servicios</button>
-            <button>Solicitudes</button>
+            <button (click)="getallUser()">{{'users'| translate}}</button>
+            <button (click)="getallproduct()">{{'product' | translate}}</button>
+            <button (click)="getallservicios()">{{'service' | translate}}</button>
+            <button (click)="getallcocheservicio()">{{'requests' | translate}}</button>
         </div>
 
         @if(verusuarios==true){
         <div class="cuadro">
-            <h1>Usuarios</h1>
+            <h1 class="titulosPagina">{{'users'| translate}}</h1>
             @for(item of listusers; track $index){
                 <div class="fila">
                 <img class="imagen" [src]="item.imagen" alt="imagen de usuarios">
@@ -21,12 +24,12 @@
                 </div>
                 <div class="acciones">
                     @if(item.rol!="Admin"){
-                        <button class="editar" (click)="putadmin(item.id,item.rol)">Hacer admin</button>
+                        <button class="editar" (click)="putadmin(item.id,item.rol)">{{'change-admin'| translate}}</button>
                     }@else if(item.rol=="Admin" && item.email!="example@gmail.com"){
-                        <button class="editar" (click)="putadmin(item.id,item.rol)">Hacer Usuario</button>
+                        <button class="editar" (click)="putadmin(item.id,item.rol)">{{'change-user'| translate}}</button>
                     }
                     @if(item.email!="example@gmail.com"){
-                        <button class="eliminar" (click)="deleteuser(item.id)">Eliminar</button>
+                        <button class="eliminar" (click)="deleteuser(item.id)">{{ 'delete' | translate}}</button>
                     }
                 </div>
             </div>
@@ -35,8 +38,8 @@
         }
         @if(verproductos==true){
         <div class="cuadro">
-            <h1>Productos</h1>
-            <button class="editar" (click)="addproduct()">Añadir producto</button>
+            <h1 class="titulosPagina">{{'product' | translate}}</h1>
+            <button class="agregarNuevo" (click)="addproduct()">{{'add-product' | translate }}</button>
             @for(item of listproducts; track $index){
                 <div class="fila">
                 <img class="imagen" [src]="item.imagen" alt="imagen de productos">
@@ -46,8 +49,8 @@
                     <p class="texto">{{item.disponible}}</p>
                 </div>
                 <div class="acciones">
-                    <button class="editar" (click)="editproduct(item)">Editar</button>
-                    <button class="eliminar" (click)="deleteproduct(item.id)">Eliminar</button>
+                    <button class="editar" (click)="editproduct(item)">{{ 'edit' | translate}}</button>
+                    <button class="eliminar" (click)="deleteproduct(item.id)">{{ 'delete' | translate}}</button>
                 </div>
             </div>
             }
@@ -55,8 +58,8 @@
         }
         @if(verservicios==true){
         <div class="cuadro">
-            <h1>Servicios</h1>
-            <button class="editar" (click)="addservice()">Añadir Servicio</button>
+            <h1 class="titulosPagina">{{'service' | translate}}</h1>
+            <button class="agregarNuevo" (click)="addservice()">{{'add-service' | translate }}</button>
             @for(item of listservice; track $index){
                 <div class="fila">
                 <img class="imagen" [src]="item.imagen" alt="Imagen de servicios">
@@ -65,7 +68,59 @@
                     <p class="texto">{{item.descripcion}}</p>
                 </div>
                 <div class="acciones">
-                    <button class="editar" (click)="editservice(item)">Editar</button>
+                    <button class="editar" (click)="editservice(item)">{{ 'edit' | translate}}</button>
+                </div>
+            </div>
+            }
+        </div>
+        }
+        @if(vercocheservicio==true){
+        <div class="cuadro">
+            <h1 class="titulosPagina">{{ 'confirm-request' | translate}}</h1>
+            @for(item of listcocheserviciosespera; track $index){
+                <div class="fila">
+                @if(item.tipo == "Coche"){
+                                <img class="imagen" src="assets/coche2.webp">
+                            }@else if (item.tipo == "Camion") {
+                                <img class="imagen" src="assets/camion2.webp">
+                            }@else {
+                                <img class="imagen" src="assets/autobus2.webp">
+                            }
+                <div class="info">
+                    <h4 class="titulo">{{item.matricula}}</h4>
+                    @for(servicio of item.servicios; track $index){
+                        <p class="texto">{{servicio.nombre}}</p>
+                    }
+                    <p class="texto">{{item.fecha | date: 'dd/MM/yyyy'}}</p>
+                </div>
+                <div class="acciones">
+                    <button class="editar" (click)="acceptsolicitud(item.matricula,item.fecha)">{{'accept' | translate}}</button>
+                    <button class="eliminar" (click)="deletesolicitud(item.servicios)">{{'delete' | translate }}</button>
+                </div>
+            </div>
+            }
+        </div>
+        <div class="cuadro">
+            <h1 class="titulosPagina">{{'workshop-requests' | translate}}</h1>
+            <h3 class="titulo">{{'day' | translate}} {{hoy |  date: 'dd / MM / yyyy'}}</h3>
+            @for(item of listcocheserviciosfinal; track $index){
+                <div class="fila">
+                @if(item.tipo == "Coche"){
+                                <img class="imagen" src="assets/coche2.webp">
+                            }@else if (item.tipo == "Camion") {
+                                <img class="imagen" src="assets/camion2.webp">
+                            }@else {
+                                <img class="imagen" src="assets/autobus2.webp">
+                            }
+                <div class="info">
+                    <h4 class="titulo">{{item.matricula}}</h4>
+                    @for(servicio of item.servicios; track $index){
+                        <p class="texto">{{servicio.nombre}}</p>
+                    }
+                    <p class="texto">{{item.fecha | date: 'dd/MM/yyyy'}}</p>
+                </div>
+                <div class="acciones">
+                    <button class="editar" (click)="finishsolicitud(item.matricula,item.fecha)">{{'finished' | translate}}</button>
                 </div>
             </div>
             }

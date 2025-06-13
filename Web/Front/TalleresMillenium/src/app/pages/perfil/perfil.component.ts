@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
@@ -6,24 +6,36 @@ import { User } from '../../models/user';
 import { FullUser } from '../../models/FullUser';
 import { Coche } from '../../models/Coche';
 import { NewCoche } from '../../models/NewCoche';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
+import { HeaderComponent } from '../../component/header/header.component';
 import Swal from 'sweetalert2';
+import { ApiService } from '../../service/api.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageService } from '../../service/language.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [],
+  imports: [DatePipe,HeaderComponent,TranslateModule],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
 })
-export class PerfilComponent {
-  constructor(private authService:AuthService, public router:Router){
+export class PerfilComponent implements OnInit{
+  constructor(private authService:AuthService, private router:Router,private apiService:ApiService,private translate:LanguageService){
     if(localStorage.getItem("token")){
       this.decoded=jwtDecode(localStorage.getItem("token"));
     }else if(sessionStorage.getItem("token")){
       this.decoded=jwtDecode(sessionStorage.getItem("token"));
     }
+    if(this.decoded==null){
+      this.router.navigateByUrl('');
+    }
     this.getUser()
+  }
+
+  ngOnInit(){
+      this.translate.initLanguage()
   }
 
   decoded:User
@@ -62,14 +74,14 @@ export class PerfilComponent {
 
   async anadir_coche(){
     const { value: tipoRaw } = await Swal.fire({
-      title: 'Selecciona el tipo de vehículo',
+      title: this.translate.instant('select-type'),
       input: 'radio',
       inputOptions: {
-        coche: 'Coche',
-        autobus: 'Autobús',
-        camion: 'Camión'
+        coche: this.translate.instant('car'),
+        autobus: this.translate.instant('bus'),
+        camion: this.translate.instant('truck')
       },
-      inputValidator: value => !value && 'Debes seleccionar un tipo'
+      inputValidator: value => !value && this.translate.instant('select-type-error')
     });
   
     if (!tipoRaw) return;
@@ -77,7 +89,7 @@ export class PerfilComponent {
     const tipo = tipoRaw.charAt(0).toUpperCase() + tipoRaw.slice(1);
   
     const { value: matricula } = await Swal.fire({
-      title: 'Introduce la matrícula',
+      title: this.translate.instant('title-matricula'),
       input: 'text',
       inputAttributes: {
         pattern: '\\d{4}[A-Z]{3}',
@@ -85,7 +97,7 @@ export class PerfilComponent {
       },
       inputValidator: value => {
         if (!/^\d{4}[A-Z]{3}$/.test(value)) {
-          return 'Formato incorrecto. Usa 4 números y 3 letras mayúsculas (ej: 1234ABC)';
+          return this.translate.instant('error-matricula');
         }
         return null;
       }
@@ -94,22 +106,22 @@ export class PerfilComponent {
     if (!matricula) return;
   
     const { value: fecha_itv } = await Swal.fire({
-      title: 'Fecha de la última ITV',
+      title: this.translate.instant('title-fecha'),
       input: 'date',
-      inputValidator: value => !value && 'Debes seleccionar una fecha'
+      inputValidator: value => !value && this.translate.instant('error-fecha')
     });
   
     if (!fecha_itv) return;
   
     const { value: combustibleRaw } = await Swal.fire({
-      title: 'Selecciona el tipo de combustible',
+      title: this.translate.instant('select-type-fuel'),
       input: 'radio',
       inputOptions: {
-        diesel: 'Diésel',
-        gasolina: 'Gasolina',
-        electrico: 'Eléctrico'
+        diesel: this.translate.instant('select-type-diesel'),
+        gasolina: this.translate.instant('select-type-gasolina'),
+        electrico: this.translate.instant('select-type-electrico')
       },
-      inputValidator: value => !value && 'Debes seleccionar un tipo de combustible'
+      inputValidator: value => !value && this.translate.instant('error-select-type-fuel')
     });
   
     if (!combustibleRaw) return;
@@ -117,7 +129,7 @@ export class PerfilComponent {
     const combustible = combustibleRaw.charAt(0).toUpperCase() + combustibleRaw.slice(1);
   
     const { value: kilometraje } = await Swal.fire({
-      title: 'Introduce el kilometraje',
+      title: this.translate.instant('input-mileage'),
       input: 'number',
       inputAttributes: {
         min: '0',
@@ -126,7 +138,7 @@ export class PerfilComponent {
       inputValidator: (value) => {
         const num = Number(value);
         if (!value || isNaN(num) || num < 0) {
-          return 'Debes introducir un número válido';
+          return this.translate.instant('error-mileage');
         }
         return null;
       }
@@ -135,17 +147,17 @@ export class PerfilComponent {
     if (kilometraje === null) return;
   
     const { value: file } = await Swal.fire({
-      title: 'Sube la ficha técnica (imagen)',
+      title: this.translate.instant('image-tecnic'),
       input: 'file',
       inputAttributes: {
         accept: 'image/*'
       },
-      inputValidator: value => !value && 'Debes subir una imagen'
+      inputValidator: value => !value && this.translate.instant('error-image-tecnic')
     });
   
     if (!file) return;
   
-    Swal.fire('Coche registrado', 'Todos los datos fueron introducidos correctamente.', 'success');
+    Swal.fire(this.translate.instant('register-success'), this.translate.instant('register-success-text'), 'success');
 
     const newCoche:NewCoche = {
       tipo : tipo,
@@ -166,16 +178,26 @@ export class PerfilComponent {
     }
   }
 
+  async eliminarCoche(matricula:string){
+    const result = await this.authService.deleteCar(matricula)
+
+    if (result.success) {
+      this.user.coches = this.user.coches.filter(coche => coche.matricula !== matricula);
+      this.matricula_actual = this.user.coches[0].matricula
+      this.coche_actual = this.user.coches[0]
+    }
+  }
+
   cambiar_imagen(){
     Swal.fire({
-      title: 'Cambiar imagen de perfil',
+      title: this.translate.instant('change-image'),
       html: `
         <input type="file" id="image-input" class="swal2-file" accept="image/*" />
         <img id="preview" src="" style="margin-top: 10px; max-width: 100%; display: none;" />
       `,
       showCancelButton: true,
-      confirmButtonText: 'Guardar',
-      cancelButtonText: 'Cancelar',
+      confirmButtonText: this.translate.instant('save'),
+      cancelButtonText: this.translate.instant('cancel'),
       didOpen: () => {
         const input = document.getElementById('image-input') as HTMLInputElement;
         const preview = document.getElementById('preview') as HTMLImageElement;
@@ -196,7 +218,7 @@ export class PerfilComponent {
         const input = document.getElementById('image-input') as HTMLInputElement;
         const file = input.files?.[0];
         if (!file) {
-          Swal.showValidationMessage('Debes seleccionar una imagen');
+          Swal.showValidationMessage(this.translate.instant('input-image'));
           return undefined;
         }
         return file;
@@ -207,24 +229,25 @@ export class PerfilComponent {
   
         const result2 = await this.authService.changeImage(selectedFile)
         this.user.imagen = environment.images+result2.data.image
-  
-        Swal.fire('Imagen cargada', '', 'success');
+        Swal.fire(this.translate.instant('input-success-image'), '', 'success');
+        this.apiService.deleteToken();
+        this.router.navigateByUrl("inicio-sesion");
       }
     });
   }
 
   cambiar_nombre(){
     Swal.fire({
-      title: 'Cambiar nombre',
+      title: this.translate.instant('change-name'),
       input: 'text',
-      inputLabel: 'Nuevo nombre',
-      inputPlaceholder: 'Escribe tu nuevo nombre',
+      inputLabel: this.translate.instant('new-name'),
+      inputPlaceholder: this.translate.instant('new-name-placeholder'),
       showCancelButton: true,
-      confirmButtonText: 'Guardar',
-      cancelButtonText: 'Cancelar',
+      confirmButtonText: this.translate.instant('save'),
+      cancelButtonText: this.translate.instant('cancel'),
       inputValidator: (value) => {
         if (!value) {
-          return '¡El nombre no puede estar vacío!';
+          return this.translate.instant('warning-name');
         }
         return null;
       }
@@ -232,23 +255,25 @@ export class PerfilComponent {
       if (result.isConfirmed) {
         const result2 = await this.authService.changeName(result.value)
         this.user.name = result.value;
-        Swal.fire(`Nombre actualizado a: ${result.value}`);
+        Swal.fire(`${this.translate.instant('new-name-succes')} ${result.value}`);
+        this.apiService.deleteToken();
+        this.router.navigateByUrl("inicio-sesion");
       }
     });
   }
 
   cambiar_email(){
     Swal.fire({
-      title: 'Cambiar email',
+      title: this.translate.instant('change-email'),
       input: 'text',
-      inputLabel: 'Nuevo email',
-      inputPlaceholder: 'Escribe tu nuevo email',
+      inputLabel: this.translate.instant('new-email'),
+      inputPlaceholder:this.translate.instant('new-email-placeholder'),
       showCancelButton: true,
-      confirmButtonText: 'Guardar',
-      cancelButtonText: 'Cancelar',
+      confirmButtonText: this.translate.instant('save'),
+      cancelButtonText:  this.translate.instant('cancel'),
       inputValidator: (value) => {
         if (!value) {
-          return '¡El email no puede estar vacío!';
+          return this.translate.instant('email-input-error');
         }
         return null;
       }
@@ -257,32 +282,33 @@ export class PerfilComponent {
         const result2 = await this.authService.changeEmail(result.value)
         if(result2.success){
           this.user.email = result.value;
-          Swal.fire(`Email actualizado a: ${result.value}`);
+          Swal.fire(`${this.translate.instant('email-input-success')} ${result.value}`);
+          this.apiService.deleteToken();
+          this.router.navigateByUrl("inicio-sesion");
         }else{
-          Swal.fire("El correo ya esta registrado")
+          Swal.fire(this.translate.instant('update-email'))
         }
-        
       }
     });
   }
 
   cambiar_contrasena(){
     Swal.fire({
-      title: 'Cambiar contraseña',
+      title: this.translate.instant('change-password'),
       html: `
-        <input type="password" id="old-password" class="swal2-input" placeholder="Contraseña actual">
-        <input type="password" id="new-password" class="swal2-input" placeholder="Nueva contraseña">
+        <input type="password" id="old-password" class="swal2-input" placeholder="${this.translate.instant('current-password')}">
+        <input type="password" id="new-password" class="swal2-input" placeholder="${this.translate.instant('new-password')}">
       `,
       focusConfirm: false,
       showCancelButton: true,
-      confirmButtonText: 'Cambiar',
-      cancelButtonText: 'Cancelar',
+      confirmButtonText: this.translate.instant('save'),
+      cancelButtonText: this.translate.instant('cancel'),
       preConfirm: () => {
         const oldPassword = (document.getElementById('old-password') as HTMLInputElement).value;
         const newPassword = (document.getElementById('new-password') as HTMLInputElement).value;
   
         if (!oldPassword || !newPassword) {
-          Swal.showValidationMessage('Debes completar ambos campos');
+          Swal.showValidationMessage(this.translate.instant('request-password'));
           return undefined;
         }
   
@@ -294,9 +320,11 @@ export class PerfilComponent {
   
         const result2 = await this.authService.changeContrasena(oldPassword,newPassword)
         if(result2.success){
-          Swal.fire('Contraseña actualizada', '', 'success');
+          Swal.fire(this.translate.instant('update-password'), '', 'success');
+          this.apiService.deleteToken();
+          this.router.navigateByUrl("inicio-sesion");
         }else{
-          Swal.fire('Contraseña incorrecta','','error')
+          Swal.fire(this.translate.instant('bad-password'),'','error')
         }
       }
     });
@@ -311,7 +339,7 @@ export class PerfilComponent {
       },
       html: `
         <img src=${src}
-             style="width: 100%; height: auto; object-fit: contain;" />
+            style="width: 100%; height: auto; object-fit: contain;" />
       `,
       width: '600px',
       padding: '0',

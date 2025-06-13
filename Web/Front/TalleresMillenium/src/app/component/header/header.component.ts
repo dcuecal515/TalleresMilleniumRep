@@ -23,6 +23,11 @@ export class HeaderComponent implements OnInit {
     }
   }
   decoded:User
+  menuVisible = false;
+
+  showMenu() {
+    this.menuVisible = !this.menuVisible;
+  }
 
   ngOnInit() {
       this.translate.initLanguage()
@@ -32,20 +37,11 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl(route)
   }
 
-  async cerrarSesion() {
+  cerrarSesion() {
     this.apiService.deleteToken();
-    await this.router.navigateByUrl("inicio-sesion");
-    window.location.reload()
+    this.router.navigateByUrl("inicio-sesion");
   }
 
-  changeoption(){
-    const language=localStorage.getItem('language');
-    if(language=='en'){
-      this.changelanguage('es');
-    }else{
-      this.changelanguage('en');
-    }
-  }
   changelanguage(lang:string){
     this.translate.changeLanguage(lang);
   }

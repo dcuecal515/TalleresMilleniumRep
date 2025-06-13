@@ -1,17 +1,17 @@
 <div class="principal">
-    <div>
+    <header>
         <app-header></app-header>
-    </div>
+    </header>
     <div class="titulo">
         @if(tipo=="servicios"){
-        <h1>{{'service' | translate }}</h1>
+        <h1 class="estilo-titulo">{{'service' | translate }}</h1>
         }@else if (tipo=="productos") {
-        <h1>{{'product' | translate }}</h1>
+        <h1 class="estilo-titulo">{{'product' | translate }}</h1>
         }
-        <div class="buscador">
-            <form (ngSubmit)="search()">
-                <input type="text" name="busqueda" [(ngModel)]="busqueda" placeholder="Buscar" size="40">
-                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        <div>
+            <form class="buscador" (ngSubmit)="search()">
+                <input class="buscar" type="text" name="busqueda" [(ngModel)]="busqueda" [placeholder]="'search'|translate" size="40">
+                <button class="boton-search"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
         </div>
         @if (tipo == 'servicios') {
@@ -21,13 +21,13 @@
             <div class="lista-carta">
                 <img class="lista-image" [src]="item.imagen" alt="Fotos servicios" />
                 <h2>{{ item.nombre }}</h2>
-                <h3>valoracion: {{ item.valoracion | number:'1.1-1' }}<i class="fa-regular fa-star fa-flip fa-lg" style="color: #FFD43B"></i></h3>
-                <button class="lista-boton" (click)="goToContent(item.id)">Ver más</button>
+                <h3>{{'rating' | translate}}: {{ item.valoracion | number:'1.1-1' }}<i class="fa-regular fa-star fa-flip fa-lg" style="color: #FFD43B"></i></h3>
+                <button class="lista-boton" (click)="goToContent(item.id)">{{"show-more" | translate}}</button>
             </div>
             }
         </div>
         } @else {
-        <h2>Ha habido un problema al cargar los servicios</h2>
+        <h2>{{'text-problem-service' | translate}}</h2>
         }
         }
         @if (tipo == 'productos') {
@@ -37,20 +37,24 @@
             <div class="lista-carta">
                 <img class="lista-image" [src]="item.imagen" alt="Fotos productos" />
                 <h2>{{ item.nombre }}</h2>
-                <h3>valoracion: {{ item.valoracion }}<i class="fa-regular fa-star fa-flip fa-lg" style="color: #FFD43B"></i></h3>
-                <h4>{{item.disponible}}</h4>
+                <h3>{{'rating' | translate}}: {{ item.valoracion | number:'1.1-1' }}<i class="fa-regular fa-star fa-flip fa-lg" style="color: #FFD43B"></i></h3>
+                @if(item.disponible=="Disponible"){
+                    <h4>{{'available'|translate}}</h4>
+                }@else if (item.disponible=="No disponible") {
+                    <h4>{{'not available'|translate}}</h4>
+                }
                 <button class="lista-boton" (click)="goToContent(item.id)">Ver más</button>
             </div>
             }
         </div>
         } @else {
-        <h2>Ha habido un problema al cargar los productos</h2>
+        <h2>{{'text-problem-product' | translate}}</h2>
         }
         }
         <div class="games-history-btns">
             <button disabled (click)="firstPage()" id="firstBtn"><i class="fa-solid fa-angles-left"></i></button>
             <button disabled (click)="prevPage()" id="prevBtn"><i class="fa-solid fa-angle-left"></i></button>
-            <select id="games-per-page" (change)="changeNumberOfGames()" class="games-per-page">
+            <select id="games-per-page" (change)="changeNumberOfServiceProduct()" class="games-per-page">
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="15">15</option>
@@ -65,7 +69,8 @@
             }
         </div>
     </div>
-    <div>
+    <br>
+    <footer>
         <app-footer></app-footer>
-    </div>
+    </footer>
 </div>

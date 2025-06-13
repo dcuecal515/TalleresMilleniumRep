@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Hermeneus+One&display=swap');
 .fondo-principal{
     background-image: url(/assets/fondoIS.webp);
     height: 100vh;
@@ -6,6 +5,8 @@
     display: flex;
     justify-content: center;
     font-family: sans-serif;
+    position: relative;
+    overflow-y: auto;
 }
 .contenido{
     width: 50%;
@@ -33,7 +34,6 @@
 }
 .titulo-seccion{
     color: white;
-    -webkit-text-stroke: black 1px;
     font-size: 25px;
     font-weight: bold;
     text-align: center;
@@ -127,8 +127,9 @@
     padding: 1%;
     padding-left: 6%;
     padding-right: 6%;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-radius: 20px;
+    width: 60%;
+    align-self: center;
     border-color: transparent;
     color: white;
     background-color: #C62828;
@@ -147,7 +148,7 @@
     padding: 1%;
     padding-left: 6%;
     padding-right: 6%;
-    border-radius: 5px;
+    border-radius: 20px;
     border-color: transparent;
     color: white;
     background-color: #C62828;
@@ -160,21 +161,27 @@
     flex-direction: column;
     justify-content: center;
     gap: 15%;
+    width: 50%;
 }
 .recuerdame-div-login{
     display: flex;
     flex-direction: row;
     margin-bottom: 0;
     cursor: pointer;
+    width: 50%;
 }
 .boton-C:hover{
     background-color: #a32323;
 }
-.logo-Taller{
+.logo-Taller {
     position: absolute;
     width: 25%;
-    top: 53%;
-    left: 37%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.7;
+    z-index: 0;
+    pointer-events: none;
 }
 .tipo-div{
     display: flex;
@@ -223,4 +230,80 @@
 }
 .btn-I:hover, .btn-C:hover, .btn-D:hover{
     background-color: #303030;
+}
+
+@media (max-width: 1024px) {
+    .contenido {
+      width: 70%;
+      padding: 4%;
+    }
+    .logo-Taller {
+      width: 35%;
+    }
+}
+  
+@media (max-width: 768px) {
+    .contenido {
+      width: 90%;
+      padding: 5%;
+    }
+    .inputs {
+      width: 80%;
+    }
+    .recuerdame-div,
+    .ir-a-IS,
+    .ir-a-RE {
+      padding-left: 10%;
+    }
+    .logo-Taller {
+      width: 45%;
+    }
+}
+
+@media (max-width: 628px){
+    .recuerdame-div-login{
+        width: 80%;
+    }
+    .botones-login{
+        width: 80%;
+    }
+}
+  
+@media (max-width: 480px) {
+    .titulo {
+      font-size: 25px;
+    }
+    .subtitulo {
+      font-size: 18px;
+    }
+    .titulo-seccion {
+      font-size: 20px;
+    }
+    .logo-Taller {
+      width: 60%;
+    }
+    .inputs {
+      width: 100%;
+    }
+    .boton-C, .boton-registro {
+      width: 100%;
+    }
+    .recuerdame-div-login{
+        width: 100%;
+    }
+    .botones-login{
+        width: 100%;
+    }
+}
+  
+@media (max-width: 320px) {
+    .contenido {
+      padding: 6%;
+    }
+    .logo-Taller {
+      width: 70%;
+    }
+    .recuerdame-div, .ir-a-IS, .ir-a-RE {
+      padding-left: 5%;
+    }
 }

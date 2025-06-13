@@ -6,21 +6,27 @@ import { Reserva } from '../models/Reserva';
 import { Result } from '../models/result';
 import { ServicioCarrito } from '../models/ServicioCarrito';
 import { ElementoCarrito } from '../models/ElementoCarrito';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
+import Swal from 'sweetalert2';
+import { LanguageService } from './language.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarritoService {
 
-  constructor(private api:ApiService,private router:Router) {}
+  constructor(private api:ApiService,private router:Router,private translate:LanguageService) {}
 
   async getCoches(){
     const result=await this.api.get<CocheR[]>('Coche_Servicio/cochesR')
 
     if(result.data == null || result.data.length == 0){
       this.router.navigateByUrl("perfil")
-      alert("No tienes coches registra alguno")
+      Swal.fire({
+                  icon: 'info',
+                  title: this.translate.instant('warning'),
+                  text: this.translate.instant('error-coche')
+                });
       return null
     }
 
@@ -32,13 +38,29 @@ export class CarritoService {
     console.log("Result: ",result)
 
     if(result.success){
-      alert("Reserva realizada con exito")
+      Swal.fire({
+        icon: 'success',
+        title: this.translate.instant('good'),
+        text: this.translate.instant('reserve-good')
+      });
     }else if(result.statusCode == 409){
-      alert("Ya se agrego este servicio antes")
+      Swal.fire({
+        icon: 'info',
+        title: this.translate.instant('warning'),
+        text: this.translate.instant('error-service')
+      });
     }else if(result.statusCode == 401){
-      alert("No existe el coche seleccionado")
+      Swal.fire({
+        icon: 'info',
+        title: this.translate.instant('warning'),
+        text: this.translate.instant('error-vehicule')
+      });
     }else{
-      alert("Error desconocido")
+      Swal.fire({
+        icon: 'error',
+        title: this.translate.instant('warning'),
+        text: this.translate.instant('error-unknow')
+      });
     }
   }
 

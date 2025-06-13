@@ -28,12 +28,12 @@ namespace TalleresMillenium.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task<LoginResultDto> RegisterUser([FromForm] SignUpDto signUpDto)
+        public async Task<ActionResult<LoginResultDto>> RegisterUser([FromForm] SignUpDto signUpDto)
         {
             Boolean returnResult = await _userService.GetIfEmailExists(signUpDto.email);
             if (returnResult)
             {
-                return null;
+                return BadRequest();
             }
             string token = await _userService.RegisterUser(signUpDto);
             if (token == null)
@@ -42,6 +42,18 @@ namespace TalleresMillenium.Controllers
             }
             LoginResultDto loginResultDto = new LoginResultDto { accessToken = token };
             return loginResultDto;
+        }
+
+        [HttpPost("iniciarAdmin")]
+        public async Task<TokenRespuestaDto> LoginAdmin([FromBody] PeticionDto peticionDto)
+        {
+            Usuario user = await _userService.GetUserByEmailAndPassword(peticionDto.Email, peticionDto.Password);
+            if (user != null && user.Rol == "Admin")
+            {
+                string token = _userService.ObtainToken(user);
+                return new TokenRespuestaDto { AccessToken = token };
+            }
+            return null;
         }
     }
 }

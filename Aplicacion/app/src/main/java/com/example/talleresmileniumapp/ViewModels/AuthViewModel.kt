@@ -3,6 +3,7 @@ package com.example.talleresmileniumapp.ViewModels
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -15,6 +16,7 @@ import com.example.talleresmileniumapp.Repositories.AuthRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import com.auth0.android.jwt.JWT
 
 private val dataStoreName = "talleres_milenium_app_authentication";
 
@@ -41,8 +43,6 @@ class AuthViewModel( application: Application) : AndroidViewModel(application){
     private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
     //Variable para poder verlos en las vistas
     var authState: StateFlow<AuthState> = _authState
-    private val _userId = MutableStateFlow<String?>("")
-    val userId: StateFlow<String?> = _userId
     private val _userName = MutableStateFlow<String?>("")
     val userName: StateFlow<String?> = _userName
     private val _email = MutableStateFlow<String?>("")
@@ -63,7 +63,11 @@ class AuthViewModel( application: Application) : AndroidViewModel(application){
                     _userName.value = preferences[userNameSaved]
                     _email.value = preferences[emailSaved]
                     _accessToken.value = preferences[accessTokenSaved]
+                    if (!_accessToken.value.isNullOrEmpty()) {
+                        _authState.value = AuthState.Authenticated
+                    }
                 }
+
         }
     }
 
@@ -86,7 +90,7 @@ class AuthViewModel( application: Application) : AndroidViewModel(application){
             return
         }
         viewModelScope.launch {
-            _authState.value = AuthState.Loading
+            loading()
 
             val response = auth.login(email,password)
 
@@ -110,12 +114,20 @@ class AuthViewModel( application: Application) : AndroidViewModel(application){
 
     }
 
-    suspend fun getUserDataAndSave(accessToken: String) {
-        val response = auth.getAuthUser(accessToken)
+    fun loading(){
+        viewModelScope.launch{
+            _authState.value = AuthState.Loading
+        }
+    }
 
-        if (response != null) {
-            saveData(response.name,
-                response.email,
+    suspend fun getUserDataAndSave(accessToken: String) {
+        val jwt = JWT(accessToken)
+        val email = jwt.getClaim("email").asString()
+        val name = jwt.getClaim("name").asString()
+
+        if (email != null && name != null) {
+            saveData(name,
+                email,
                 accessToken)
         }
     }

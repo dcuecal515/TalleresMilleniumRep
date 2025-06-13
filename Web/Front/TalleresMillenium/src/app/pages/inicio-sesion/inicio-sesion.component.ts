@@ -1,24 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Login } from '../../models/login';
 import { ApiService } from '../../service/api.service';
 import { AuthService } from '../../service/auth.service';
-import { Result } from '../../models/result';
-import { SignupCar } from '../../models/signupCar';
 import { SignupUser } from '../../models/signupUser';
 import { WebsocketService } from '../../service/websocket.service';
+import Swal from 'sweetalert2';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageService } from '../../service/language.service';
 
 @Component({
   selector: 'app-inicio-sesion',
   standalone: true,
 
-  imports: [FormsModule,ReactiveFormsModule],
+  imports: [FormsModule,ReactiveFormsModule,TranslateModule],
   templateUrl: './inicio-sesion.component.html',
   styleUrl: './inicio-sesion.component.css'
 })
-export class InicioSesionComponent {
-  constructor(private formBuilder: FormBuilder,private authservice:AuthService,private apiService:ApiService,private router:Router, private webSocketService:WebsocketService){
+export class InicioSesionComponent implements OnInit{
+  constructor(private formBuilder: FormBuilder,private authservice:AuthService,private apiService:ApiService,private router:Router, private webSocketService:WebsocketService,private translate:LanguageService){
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required,Validators.email]],
       password: ['', [Validators.required]]
@@ -36,7 +37,9 @@ export class InicioSesionComponent {
       tipo_combustible: ['', [Validators.required]]
     });
   }
-
+  ngOnInit(){
+      this.translate.initLanguage()
+  }
   loginForm: FormGroup;
   email="";
   password="";
@@ -108,27 +111,51 @@ export class InicioSesionComponent {
                   await this.rememberfunction()
                 }
               }else{
-                alert("Algún campo incorrecto")
+                Swal.fire({
+                            icon: 'error',
+                            title: this.translate.instant('warning'),
+                            text:  this.translate.instant('input-bad')
+                          });
               }
             }
             else{
-              alert("Las contraseñas tienen que ser iguales")
+              Swal.fire({
+                icon: 'error',
+                title: this.translate.instant('warning'),
+                text: this.translate.instant('password-error-equals')
+              });
             }
           }
           else{
-            alert("El segundo campo contraseña no puede estar vacio")
+            Swal.fire({
+              icon: 'error',
+              title: this.translate.instant('warning'),
+              text: this.translate.instant('password-null2')
+            });
           }
         }
         else{
-          alert("El campo contraseña no puede estar vacio")
+          Swal.fire({
+            icon: 'error',
+            title: this.translate.instant('warning'),
+            text: this.translate.instant('password-null')
+          });
         }
       }
       else{
-        alert("El campo correo no es valido")
+        Swal.fire({
+          icon: 'error',
+          title: this.translate.instant('warning'),
+          text: this.translate.instant('email-null')
+        });
       }
     }
     else{
-      alert("El campo nombre no puede estar vacio")
+      Swal.fire({
+        icon: 'error',
+        title: this.translate.instant('warning'),
+        text:  this.translate.instant('name-null')
+      });
     }
   }
   async loginUser():Promise<void>{
@@ -139,10 +166,18 @@ export class InicioSesionComponent {
       if(this.apiService.jwt!="" && this.apiService.jwt!=null){
         await this.rememberfunction()
       }else{
-        alert("Este usuario no existe")//poner sweetalert2
+        Swal.fire({
+          icon: 'error',
+          title: this.translate.instant('warning'),
+          text: this.translate.instant('user-null')
+        });
       }
     }else{
-      alert("Campos invalidos")//poner sweetalert2
+      Swal.fire({
+        icon: 'error',
+        title: this.translate.instant('warning'),
+        text: this.translate.instant('input-invalid')
+      });
     }
   }
 

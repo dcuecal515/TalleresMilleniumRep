@@ -28,10 +28,6 @@ namespace TalleresMillenium
         }
 
         public async Task<Chat> InsertChatAsync(Chat chat) {
-            foreach (var usuario in chat.Usuarios)
-            {
-                _unitOfWork.Context.Entry(usuario).State = EntityState.Unchanged;
-            }
             await _unitOfWork.ChatRepository.InsertAsync(chat);
             await _unitOfWork.SaveAsync();
             return chat;
@@ -41,6 +37,11 @@ namespace TalleresMillenium
         {
             await _unitOfWork.MensajeRepository.InsertAsync(mensaje);
             await _unitOfWork.SaveAsync();
+        }
+
+        public async Task<Usuario[]> GetAllAdmins()
+        {
+            return await _unitOfWork.UserRepository.GetAllAdmins();
         }
     }
 }

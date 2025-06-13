@@ -22,11 +22,17 @@ namespace TalleresMillenium
         public DbSet<Valoracion> Valoraciones { get; set; }
         public DbSet<Coche_Servicio> Coche_Servicios { get; set; }
         public DbSet<Producto> Productos { get; set; }
+        public DbSet<ChatUsuario> ChatUsuarios { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            #if DEBUG
             string baseDir = AppDomain.CurrentDomain.BaseDirectory;
             optionsBuilder.UseSqlite($"DataSource={baseDir}{DATABASE_PATH}");
+            #else
+                string connection = "Server=db20891.databaseasp.net; Database=db20891; Uid=db20891; Pwd=bF+9Z2t!x%5J;";
+                optionsBuilder.UseMySql(connection,ServerVersion.AutoDetect(connection));
+            #endif
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

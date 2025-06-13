@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Productlist } from '../models/productlist';
 import { Servicio } from '../models/servicio';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { querypage } from '../models/querypage';
 import { Productlistreal } from '../models/productlistreal';
 import { Productlistproduct } from '../models/productlistproduct';
@@ -10,6 +10,7 @@ import { Producto } from '../models/producto';
 import { Product } from '../models/product';
 import { Result } from '../models/result';
 import { Service } from '../models/service';
+import { CocheServicioFullDto } from '../models/cocheServicioFull';
 
 @Injectable({
   providedIn: 'root'
@@ -77,6 +78,14 @@ export class ListService {
   }
   async deleteproduct(id:number){
     const result= await this.api.delete<Result>("Product",{id})
+  }
+  async getallCocheService():Promise<Result<CocheServicioFullDto[]>>{
+    const result = await this.api.get<CocheServicioFullDto[]>("Coche_Servicio",{},'json')
+    console.log(result.data)
+    if(result.data){
+      return result
+    }
+    return null;
   }
 }
 

@@ -5,13 +5,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FooterComponent } from '../../component/footer/footer.component';
 import { Productlist } from '../../models/productlist';
 import { ListService } from '../../service/list.service';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { querypage } from '../../models/querypage';
 import { Productlistreal } from '../../models/productlistreal';
 import { FormsModule } from '@angular/forms';
 import { Productlistproduct } from '../../models/productlistproduct';
 import { Productlist2 } from '../../models/productlist2';
 import { CommonModule } from '@angular/common';
+import { LanguageService } from '../../service/language.service';
 
 @Component({
   selector: 'app-tienda',
@@ -21,7 +22,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './tienda.component.css'
 })
 export class TiendaComponent {
-  constructor(private route: ActivatedRoute, private router: Router, private Listservice: ListService) {
+  constructor(private route: ActivatedRoute, private router: Router, private Listservice: ListService,private translate:LanguageService) {
   }
   tipo: string
   id: number
@@ -48,17 +49,23 @@ export class TiendaComponent {
         }
         this.getallproduct({ busqueda: this.busqueda, ActualPage: this.actualPage, ServicePageSize: this.pageSize })
       } else {
-        this.router.navigateByUrl("error")
+        this.router.navigateByUrl('')
       }
     });
+    this.translate.initLanguage()
   }
   search() {
     sessionStorage.setItem("busqueda", this.busqueda);
+    this.actualPage=1
     if(this.tipo=="servicios"){
       this.getallservice({ busqueda: this.busqueda, ActualPage: this.actualPage, ServicePageSize: this.pageSize })
     } else if(this.tipo == "productos"){
       this.getallproduct({ busqueda: this.busqueda, ActualPage: this.actualPage, ServicePageSize: this.pageSize })
     }
+    const firstBtn = document.getElementById("firstBtn") as HTMLButtonElement
+    const prevBtn = document.getElementById("prevBtn") as HTMLButtonElement
+    firstBtn.disabled = true
+    prevBtn.disabled = true
   }
   goToContent(id: number) {
     if (this.tipo == "servicios") {
@@ -115,7 +122,7 @@ export class TiendaComponent {
     console.log("despues: ", this.listaproductosultima)
   }
 
-  async changeNumberOfGames() {
+  async changeNumberOfServiceProduct() {
     const pagesSelect = document.getElementById("games-per-page") as HTMLInputElement | HTMLSelectElement;
     if (pagesSelect) {
       this.pageSize = parseInt(pagesSelect.value)

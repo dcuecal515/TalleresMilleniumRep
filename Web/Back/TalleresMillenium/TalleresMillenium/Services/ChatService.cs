@@ -25,13 +25,14 @@ namespace TalleresMillenium.Services
             
             foreach (var chat in chats)
             {
-                Usuario user = chat.Usuarios.FirstOrDefault(u => u.Rol != "Admin");
+                ChatUsuario chatUsuario = chat.ChatUsuarios.FirstOrDefault(u=>u.Usuario.Rol!="Admin");
+                Usuario user = chatUsuario.Usuario;
                 ICollection<Mensaje> mensajes = await _unitOfWork.MensajeRepository.GetAllMensajesByChatId(chat.Id);
                 List<MensajeDto> mensajeDtos = new List<MensajeDto>();
 
                 foreach (var mensaje in mensajes)
                 {
-                    Usuario userMensaje = await _unitOfWork.UserRepository.GetByIdAsync(mensaje.UserId);
+                    Usuario userMensaje = await _unitOfWork.UserRepository.GetByIdAsync(mensaje.UsuarioId);
 
                     MensajeDto mensajeDto = new MensajeDto
                     {
@@ -66,13 +67,14 @@ namespace TalleresMillenium.Services
 
             List<ChatDto> chatsDtos = new List<ChatDto>();
 
-            Usuario user = chat.Usuarios.FirstOrDefault(u => u.Rol != "Admin");
+            ChatUsuario chatUsuario = chat.ChatUsuarios.FirstOrDefault(u => u.Usuario.Rol != "Admin");
+            Usuario user = chatUsuario.Usuario;
             ICollection<Mensaje> mensajes = await _unitOfWork.MensajeRepository.GetAllMensajesByChatId(chat.Id);
             List<MensajeDto> mensajeDtos = new List<MensajeDto>();
 
             foreach (var mensaje in mensajes)
             {
-                Usuario userMensaje = await _unitOfWork.UserRepository.GetByIdAsync(mensaje.UserId);
+                Usuario userMensaje = await _unitOfWork.UserRepository.GetByIdAsync(mensaje.UsuarioId);
 
                 MensajeDto mensajeDto = new MensajeDto
                 {
@@ -92,6 +94,20 @@ namespace TalleresMillenium.Services
             chatsDtos.Add(chatDto);
 
             return chatsDtos;
+        }
+        public async Task DeleteManyChats(IEnumerable<int> ids)
+        {
+            ICollection<Chat> chats = await _unitOfWork.ChatRepository.GetAllAsync();
+            List<Chat> chatsaeliminar = new List<Chat>();
+            foreach (var chat in chats)
+            {
+                if (ids.Contains(chat.Id))
+                {
+                    chatsaeliminar.Add(chat);
+                }
+            }
+            _unitOfWork.ChatRepository.DeleteRange(chatsaeliminar);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

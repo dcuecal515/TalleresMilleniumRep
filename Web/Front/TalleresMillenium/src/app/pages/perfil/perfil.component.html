@@ -1,18 +1,20 @@
-<p class="go-back" (click)="this.router.navigateByUrl('')"><i class="fa-sharp fa-solid fa-left-long" style="color: #ff0000;"></i></p>
+<div>
+    <app-header></app-header>
+</div>
 @if(user){
+    <br>
     <div class="container">
-    
         <!-- Sección Usuario -->
         <div class="profile-section">
             <div class="user-image" (click)="cambiar_imagen()">
                 <img class="image" [src]="user.imagen">
             </div>
             <div class="user-data">
-                <p (click)="cambiar_nombre()"><strong>{{user.name}}</strong> <span class="edit" >Cambiar</span></p>
-                <p (click)="cambiar_email()"><strong>{{user.email}}</strong> <span class="edit" >Cambiar</span></p>
-                <p (click)="cambiar_contrasena()"><strong>Contraseña</strong> <span class="edit">Cambiar</span></p>
+                <p (click)="cambiar_nombre()"><strong>{{user.name}}</strong> <span class="edit" >{{ 'change' | translate }}</span></p>
+                <p (click)="cambiar_email()"><strong>{{user.email}}</strong> <span class="edit" >{{ 'change' | translate }}</span></p>
+                <p (click)="cambiar_contrasena()"><strong>{{ 'password' | translate }}</strong> <span class="edit">{{ 'change' | translate }}</span></p>
                 @if(decoded.role=="Admin"){
-                    <button (click)="goToRoute('admistracion')">Administración</button>
+                    <button class="btn-administracion" (click)="goToRoute('admistracion')">{{ 'admin' | translate }}</button>
                 }
             </div>
         </div>
@@ -43,31 +45,34 @@
                     </div>
                     <div class="car-details">
                         
-                        <p>Fecha_itv: @if(user.coches.length > 0){
+                        <p>{{ 'itv' | translate }} @if(user.coches.length > 0){
                             {{coche_actual.fecha_itv}}
                         }</p>
-                        <p>Tipo de combustible: @if(user.coches.length > 0){
+                        <p>{{ 'combustible' | translate }} @if(user.coches.length > 0){
                             {{coche_actual.combustible}}
                         }</p>
-                        <p>Kilometraje: @if(user.coches.length > 0){
+                        <p>{{ 'mileage' | translate }} @if(user.coches.length > 0){
                             {{coche_actual.kilometraje}}
                         }</p>
                         <div class="ficha-tecnica">
-                            <p>Ver ficha tecnica </p>@if(user.coches.length > 0){
-                                <button (click)="ver_ficha(coche_actual.imagen)"><i class="fa-regular fa-eye"></i></button>
+                            <p>{{ 'technical-sheet' | translate }} </p>@if(user.coches.length > 0){
+                                <button class="btn-ficha" (click)="ver_ficha(coche_actual.imagen)"><i class="fa-regular fa-eye icon-eye"></i></button>
                             }
                         </div>
-                        
+                        @if(user.coches.length > 0){
+                        <button class="btn-eliminar" (click)="eliminarCoche(coche_actual.matricula)">{{'delete' | translate }}</button>
+                        }
                     </div>
                 </div>
                 <div class="services">
-                    <h3>Servicios recibidos:</h3>
+                    <h3>{{ 'services-received' | translate }}</h3>
                     <table>
                         <thead>
                             <tr>
-                                <th>Estado</th>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
+                                <th>{{ 'state' | translate }}</th>
+                                <th>{{ 'name-profile' | translate }}</th>
+                                <th>{{ 'description' | translate }}</th>
+                                <th>{{ 'date' | translate }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,6 +82,7 @@
                                         <td>{{servicio.estado}}</td>
                                         <td>{{servicio.nombre}}</td>
                                         <td>{{servicio.descripcion}}</td>
+                                        <td>{{servicio.fecha | date: 'dd/MM/yyyy'}}</td>
                                     </tr>
                                 }
                             }

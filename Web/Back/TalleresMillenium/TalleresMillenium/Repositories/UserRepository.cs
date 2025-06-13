@@ -11,7 +11,8 @@ namespace TalleresMillenium.Repositories
         public async Task<Usuario> GetByEmailAsync(string email)
         {
             return await GetQueryable()
-                .Include(user => user.Chats)
+                .Include(user => user.ChatUsuarios)
+                .ThenInclude(user=>user.Chat)
                 .Include(user => user.Coches)
                 .FirstOrDefaultAsync(user => user.Email.Equals(email));
         }
@@ -19,7 +20,8 @@ namespace TalleresMillenium.Repositories
         public async Task<Usuario> GetByNombreAsync(string nombre)
         {
             return await GetQueryable()
-                .Include(user => user.Chats)
+                .Include(user => user.ChatUsuarios)
+                .ThenInclude(user => user.Chat)
                 .Include(user => user.Coches)
                 .FirstOrDefaultAsync(user => user.Name.Equals(nombre));
         }
@@ -27,7 +29,8 @@ namespace TalleresMillenium.Repositories
         public async Task<Usuario> GetByIdAllAsync(int id)
         {
             return await GetQueryable()
-                .Include(user => user.Chats)
+                .Include(user => user.ChatUsuarios)
+                .ThenInclude(user => user.Chat)
                 .Include(user => user.Coches)
                 .FirstOrDefaultAsync(user => user.Id == id);
                 
@@ -35,7 +38,8 @@ namespace TalleresMillenium.Repositories
         public async Task<Usuario> GetByUserId(int id)
         {
             return await GetQueryable()
-                .Include(user => user.Chats)
+                .Include(user => user.ChatUsuarios)
+                .ThenInclude(user => user.Chat)
                 .Include(user => user.Coches)
                 .FirstOrDefaultAsync(user => user.Id == id);
         }
@@ -53,6 +57,12 @@ namespace TalleresMillenium.Repositories
             return await GetQueryable()
                  .Where(user => user.Id != id)
                  .ToArrayAsync();
+        }
+        public async Task<Usuario[]> GetAllAdmins()
+        {
+            return await GetQueryable()
+                    .Where(user=> user.Rol == "Admin")
+                    .ToArrayAsync();
         }
     }
 }
