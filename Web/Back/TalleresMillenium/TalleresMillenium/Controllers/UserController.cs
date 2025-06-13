@@ -195,6 +195,25 @@ namespace TalleresMillenium.Controllers
             }
         }
         [Authorize]
+        [HttpDelete("coche")]
+        public async Task<IActionResult> deleteCar([FromQuery] MatriculaDto matriculaDto)
+        {
+            Usuario usuario = await GetCurrentUser();
+            if (usuario == null)
+            {
+                return Unauthorized();
+            }
+            Coche coche = await _cocheService.GetByMatriculaWithoutServiceAsync(matriculaDto.Matricula);
+            if(coche == null)
+            {
+                return Conflict();
+            } else
+            {
+                await _cocheService.DeleteCoche(coche);
+                return Ok();
+            }
+        }
+        [Authorize]
         [HttpPut("change")]
         public async Task<IActionResult> PutChangeRol([FromBody] ChangeRolDto changeRolDto)
         {

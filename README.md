@@ -36,7 +36,7 @@ Realizar una web y una aplicación móvil que sean realistas y funcionales para 
 - Mysql
 
 # Base de datos
-![image](https://github.com/user-attachments/assets/8484c72a-34f1-4a9f-9389-4c79e48ccc6e)
+![Base de datos](https://github.com/user-attachments/assets/4688dfc9-94d6-4eaf-98f6-751e77fdbd5b)
 
 # Figma
 https://www.figma.com/design/mTFExJCn6NjFzF9NwDLIZV/Untitled?node-id=0-1&t=w3YqPoKl8HtcZTwb-1

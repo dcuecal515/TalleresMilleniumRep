@@ -177,6 +177,16 @@ export class PerfilComponent implements OnInit{
     }
   }
 
+  async eliminarCoche(matricula:string){
+    const result = await this.authService.deleteCar(matricula)
+
+    if (result.success) {
+      this.user.coches = this.user.coches.filter(coche => coche.matricula !== matricula);
+      this.matricula_actual = this.user.coches[0].matricula
+      this.coche_actual = this.user.coches[0]
+    }
+  }
+
   cambiar_imagen(){
     Swal.fire({
       title: this.translate.instant('change-image'),
