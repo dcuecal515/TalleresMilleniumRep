@@ -107,6 +107,7 @@ fun InsertHeader(context: Context, authViewModel: AuthViewModel, navController: 
             is AuthState.Unauthenticated ->
             {
                 navController.navigate(Routes.Login.route)
+                authViewModel.loading()
             }
             is AuthState.Error ->{
                 TextButton(

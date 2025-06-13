@@ -252,7 +252,7 @@ fun NavigationDrawer(
                     AddService(navController,authViewModel, serviceViewModel)
                 }
                 composable(Routes.TasksManager.route) { selectedItemIndex = 5
-                    TasksManager(navController,tasksViewModel)
+                    TasksManager(navController,authViewModel,tasksViewModel)
                 }
             }
         }
