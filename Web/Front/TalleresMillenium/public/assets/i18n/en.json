@@ -155,5 +155,11 @@
     "service-delete":"Service removed:",
     "logout":"Logout",
     "profile":"Profile",
-    "booking":"Booking"
+    "booking":"Booking",
+    "error-email":"This email is already linked to another account",
+    "error-coche":"You do not have any registered vehicles",
+    "reserve-good":"Successful booking",
+    "error-service":"This service is already added to your cart",
+    "error-vehicule":"The selected vehicle does not exist",
+    "error-unknow":"Unknown error"
 }

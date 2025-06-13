@@ -10,13 +10,14 @@ import { Image } from '../models/Image';
 import { Coche } from '../models/Coche';
 import { NewCoche } from '../models/NewCoche';
 import Swal from 'sweetalert2';
+import { LanguageService } from './language.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private api:ApiService) { }
+  constructor(private api:ApiService,private translate:LanguageService) { }
 
   async login(login:Login):Promise<Result<Token>> {
     const result=await this.api.post<Token>('Auth/login',login)
@@ -35,8 +36,8 @@ export class AuthService {
     }else{
         Swal.fire({
                 icon: 'error',
-                title: 'Aviso',
-                text: "Este correo ya esta enlazado con otra cuenta"
+                title: this.translate.instant('warning'),
+                text: this.translate.instant('error-email')
                 });
     }
     return result 
