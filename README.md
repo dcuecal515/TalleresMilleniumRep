@@ -44,6 +44,9 @@ https://www.figma.com/design/mTFExJCn6NjFzF9NwDLIZV/Untitled?node-id=0-1&t=w3YqP
 # Video de Resumen de Punto de Control
 https://drive.google.com/file/d/1w_uf3H3mT0pK61x4p5AY0ap7_-ELO2bY/view?usp=sharing
 
+# Breve tutorial de la pagina web y aplicación movil
+- Url: https://docs.google.com/document/d/1ro_qOB-dh2wSVLhmablIScHx0skl5Yk5ZVuQQlxZnnI/edit?usp=sharing
+
 # URLS Y APK
 - Url front: https://talleres-millenium.vercel.app/
 - Url back: https://talleresmilemiun.runasp.net/
